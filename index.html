@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunaely Team · Roleplay de Hoyoverse en WhatsApp</title>
+<meta name="description" content="Sunaely Team: roleplay de todo Hoyoverse (Genshin, Star Rail, Zenless…) por WhatsApp. Mira qué personajes están libres, reservados o buscados y cómo unirte al lobby.">
+<link rel="canonical" href="https://sunaely-team-whatsapp.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sunaely Team">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Sunaely Team · Roleplay de Hoyoverse en WhatsApp">
+<meta property="og:description" content="Sunaely Team: roleplay de todo Hoyoverse (Genshin, Star Rail, Zenless…) por WhatsApp. Mira qué personajes están libres, reservados o buscados y cómo unirte al lobby.">
+<meta property="og:url" content="https://sunaely-team-whatsapp.github.io/">
+<meta property="og:image" content="https://sunaely-team-whatsapp.github.io/sol.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sunaely Team · Roleplay de Hoyoverse en WhatsApp">
+<meta name="twitter:description" content="Sunaely Team: roleplay de todo Hoyoverse (Genshin, Star Rail, Zenless…) por WhatsApp. Mira qué personajes están libres, reservados o buscados y cómo unirte al lobby.">
+<meta name="twitter:image" content="https://sunaely-team-whatsapp.github.io/sol.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Sunaely Team","alternateName":["Sunaely","Sunaely Team Hoyoverse"],"url":"https://sunaely-team-whatsapp.github.io/","inLanguage":"es"}</script>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ---- Reglas del team (botón de info + ventana) ---- */
+  .rules-btn{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; margin-left:8px; padding:0; vertical-align:middle; border-radius:50%; border:1px solid var(--gold-dim); background:rgba(255,184,86,.08); color:var(--gold); cursor:pointer; transition:background .15s, border-color .15s, color .15s, box-shadow .15s; }
+  .rules-btn:hover{ border-color:var(--gold); color:#ffe3b0; background:rgba(255,184,86,.18); box-shadow:0 0 14px rgba(255,184,86,.35); }
+  .rules-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  #rulesDialog{ width:min(660px, 94vw); max-width:none; max-height:88vh; padding:0; border:1px solid rgba(255,184,86,.35); border-radius:8px; background:linear-gradient(180deg,#2a1636,#1a0e26); color:var(--ink); box-shadow:0 30px 80px rgba(0,0,0,.65), 0 0 60px rgba(255,184,86,.08); overflow:hidden; }
+  #rulesDialog[open]{ display:flex; flex-direction:column; animation:rulesIn .22s ease-out; }
+  #rulesDialog::backdrop{ background:rgba(14,5,18,.72); backdrop-filter:blur(3px); }
+  @keyframes rulesIn{ from{ opacity:0; transform:translateY(14px) scale(.985); } to{ opacity:1; transform:none; } }
+  .rules-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:20px 22px 12px; border-bottom:1px solid rgba(255,214,170,.12); }
+  .rules-head h3{ margin:0; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.7rem; color:var(--gold); }
+  .rules-head p{ margin:2px 0 0; font-size:.92rem; color:var(--ink-soft); }
+  .rules-x{ flex:0 0 auto; width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,214,170,.25); background:none; color:var(--ink-soft); font-size:1.2rem; line-height:1; cursor:pointer; }
+  .rules-x:hover{ border-color:var(--gold); color:var(--gold); }
+  .rules-body{ padding:16px 22px 22px; overflow-y:auto; }
+  .rules-body h4{ margin:20px 0 8px; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.2rem; color:#ffd9a0; }
+  .rules-body h4:first-child{ margin-top:4px; }
+  .rules-body p, .rules-body li{ font-size:1rem; line-height:1.55; color:var(--ink); margin:0 0 8px; }
+  .rules-body ul{ margin:0; padding-left:20px; }
+  .rules-body li::marker{ color:var(--gold-dim); }
+  .rules-body a{ color:var(--gold); }
+  .rules-limits{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:6px 0 4px; }
+  .rules-limit{ border:1px solid rgba(255,184,86,.35); border-radius:6px; background:rgba(255,184,86,.06); padding:12px 14px; text-align:center; }
+  .rules-limit span{ display:block; font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); }
+  .rules-limit b{ display:block; margin-top:2px; font-family:'Cormorant',serif; font-size:1.9rem; color:var(--gold); }
+  .rules-notice{ margin-top:6px; padding:12px 14px; border-left:3px solid var(--gold); background:rgba(255,255,255,.04); border-radius:0 6px 6px 0; }
+  .rules-notice p{ margin:0; }
+  .rules-couples{ display:flex; flex-wrap:wrap; gap:10px; margin:4px 0 8px; }
+  .rules-couple{ border:1px solid rgba(255,184,86,.35); border-radius:999px; padding:7px 16px; background:rgba(255,184,86,.06); font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.15rem; color:#ffe0b0; }
+  .rules-couple i{ color:var(--gold-dim); font-style:normal; margin:0 6px; }
+  .rules-foot{ margin-top:18px; font-style:italic; color:var(--ink-soft); text-align:center; font-size:.95rem; }
+  .rules-sign{ margin-top:4px; text-align:center; font-size:.9rem; color:var(--gold-dim); }
+  @media (max-width:520px){ .rules-limits{ grid-template-columns:1fr; } .rules-head{ padding:16px 16px 10px; } .rules-body{ padding:12px 16px 18px; } }
+</style>
+</head>
+<body class="page-index">
+
+<div class="sky" aria-hidden="true">
+  <div class="dawn-glow"></div>
+  <div class="stars" id="starsLayer"></div>
+  <div class="beam" style="--a0:-34deg; --a1:-10deg; --dur:20s; --delay:5s"></div>
+  <div class="beam" style="--a0:26deg; --a1:6deg; --dur:26s; --delay:9s; --o:.5"></div>
+  <div class="beam" style="--a0:-12deg; --a1:14deg; --dur:32s; --delay:14s; --o:.4"></div>
+  <div class="night-veil"></div>
+</div>
+<div class="motes" id="motesLayer" aria-hidden="true"></div>
+<div class="bird" style="--top:16%; --delay:9s; --dur:28s" aria-hidden="true"><svg viewBox="0 0 26 12"><path d="M0 8 Q6 -1 13 7 Q20 -1 26 8 Q20 3 13 9 Q6 3 0 8Z" fill="#2a1233"/></svg></div>
+<div class="bird" style="--top:24%; --delay:11s; --dur:31s" aria-hidden="true"><svg viewBox="0 0 26 12"><path d="M0 8 Q6 -1 13 7 Q20 -1 26 8 Q20 3 13 9 Q6 3 0 8Z" fill="#2a1233"/></svg></div>
+<div class="bird" style="--top:12%; --delay:19s; --dur:34s" aria-hidden="true"><svg viewBox="0 0 26 12"><path d="M0 8 Q6 -1 13 7 Q20 -1 26 8 Q20 3 13 9 Q6 3 0 8Z" fill="#2a1233"/></svg></div>
+
+<div class="hero" aria-hidden="true">
+  <div class="parallax-layer" id="parallaxLayer">
+    <div class="sun-wrap">
+      <div class="sun-rays"></div><div class="sun-rays r2"></div>
+      <div class="flash"></div>
+      <div class="burst" id="burstLayer"></div>
+      <div class="sun"></div>
+    </div>
+    <span class="flare" data-d="-.18" style="left:30%;top:58%;width:46px;height:46px"></span>
+    <span class="flare" data-d="-.32" style="left:22%;top:66%;width:20px;height:20px"></span>
+    <span class="flare" data-d=".22" style="left:68%;top:40%;width:34px;height:34px"></span>
+  </div>
+  <div class="cloud-layer" id="cloudLayer"></div>
+  <svg class="hills" viewBox="0 0 1440 150" preserveAspectRatio="none">
+    <path class="h-back" d="M0 90 C180 40 340 110 560 70 S980 20 1160 74 S1360 90 1440 60 V150 H0Z"/>
+    <path class="rim" d="M0 90 C180 40 340 110 560 70 S980 20 1160 74 S1360 90 1440 60"/>
+    <path class="h-front" d="M0 120 C220 84 420 140 700 110 S1160 80 1440 118 V150 H0Z"/>
+  </svg>
+</div>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="title-wrap">
+        <h1 id="heroTitle">Sunaely Team</h1>
+      </div>
+      <p class="subtitle">Elige a dónde quieres ir.
+        <button class="rules-btn" id="rulesBtn" type="button" aria-haspopup="dialog" aria-label="Reglas del team" title="Reglas del team"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/></svg></button></p>
+    </div>
+    <button class="admin-toggle" id="adminToggleBtn">Acceso admin</button>
+  </header>
+
+  <div class="nav-grid" id="navGrid"></div>
+
+</div>
+
+<dialog id="rulesDialog" aria-labelledby="rulesTitle">
+  <div class="rules-head">
+    <div>
+      <h3 id="rulesTitle">Reglas del team</h3>
+      <p>Bienvenidx a este bello team. Esperamos que pases una buena estancia y que entre todos tengamos una buena convivencia.</p>
+    </div>
+    <button class="rules-x" id="rulesClose" type="button" aria-label="Cerrar">×</button>
+  </div>
+  <div class="rules-body">
+    <h4>Convivencia</h4>
+    <ul>
+      <li>Trato amable y respetuoso entre todos. No ignorar ni excluir a ningún integrante, admin u owner, y no acosar a nadie.</li>
+      <li>Evitar bromas de mal gusto o que puedan incomodar. Cuando a alguien le empieza a sentar mal, deja de ser una broma: pon límites.</li>
+      <li>Evitar conflictos y mantener un ambiente tranquilo. No peleas. Se permiten las groserías, pero sin exagerar hasta causar problemas.</li>
+    </ul>
+
+    <h4>Contenido prohibido</h4>
+    <ul>
+      <li>Temas <b>+18</b> y <b>gore</b>: pornografía de cualquier tipo (también stickers, vídeos e imágenes) y muertes con exceso de sangre.</li>
+      <li>Sitios web con virus o similares.</li>
+      <li>Spam. Incluye el spam de menciones: si una persona recibe <b>más de 3 menciones</b>, cuenta como spam aunque las hagan personas distintas.</li>
+      <li>Evitar la mención de @todos: solo los admins pueden usarla, y solo para cosas necesarias. Si la usan mal, recibirán una penalización.</li>
+    </ul>
+
+    <h4>Temas delicados e información personal</h4>
+    <ul>
+      <li>Por favor, no hablar ni tocar temas de suicidio, autolesiones u otros temas personales delicados: puede incomodar a los demás. Si necesitas hablar con alguien, acude a administración.</li>
+      <li>No compartir información personal que te pueda poner en riesgo.</li>
+    </ul>
+
+    <h4>Penalizaciones y salidas</h4>
+    <div class="rules-limits">
+      <div class="rules-limit"><span>Penalizaciones para expulsión</span><b>3</b></div>
+      <div class="rules-limit"><span>Máximo de salidas</span><b>3</b></div>
+    </div>
+    <p>Cada regla rota tendrá una penalización. Con tres penalizaciones se aplica la expulsión.</p>
+
+    <h4>Inactividad</h4>
+    <p>En caso de inactividad, avisa a los owners o admins.</p>
+
+    <p class="rules-foot">¡Diviértete!</p>
+    <p class="rules-sign">Att: La administración de Sunaely</p>
+  </div>
+</dialog>
+
+<dialog id="loginDialog">
+  <div class="dialog-inner">
+    <h3>Acceso admin</h3>
+    <div class="dialog-field">
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username">
+    </div>
+    <div class="dialog-field">
+      <label for="loginPass">Contraseña</label>
+      <input id="loginPass" type="password" autocomplete="current-password">
+    </div>
+    <p class="dialog-error" id="loginError"></p>
+    <div class="dialog-actions">
+      <button class="btn-primary" id="loginSubmit" type="button">Entrar</button>
+      <button class="btn-ghost" id="loginCancel" type="button">Cancelar</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  var d = document.getElementById('rulesDialog'), b = document.getElementById('rulesBtn');
+  if (!d || !b) return;
+  b.addEventListener('click', function(){ if (d.showModal) d.showModal(); else d.setAttribute('open', ''); d.querySelector('.rules-body').scrollTop = 0; });
+  document.getElementById('rulesClose').addEventListener('click', function(){ d.close(); });
+  d.addEventListener('click', function(e){ if (e.target === d) d.close(); }); // clic fuera = cerrar
+})();
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, doc, setDoc, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  // TODO: crea un proyecto Firebase NUEVO para Sunaely y pega aquí su config
+  // (si no, compartirías base de datos con Moonlight).
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_PROYECTO.firebaseapp.com",
+    projectId: "TU_PROYECTO",
+    storageBucket: "TU_PROYECTO.firebasestorage.app",
+    messagingSenderId: "000000000000",
+    appId: "TU_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const $ = (id) => document.getElementById(id);
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Efectos del amanecer ----------
+  const rnd = (a, b) => a + Math.random() * (b - a);
+
+  // Polen dorado
+  if (!prefersReducedMotion){
+    const layer = $('motesLayer'), n = window.innerWidth < 480 ? 14 : 28, f = document.createDocumentFragment();
+    for (let i = 0; i < n; i++){
+      const m = document.createElement('span'); m.className = 'mote';
+      const s = rnd(2, 5).toFixed(1);
+      m.style.cssText = `left:${rnd(0,100).toFixed(1)}%;width:${s}px;height:${s}px`;
+      m.style.setProperty('--dur', rnd(11, 22).toFixed(1) + 's');
+      m.style.setProperty('--delay', (4 + rnd(0, 14)).toFixed(1) + 's');
+      m.style.setProperty('--sway', rnd(-70, 70).toFixed(0) + 'px');
+      f.appendChild(m);
+    }
+    layer.appendChild(f);
+  }
+
+  // Estrellas de la noche que se apagan con el alba
+  (function(){
+    const layer = $('starsLayer'), n = window.innerWidth < 480 ? 36 : 80, f = document.createDocumentFragment();
+    for (let i = 0; i < n; i++){
+      const s = document.createElement('span'); s.className = 'star';
+      const z = rnd(.8, 2.4).toFixed(2);
+      s.style.cssText = `top:${rnd(0,70).toFixed(1)}%;left:${rnd(0,100).toFixed(1)}%;width:${z}px;height:${z}px`;
+      s.style.setProperty('--dur', rnd(2,5).toFixed(2) + 's');
+      s.style.setProperty('--delay', rnd(0,5).toFixed(2) + 's');
+      s.style.setProperty('--o-min', rnd(.15,.35).toFixed(2));
+      s.style.setProperty('--o-max', rnd(.7,1).toFixed(2));
+      f.appendChild(s);
+    }
+    layer.appendChild(f);
+  })();
+
+  // Nubes
+  {
+    const cloudLayer = $('cloudLayer');
+    [[-8,-30,1.15,130,.95],[12,-46,.9,150,.85],[30,-14,1.05,120,.9],[50,-38,1,160,.85],[70,-10,1.1,135,.9],[88,-32,.85,145,.85],[18,70,.5,100,.6],[64,84,.55,115,.55]]
+    .forEach(([l,b,sc,dur,t], i) => {
+      const g = document.createElement('div'); g.className = 'cloud-group';
+      g.style.setProperty('--cloud-left', l + '%'); g.style.setProperty('--cloud-bottom', b + 'px');
+      g.style.setProperty('--cloud-dur', prefersReducedMotion ? '0s' : dur + 's');
+      g.style.setProperty('--cloud-delay', (-i * 9) + 's'); g.style.opacity = t;
+      const pc = 3 + Math.round(Math.random());
+      for (let p = 0; p < pc; p++){
+        const puff = document.createElement('span'); puff.className = 'cloud-puff';
+        const w = rnd(95, 185) * sc, h = w * rnd(.42, .56);
+        puff.style.cssText = `width:${w.toFixed(0)}px;height:${h.toFixed(0)}px;left:${((p-(pc-1)/2)*60+rnd(-12,12)).toFixed(0)}px;bottom:${rnd(0,20).toFixed(0)}px`;
+        g.appendChild(puff);
+      }
+      cloudLayer.appendChild(g);
+    });
+  }
+
+  // Estallido de rayos al salir el sol
+  if (!prefersReducedMotion){
+    const burst = $('burstLayer'), n = 18;
+    for (let i = 0; i < n; i++){
+      const r = document.createElement('span'); r.className = 'ray';
+      r.style.setProperty('--angle', ((360/n)*i + rnd(-5,5)) + 'deg');
+      r.style.setProperty('--ray-delay', rnd(0,.15).toFixed(2) + 's');
+      burst.appendChild(r);
+    }
+  }
+
+  // Título letra a letra
+  (function(){
+    const el = $('heroTitle'), text = el.textContent; el.textContent = '';
+    [...text].forEach((ch, i) => {
+      const s = document.createElement('span'); s.className = 'letter';
+      s.style.setProperty('--i', i); s.textContent = ch === ' ' ? '\u00A0' : ch; el.appendChild(s);
+    });
+  })();
+
+  // Paralaje: ratón + scroll, con destellos de lente a distinta profundidad
+  if (!prefersReducedMotion){
+    const layer = $('parallaxLayer'), flares = [...document.querySelectorAll('.flare')];
+    let mx = 0, my = 0, sy = 0, tick = false;
+    const apply = () => {
+      tick = false;
+      layer.style.transform = `translate(${mx}px, ${my + sy * .35}px)`;
+      flares.forEach(f => { const d = +f.dataset.d; f.style.transform = `translate(${mx * d * 6}px, ${my * d * 6}px)`; });
+    };
+    const req = () => { if (!tick){ tick = true; requestAnimationFrame(apply); } };
+    if (!('ontouchstart' in window)) document.addEventListener('mousemove', e => {
+      mx = (e.clientX / innerWidth - .5) * 18; my = (e.clientY / innerHeight - .5) * 18; req();
+    });
+    addEventListener('scroll', () => { sy = Math.min(scrollY, 400); req(); }, { passive: true });
+    // Brillo de las tarjetas siguiendo al cursor
+    document.addEventListener('pointermove', e => {
+      const c = e.target.closest && e.target.closest('.nav-card'); if (!c) return;
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  }
+
+  function escapeHtml(str){
+    return String(str ?? '').replace(/[&<>"']/g, (m) => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[m]));
+  }
+
+  const EYE_SVG = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+  const EYE_OFF_SVG = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+
+  function guessTitle(filename){
+    const base = filename.replace(/\.html?$/i, '').replace(/[-_]+/g, ' ');
+    return base.replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  // ---------- Detectar owner/repo de GitHub Pages a partir de la URL ----------
+  function detectRepo(){
+    const host = location.hostname;
+    if (!host.endsWith('.github.io')) return null;
+    const owner = host.split('.')[0];
+    const parts = location.pathname.split('/').filter(Boolean);
+    let repo = host; // páginas de usuario: el repo se llama igual que el dominio
+    if (parts.length && !parts[0].includes('.')) repo = parts[0]; // páginas de proyecto
+    return { owner, repo };
+  }
+
+  async function discoverHtmlFiles(){
+    const info = detectRepo();
+    if (!info) throw new Error('No se pudo detectar el repositorio');
+    const res = await fetch(`https://api.github.com/repos/${info.owner}/${info.repo}/contents/`);
+    if (!res.ok) throw new Error('La API de GitHub respondió con error ' + res.status);
+    const data = await res.json();
+    return data
+      .filter(item => item.type === 'file' && /\.html?$/i.test(item.name) && item.name.toLowerCase() !== 'index.html' && !/^(google[0-9a-f]+|404)\.html$/i.test(item.name))
+      .map(item => item.name)
+      .sort();
+  }
+
+  // ---------- Estado y render del índice ----------
+  const navGrid = $('navGrid');
+  let discoveredFiles = null; // null = aún cargando
+  let overrides = {};         // { 'archivo.html': { private: true/false } }
+  let isAdmin = false;
+
+  let hasRevealed = false;
+
+  function renderNav(){
+    if (discoveredFiles === null){
+      navGrid.innerHTML = '<p class="nav-empty-admin">Buscando páginas…</p>';
+      return;
+    }
+    if (discoveredFiles.length === 0){
+      navGrid.innerHTML = '<p class="nav-empty-admin">No se encontró ninguna página.</p>';
+      return;
+    }
+
+    const pages = discoveredFiles.map(filename => ({
+      filename,
+      title: guessTitle(filename),
+      private: overrides[filename]?.private === true
+    }));
+    const visible = pages.filter(p => !p.private || isAdmin);
+
+    navGrid.innerHTML = '';
+    visible.forEach((p, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'nav-card-wrap';
+      if (!hasRevealed && !prefersReducedMotion){
+        wrap.classList.add('reveal');
+        wrap.style.setProperty('--card-delay', (1.6 + i * 0.12) + 's');
+      }
+
+      const a = document.createElement('a');
+      a.className = 'nav-card' + (p.private ? ' is-private' : '');
+      a.href = p.filename;
+      a.innerHTML = `<div class="nav-title">${escapeHtml(p.title)}</div><p class="nav-desc">${escapeHtml(p.filename)}</p>`;
+      wrap.appendChild(a);
+
+      if (isAdmin){
+        const eyeBtn = document.createElement('button');
+        eyeBtn.className = 'eye-toggle';
+        eyeBtn.title = p.private ? 'Oculta para el resto — pulsa para hacerla visible' : 'Visible para todos — pulsa para ocultarla';
+        eyeBtn.innerHTML = p.private ? EYE_OFF_SVG : EYE_SVG;
+        eyeBtn.addEventListener('click', async () => {
+          eyeBtn.disabled = true;
+          try {
+            await setDoc(doc(db, 'paginas', p.filename), { private: !p.private }, { merge: true });
+          } finally {
+            eyeBtn.disabled = false;
+          }
+        });
+        wrap.appendChild(eyeBtn);
+      }
+
+      navGrid.appendChild(wrap);
+    });
+    hasRevealed = true;
+  }
+
+  discoverHtmlFiles()
+    .then(files => { discoveredFiles = files; renderNav(); })
+    .catch(() => { discoveredFiles = ['lista.html']; renderNav(); });
+
+  onSnapshot(collection(db, 'paginas'), (snap) => {
+    overrides = {};
+    snap.docs.forEach(d => { overrides[d.id] = d.data(); });
+    renderNav();
+  });
+
+  // ---------- Admin login (misma cuenta que en el resto de páginas) ----------
+  const adminToggleBtn = $('adminToggleBtn');
+  const loginDialog = $('loginDialog');
+  const loginEmail = $('loginEmail');
+  const loginPass = $('loginPass');
+  const loginError = $('loginError');
+
+  adminToggleBtn.addEventListener('click', () => {
+    if (isAdmin) {
+      signOut(auth);
+    } else {
+      loginError.textContent = '';
+      loginEmail.value = '';
+      loginPass.value = '';
+      loginDialog.showModal();
+    }
+  });
+
+  $('loginCancel').addEventListener('click', () => loginDialog.close());
+
+  $('loginSubmit').addEventListener('click', async () => {
+    loginError.textContent = '';
+    try {
+      await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPass.value);
+      loginDialog.close();
+    } catch (e) {
+      loginError.textContent = 'Email o contraseña incorrectos.';
+    }
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    isAdmin = !!user;
+    adminToggleBtn.textContent = isAdmin ? 'Salir del modo admin' : 'Acceso admin';
+    adminToggleBtn.classList.toggle('is-admin', isAdmin);
+    renderNav();
+  });
+</script>
+
+</body>
+</html>
