@@ -63,37 +63,31 @@
 </head>
 <body class="page-index">
 
-<div class="sky" aria-hidden="true">
-  <div class="dawn-glow"></div>
-  <div class="stars" id="starsLayer"></div>
-  <div class="beam" style="--a0:-34deg; --a1:-10deg; --dur:20s; --delay:5s"></div>
-  <div class="beam" style="--a0:26deg; --a1:6deg; --dur:26s; --delay:9s; --o:.5"></div>
-  <div class="beam" style="--a0:-12deg; --a1:14deg; --dur:32s; --delay:14s; --o:.4"></div>
-  <div class="night-veil"></div>
-</div>
+<div class="sky" aria-hidden="true"><div class="dawn-glow"></div><div class="night-veil"></div></div>
+<div class="grain" aria-hidden="true"></div>
 <div class="motes" id="motesLayer" aria-hidden="true"></div>
 <div class="bird" style="--top:16%; --delay:9s; --dur:28s" aria-hidden="true"><svg viewBox="0 0 26 12"><path d="M0 8 Q6 -1 13 7 Q20 -1 26 8 Q20 3 13 9 Q6 3 0 8Z" fill="#2a1233"/></svg></div>
 <div class="bird" style="--top:24%; --delay:11s; --dur:31s" aria-hidden="true"><svg viewBox="0 0 26 12"><path d="M0 8 Q6 -1 13 7 Q20 -1 26 8 Q20 3 13 9 Q6 3 0 8Z" fill="#2a1233"/></svg></div>
 <div class="bird" style="--top:12%; --delay:19s; --dur:34s" aria-hidden="true"><svg viewBox="0 0 26 12"><path d="M0 8 Q6 -1 13 7 Q20 -1 26 8 Q20 3 13 9 Q6 3 0 8Z" fill="#2a1233"/></svg></div>
 
-<div class="hero" aria-hidden="true">
-  <div class="parallax-layer" id="parallaxLayer">
-    <div class="sun-wrap">
-      <div class="sun-rays"></div><div class="sun-rays r2"></div>
-      <div class="flash"></div>
-      <div class="burst" id="burstLayer"></div>
-      <div class="sun"></div>
-    </div>
-    <span class="flare" data-d="-.18" style="left:30%;top:58%;width:46px;height:46px"></span>
-    <span class="flare" data-d="-.32" style="left:22%;top:66%;width:20px;height:20px"></span>
-    <span class="flare" data-d=".22" style="left:68%;top:40%;width:34px;height:34px"></span>
-  </div>
-  <div class="cloud-layer" id="cloudLayer"></div>
-  <svg class="hills" viewBox="0 0 1440 150" preserveAspectRatio="none">
-    <path class="h-back" d="M0 90 C180 40 340 110 560 70 S980 20 1160 74 S1360 90 1440 60 V150 H0Z"/>
-    <path class="rim" d="M0 90 C180 40 340 110 560 70 S980 20 1160 74 S1360 90 1440 60"/>
-    <path class="h-front" d="M0 120 C220 84 420 140 700 110 S1160 80 1440 118 V150 H0Z"/>
-  </svg>
+<div class="hero" id="hero" aria-hidden="true">
+  <div class="hero-sky"></div>
+  <div class="sun-wrap" data-d=".15"><div class="bloom"></div><div class="band"></div><div class="rays" id="rays"></div><div class="sun"></div><div class="flash"></div><div class="streak"></div></div>
+<svg class="cl c1" viewBox="0 0 1600 150" preserveAspectRatio="none"><defs>
+<radialGradient id="g1" gradientUnits="userSpaceOnUse" cx="800" cy="150" r="950"><stop offset="0" stop-color="#fff0c4"/><stop offset=".2" stop-color="#ffbe84"/><stop offset=".45" stop-color="#e0707a"/><stop offset=".75" stop-color="#85406a"/><stop offset="1" stop-color="#3a2152"/></radialGradient>
+<filter id="f1" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".0018 .035" numOctaves="4" seed="11"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.4 0 0 0 -1.7" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
+<rect width="1600" height="150" fill="url(#g1)" filter="url(#f1)"/></svg>
+<svg class="cl c2" viewBox="0 0 1600 230" preserveAspectRatio="none"><defs>
+<radialGradient id="g2" gradientUnits="userSpaceOnUse" cx="800" cy="230" r="950"><stop offset="0" stop-color="#fff0c4"/><stop offset=".2" stop-color="#ffbe84"/><stop offset=".45" stop-color="#e0707a"/><stop offset=".75" stop-color="#85406a"/><stop offset="1" stop-color="#3a2152"/></radialGradient>
+<filter id="f2" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".0045 .017" numOctaves="5" seed="3"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2.8 0 0 0 -1.05" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
+<rect width="1600" height="230" fill="url(#g2)" filter="url(#f2)"/></svg>
+<svg class="cl c3" viewBox="0 0 1600 120" preserveAspectRatio="none"><defs>
+<radialGradient id="g3" gradientUnits="userSpaceOnUse" cx="800" cy="120" r="950"><stop offset="0" stop-color="#fff0c4"/><stop offset=".2" stop-color="#ffbe84"/><stop offset=".45" stop-color="#e0707a"/><stop offset=".75" stop-color="#85406a"/><stop offset="1" stop-color="#3a2152"/></radialGradient>
+<filter id="f3" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".006 .03" numOctaves="4" seed="9"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.0 0 0 0 -1.25" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
+<rect width="1600" height="120" fill="url(#g3)" filter="url(#f3)"/></svg>
+  <div class="fog f1"></div><div class="fog f2"></div>
+  <div class="hero-night"></div>
+  <div class="stars" id="starsLayer"></div>
 </div>
 
 <div class="wrap">
@@ -214,97 +208,76 @@
 
   // ---------- Efectos del amanecer ----------
   const rnd = (a, b) => a + Math.random() * (b - a);
+  const hero = $('hero');
 
-  // Polen dorado
+  // Polen / polvo en suspensión
   if (!prefersReducedMotion){
-    const layer = $('motesLayer'), n = window.innerWidth < 480 ? 14 : 28, f = document.createDocumentFragment();
+    const layer = $('motesLayer'), n = innerWidth < 480 ? 12 : 22, f = document.createDocumentFragment();
     for (let i = 0; i < n; i++){
-      const m = document.createElement('span'); m.className = 'mote';
-      const s = rnd(2, 5).toFixed(1);
-      m.style.cssText = `left:${rnd(0,100).toFixed(1)}%;width:${s}px;height:${s}px`;
-      m.style.setProperty('--dur', rnd(11, 22).toFixed(1) + 's');
-      m.style.setProperty('--delay', (4 + rnd(0, 14)).toFixed(1) + 's');
-      m.style.setProperty('--sway', rnd(-70, 70).toFixed(0) + 'px');
-      f.appendChild(m);
+      const m = document.createElement('span'); m.className = 'mote'; const s = rnd(1.5, 3.8).toFixed(1);
+      m.style.cssText = `left:${rnd(0,100).toFixed(1)}%;width:${s}px;height:${s}px;filter:blur(${rnd(0,1.2).toFixed(1)}px)`;
+      m.style.setProperty('--dur', rnd(12, 24).toFixed(1) + 's'); m.style.setProperty('--delay', (4 + rnd(0, 14)).toFixed(1) + 's');
+      m.style.setProperty('--sway', rnd(-70, 70).toFixed(0) + 'px'); f.appendChild(m);
     }
     layer.appendChild(f);
   }
 
-  // Estrellas de la noche que se apagan con el alba
+  // Estrellas de la noche
   (function(){
-    const layer = $('starsLayer'), n = window.innerWidth < 480 ? 36 : 80, f = document.createDocumentFragment();
+    const layer = $('starsLayer'), n = innerWidth < 480 ? 40 : 90, f = document.createDocumentFragment();
     for (let i = 0; i < n; i++){
-      const s = document.createElement('span'); s.className = 'star';
-      const z = rnd(.8, 2.4).toFixed(2);
-      s.style.cssText = `top:${rnd(0,70).toFixed(1)}%;left:${rnd(0,100).toFixed(1)}%;width:${z}px;height:${z}px`;
-      s.style.setProperty('--dur', rnd(2,5).toFixed(2) + 's');
-      s.style.setProperty('--delay', rnd(0,5).toFixed(2) + 's');
-      s.style.setProperty('--o-min', rnd(.15,.35).toFixed(2));
-      s.style.setProperty('--o-max', rnd(.7,1).toFixed(2));
-      f.appendChild(s);
+      const s = document.createElement('span'); s.className = 'star'; const z = rnd(.7, 2.2).toFixed(2);
+      s.style.cssText = `top:${rnd(0,100).toFixed(1)}%;left:${rnd(0,100).toFixed(1)}%;width:${z}px;height:${z}px`;
+      s.style.setProperty('--dur', rnd(2,5).toFixed(2) + 's'); s.style.setProperty('--delay', rnd(0,5).toFixed(2) + 's');
+      s.style.setProperty('--o-min', rnd(.15,.35).toFixed(2)); s.style.setProperty('--o-max', rnd(.7,1).toFixed(2)); f.appendChild(s);
     }
     layer.appendChild(f);
   })();
 
-  // Nubes
-  {
-    const cloudLayer = $('cloudLayer');
-    [[-8,-30,1.15,130,.95],[12,-46,.9,150,.85],[30,-14,1.05,120,.9],[50,-38,1,160,.85],[70,-10,1.1,135,.9],[88,-32,.85,145,.85],[18,70,.5,100,.6],[64,84,.55,115,.55]]
-    .forEach(([l,b,sc,dur,t], i) => {
-      const g = document.createElement('div'); g.className = 'cloud-group';
-      g.style.setProperty('--cloud-left', l + '%'); g.style.setProperty('--cloud-bottom', b + 'px');
-      g.style.setProperty('--cloud-dur', prefersReducedMotion ? '0s' : dur + 's');
-      g.style.setProperty('--cloud-delay', (-i * 9) + 's'); g.style.opacity = t;
-      const pc = 3 + Math.round(Math.random());
-      for (let p = 0; p < pc; p++){
-        const puff = document.createElement('span'); puff.className = 'cloud-puff';
-        const w = rnd(95, 185) * sc, h = w * rnd(.42, .56);
-        puff.style.cssText = `width:${w.toFixed(0)}px;height:${h.toFixed(0)}px;left:${((p-(pc-1)/2)*60+rnd(-12,12)).toFixed(0)}px;bottom:${rnd(0,20).toFixed(0)}px`;
-        g.appendChild(puff);
-      }
-      cloudLayer.appendChild(g);
-    });
-  }
+  // Rayos crepusculares irregulares (gradiente cónico aleatorio, sin costuras)
+  (function(){
+    const N = 140, a = Array.from({length: N}, () => Math.pow(Math.random(), 3) * .36); a.push(a[0]);
+    $('rays').style.setProperty('--rays', 'conic-gradient(from 0deg,' + a.map((v, i) => `rgba(255,228,175,${v.toFixed(3)}) ${(i / N * 360).toFixed(1)}deg`).join(',') + ')');
+  })();
 
-  // Estallido de rayos al salir el sol
-  if (!prefersReducedMotion){
-    const burst = $('burstLayer'), n = 18;
-    for (let i = 0; i < n; i++){
-      const r = document.createElement('span'); r.className = 'ray';
-      r.style.setProperty('--angle', ((360/n)*i + rnd(-5,5)) + 'deg');
-      r.style.setProperty('--ray-delay', rnd(0,.15).toFixed(2) + 's');
-      burst.appendChild(r);
-    }
-  }
+  // Cordilleras generadas con desplazamiento del punto medio + luz de borde hacia el sol
+  (function(){
+    const ridge = (seed, base, amp, rough, dip) => {
+      let s = seed; const R = () => (s = (s * 16807) % 2147483647) / 2147483647;
+      let p = [base + (R() - .5) * amp, base + (R() - .5) * amp], a = amp;
+      for (let k = 0; k < 8; k++){ const q = []; for (let i = 0; i < p.length - 1; i++) q.push(p[i], (p[i] + p[i+1]) / 2 + (R() - .5) * a); q.push(p[p.length-1]); p = q; a *= rough; }
+      const n = p.length - 1;
+      return p.map((y, i) => { const x = i / n * 1440; return [x.toFixed(1), Math.max(6, y + dip * Math.exp(-Math.pow((x - 720) / 260, 2))).toFixed(1)]; });
+    };
+    const L = [ // semilla, base, amplitud, rugosidad, hueco bajo el sol, color arriba, color abajo, luz de borde, z
+      [7919, 56, 78, .6, 30, '#a8546a', '#5a2c52', .95, 4],
+      [104729, 78, 62, .6, 8, '#55264f', '#341a40', .6, 7],
+      [1299709, 114, 44, .58, 0, '#2f1640', '#22112f', .32, 9],
+      [15485863, 148, 22, .52, 0, '#1f1029', '#1d1030', 0, 10]];
+    L.forEach(([sd, b, am, ro, dp, c1, c2, rim, z], i) => {
+      const pts = ridge(sd, b, am, ro, dp), top = 'M' + pts.map(q => q.join(' ')).join('L');
+      hero.insertAdjacentHTML('beforeend', `<svg class="ridge" data-d="${[.4,.8,1.3,1.8][i]}" style="z-index:${z}" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="rg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient><linearGradient id="rm${i}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#ffc878" stop-opacity="0"/><stop offset=".5" stop-color="#ffd890" stop-opacity="${rim}"/><stop offset="1" stop-color="#ffc878" stop-opacity="0"/></linearGradient></defs><path d="${top}L1440 170L0 170Z" fill="url(#rg${i})"/><path d="${top}" fill="none" stroke="url(#rm${i})" stroke-width="1.6"/></svg>`);
+    });
+  })();
 
   // Título letra a letra
   (function(){
     const el = $('heroTitle'), text = el.textContent; el.textContent = '';
-    [...text].forEach((ch, i) => {
-      const s = document.createElement('span'); s.className = 'letter';
-      s.style.setProperty('--i', i); s.textContent = ch === ' ' ? '\u00A0' : ch; el.appendChild(s);
-    });
+    [...text].forEach((ch, i) => { const s = document.createElement('span'); s.className = 'letter'; s.style.setProperty('--i', i); s.textContent = ch === ' ' ? '\u00A0' : ch; el.appendChild(s); });
   })();
 
-  // Paralaje: ratón + scroll, con destellos de lente a distinta profundidad
+  // Paralaje por capas (ratón + scroll) y brillo de las tarjetas
   if (!prefersReducedMotion){
-    const layer = $('parallaxLayer'), flares = [...document.querySelectorAll('.flare')];
+    const layers = [...hero.querySelectorAll('[data-d]')];
+    layers.push(...[...hero.querySelectorAll('.cl')].map((el, i) => (el.dataset.d = [.3, .6, 1][i], el)));
     let mx = 0, my = 0, sy = 0, tick = false;
-    const apply = () => {
-      tick = false;
-      layer.style.transform = `translate(${mx}px, ${my + sy * .35}px)`;
-      flares.forEach(f => { const d = +f.dataset.d; f.style.transform = `translate(${mx * d * 6}px, ${my * d * 6}px)`; });
-    };
+    const apply = () => { tick = false; layers.forEach(el => { const d = +el.dataset.d; el.style.translate = `${(mx * d).toFixed(1)}px ${(my * d + sy * (.04 + d * .05)).toFixed(1)}px`; }); };
     const req = () => { if (!tick){ tick = true; requestAnimationFrame(apply); } };
-    if (!('ontouchstart' in window)) document.addEventListener('mousemove', e => {
-      mx = (e.clientX / innerWidth - .5) * 18; my = (e.clientY / innerHeight - .5) * 18; req();
-    });
+    if (!('ontouchstart' in window)) document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5) * 12; my = (e.clientY / innerHeight - .5) * 8; req(); });
     addEventListener('scroll', () => { sy = Math.min(scrollY, 400); req(); }, { passive: true });
-    // Brillo de las tarjetas siguiendo al cursor
     document.addEventListener('pointermove', e => {
       const c = e.target.closest && e.target.closest('.nav-card'); if (!c) return;
-      const r = c.getBoundingClientRect();
-      c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
     });
   }
 
