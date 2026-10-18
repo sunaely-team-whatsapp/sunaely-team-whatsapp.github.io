@@ -53,8 +53,8 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   @keyframes grain{ 0%{transform:translate(0,0)} 20%{transform:translate(-3%,2%)} 40%{transform:translate(2%,-3%)} 60%{transform:translate(-2%,-1%)} 80%{transform:translate(3%,3%)} 100%{transform:none} }
 
-  .hero{ position:relative; width:100%; height:430px; overflow:hidden; z-index:0;
-    -webkit-mask-image:linear-gradient(180deg,#000 88%,transparent); mask-image:linear-gradient(180deg,#000 88%,transparent); }
+  .hero{ position:relative; width:100%; height:500px; overflow:hidden; z-index:0;
+    -webkit-mask-image:linear-gradient(180deg,#000 90%,transparent); mask-image:linear-gradient(180deg,#000 90%,transparent); }
   .hero::after{ display:none; }
   .hero-sky{ position:absolute; inset:0; z-index:0;
     background:linear-gradient(180deg,#4a9fe0 0%,#78bdf0 20%,#b9e0f6 38%,#fff0b0 55%,#ffd75a 68%,#ffb52e 80%,#ff8f1f 92%); }
@@ -93,10 +93,17 @@
   .cl.c2{ top:110px; height:230px; --o:.92; --dur:150s; z-index:3; }
   .cl.c3{ top:240px; height:120px; --o:.8; --dur:110s; z-index:5; }
   @keyframes driftA{ from{ transform:translateX(-4%); } to{ transform:translateX(4%); } }
+  .river{ position:absolute; left:0; bottom:0; width:100%; height:130px; z-index:11; pointer-events:none; }
+  .rip{ fill:none; stroke:rgba(255,255,255,.85); stroke-width:1.1; opacity:0; transform-box:fill-box; transform-origin:center; animation:rippleFlow var(--d,4s) linear infinite; }
+  @keyframes rippleFlow{ 0%{ opacity:0; transform:translateY(-6px) scaleX(.7); } 25%{ opacity:.85; } 100%{ opacity:0; transform:translateY(22px) scaleX(1.35); } }
+  .gl{ fill:#fffbe0; opacity:0; animation:glint 2.4s ease-in-out infinite; }
+  @keyframes glint{ 0%,100%{ opacity:0; transform:scale(.4); } 50%{ opacity:1; transform:scale(1.4); } }
+  .refl{ filter:blur(9px); animation:reflWob 5s ease-in-out infinite alternate; transform-box:fill-box; transform-origin:center top; }
+  @keyframes reflWob{ from{ transform:scaleX(.8); opacity:.75; } to{ transform:scaleX(1.15); opacity:1; } }
   .fog{ position:absolute; left:-20%; width:140%; height:90px; filter:blur(10px); pointer-events:none;
-    background:radial-gradient(ellipse at 50% 60%,rgba(255,240,180,.55),transparent 70%); animation:driftA 90s ease-in-out infinite alternate; }
+    background:radial-gradient(ellipse at 50% 60%,rgba(255,250,215,.55),transparent 70%); animation:driftA 90s ease-in-out infinite alternate; }
   .fog.f1{ bottom:70px; z-index:6; } .fog.f2{ bottom:30px; z-index:8; opacity:.7; animation-duration:120s; }
-  .ridge{ position:absolute; left:-3%; bottom:0; width:106%; height:170px; pointer-events:none; }
+  .ridge{ position:absolute; left:-3%; bottom:70px; width:106%; height:170px; pointer-events:none; }
 
   /* Polen dorado ascendente */
   .motes{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
@@ -131,7 +138,7 @@
   .nav-card:hover::before{ opacity:1; }
 
   @media (prefers-reduced-motion: reduce){
-    .star,.bird,.mote,.cl,.fog,.rays,.bloom,.dawn-glow,.grain{ animation:none !important; }
+    .star,.bird,.mote,.cl,.fog,.rays,.bloom,.dawn-glow,.grain,.rip,.gl,.refl{ animation:none !important; } .rip{ opacity:.5; }
     .hero-night,.night-veil,.flash{ display:none; }
     .sun{ animation:none !important; } .bloom,.band,.rays,.streak,.dawn-glow,.page-index .title-wrap h1 .letter,.page-index .subtitle,.page-index .nav-card-wrap.reveal{ animation:none !important; opacity:1 !important; transform:none !important; filter:none !important; }
     .page-index .title-wrap::after{ display:none; } .hero .stars{ opacity:.3; }
@@ -642,7 +649,7 @@
   #lobbyPanel .lobby, #lobbyPanel .lobby-admin{ margin-left: auto; margin-right: auto; text-align: left; }
   @media (max-width: 600px){
     /* Menos efectos pesados en móvil: la niebla con desenfoque y las estrellas fugaces */
-    .bird, .grain{ display: none; } .hero{ height: 380px; } .sun-wrap{ top: 262px; }
+    .bird, .grain{ display: none; } .hero{ height: 450px; } .sun-wrap{ top: 262px; }
     .wrap{ padding: 28px 10px 80px; }
     section.panel{ padding: 18px 12px 20px; }
   }
