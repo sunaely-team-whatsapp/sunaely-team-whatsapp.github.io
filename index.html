@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://sunaely-team-whatsapp.github.io/">
 <link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/">
 <link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/">
-<meta name="theme-color" content="#1d1030">
+<meta name="theme-color" content="#ffb52e">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sunaely Team">
 <meta property="og:locale" content="es_ES">
@@ -26,6 +26,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="preload" as="image" href="nubes-medias.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="rayos.webp" type="image/webp">
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="stylesheet" href="sunrise.css">
+<script src="sunrise.js" defer></script>
 <style>
   /* ---- Reglas del team (botón de info + ventana) ---- */
   .rules-btn{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; margin-left:8px; padding:0; vertical-align:middle; border-radius:50%; border:1px solid var(--gold-dim); background:rgba(230,140,20,.08); color:var(--gold); cursor:pointer; transition:background .15s, border-color .15s, color .15s, box-shadow .15s; }
@@ -33,7 +38,7 @@
   .rules-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
   #rulesDialog{ width:min(660px, 94vw); max-width:none; max-height:88vh; padding:0; border:1px solid rgba(230,140,20,.35); border-radius:8px; background:linear-gradient(180deg,#fffaf0,#ffefc4); color:var(--ink); box-shadow:0 30px 80px rgba(0,0,0,.65), 0 0 60px rgba(230,140,20,.08); overflow:hidden; }
   #rulesDialog[open]{ display:flex; flex-direction:column; animation:rulesIn .22s ease-out; }
-  #rulesDialog::backdrop{ background:rgba(60,35,5,.5); backdrop-filter:blur(3px); }
+  #rulesDialog::backdrop{ background:rgba(60,35,5,.5); }
   @keyframes rulesIn{ from{ opacity:0; transform:translateY(14px) scale(.985); } to{ opacity:1; transform:none; } }
   .rules-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:20px 22px 12px; border-bottom:1px solid rgba(255,214,170,.12); }
   .rules-head h3{ margin:0; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.7rem; color:var(--gold); }
@@ -64,7 +69,6 @@
 <body class="page-index">
 
 <div class="sky" aria-hidden="true"><div class="dawn-glow"></div><div class="night-veil"></div></div>
-<div class="grain" aria-hidden="true"></div>
 <div class="motes" id="motesLayer" aria-hidden="true"></div>
 <div class="bird" style="--top:16%; --delay:9s; --dur:28s" aria-hidden="true"><svg viewBox="0 0 26 12"><path d="M0 8 Q6 -1 13 7 Q20 -1 26 8 Q20 3 13 9 Q6 3 0 8Z" fill="#2a1233"/></svg></div>
 <div class="bird" style="--top:24%; --delay:11s; --dur:31s" aria-hidden="true"><svg viewBox="0 0 26 12"><path d="M0 8 Q6 -1 13 7 Q20 -1 26 8 Q20 3 13 9 Q6 3 0 8Z" fill="#2a1233"/></svg></div>
@@ -72,19 +76,10 @@
 
 <div class="hero" id="hero" aria-hidden="true">
   <div class="hero-sky"></div>
-  <div class="sun-wrap" data-d=".15"><div class="bloom"></div><div class="band"></div><div class="rays" id="rays"></div><div class="sun"></div><div class="flash"></div><div class="streak"></div></div>
-<svg class="cl c1" viewBox="0 0 1600 150" preserveAspectRatio="none"><defs>
-<radialGradient id="g1" gradientUnits="userSpaceOnUse" cx="800" cy="150" r="950"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#fff4c6"/><stop offset=".48" stop-color="#ffe0a0"/><stop offset=".78" stop-color="#c4def2"/><stop offset="1" stop-color="#8dbbe4"/></radialGradient>
-<filter id="f1" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".0018 .035" numOctaves="4" seed="11"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.4 0 0 0 -1.7" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
-<rect width="1600" height="150" fill="url(#g1)" filter="url(#f1)"/></svg>
-<svg class="cl c2" viewBox="0 0 1600 230" preserveAspectRatio="none"><defs>
-<radialGradient id="g2" gradientUnits="userSpaceOnUse" cx="800" cy="230" r="950"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#fff4c6"/><stop offset=".48" stop-color="#ffe0a0"/><stop offset=".78" stop-color="#c4def2"/><stop offset="1" stop-color="#8dbbe4"/></radialGradient>
-<filter id="f2" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".0045 .017" numOctaves="5" seed="3"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2.8 0 0 0 -1.05" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
-<rect width="1600" height="230" fill="url(#g2)" filter="url(#f2)"/></svg>
-<svg class="cl c3" viewBox="0 0 1600 120" preserveAspectRatio="none"><defs>
-<radialGradient id="g3" gradientUnits="userSpaceOnUse" cx="800" cy="120" r="950"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#fff4c6"/><stop offset=".48" stop-color="#ffe0a0"/><stop offset=".78" stop-color="#c4def2"/><stop offset="1" stop-color="#8dbbe4"/></radialGradient>
-<filter id="f3" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".006 .03" numOctaves="4" seed="9"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.0 0 0 0 -1.25" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
-<rect width="1600" height="120" fill="url(#g3)" filter="url(#f3)"/></svg>
+  <div class="sun-wrap" data-d=".15"><div class="bloom"></div><div class="band"></div><img class="rays" src="rayos.webp" alt="" width="1600" height="800" decoding="async"><div class="sun"></div><div class="flash"></div><div class="streak"></div></div>
+<img class="cl c1" src="nubes-altas.webp" alt="" width="1600" height="150" decoding="async">
+<img class="cl c2" src="nubes-medias.webp" alt="" width="1600" height="230" decoding="async">
+<img class="cl c3" src="nubes-bajas.webp" alt="" width="1600" height="120" decoding="async">
   <div class="fog f1"></div><div class="fog f2"></div>
   <div class="hero-night"></div>
   <div class="stars" id="starsLayer"></div>
@@ -110,43 +105,50 @@
   <div class="rules-head">
     <div>
       <h3 id="rulesTitle">Reglas del team</h3>
-      <p>Bienvenidx a este bello team. Esperamos que pases una buena estancia y que entre todos tengamos una buena convivencia.</p>
+      <p>Para que entre todos tengamos una buena convivencia, estas son las reglas de Sunaely.</p>
     </div>
     <button class="rules-x" id="rulesClose" type="button" aria-label="Cerrar">×</button>
   </div>
   <div class="rules-body">
     <h4>Convivencia</h4>
     <ul>
-      <li>Trato amable y respetuoso entre todos. No ignorar ni excluir a ningún integrante, admin u owner, y no acosar a nadie.</li>
-      <li>Evitar bromas de mal gusto o que puedan incomodar. Cuando a alguien le empieza a sentar mal, deja de ser una broma: pon límites.</li>
-      <li>Evitar conflictos y mantener un ambiente tranquilo. No peleas. Se permiten las groserías, pero sin exagerar hasta causar problemas.</li>
+      <li>Respeto hacia administradores e integrantes para evitar conflictos. Si alguien no lo cumple, avisa a los admins / helpers.</li>
+      <li>Evita generar revuelos con temas delicados como gustos, creencias, política o cualquier tema que pueda generar conflicto entre integrantes.</li>
+      <li>Evita ignorar a los demás integrantes. Si te sientes ignorado, avisa a los admins para darle seguimiento: haremos todo lo posible por evitar la exclusión en nuestros espacios.</li>
     </ul>
 
     <h4>Contenido prohibido</h4>
     <ul>
-      <li>Temas <b>+18</b> y <b>gore</b>: pornografía de cualquier tipo (también stickers, vídeos e imágenes) y muertes con exceso de sangre.</li>
-      <li>Sitios web con virus o similares.</li>
-      <li>Spam. Incluye el spam de menciones: si una persona recibe <b>más de 3 menciones</b>, cuenta como spam aunque las hagan personas distintas.</li>
-      <li>Evitar la mención de @todos: solo los admins pueden usarla, y solo para cosas necesarias. Si la usan mal, recibirán una penalización.</li>
+      <li>No enviar contenido sensible: gore, contenido para adultos o vídeos relacionados, links, imágenes de autolesiones, política o situaciones personales que pongan en peligro tu integridad.</li>
+      <li>No promocionar teams, cuentas, links y similares, ni en el chat ni por privado.</li>
+      <li>No hacer spam de ningún tipo.</li>
     </ul>
 
-    <h4>Temas delicados e información personal</h4>
-    <ul>
-      <li>Por favor, no hablar ni tocar temas de suicidio, autolesiones u otros temas personales delicados: puede incomodar a los demás. Si necesitas hablar con alguien, acude a administración.</li>
-      <li>No compartir información personal que te pueda poner en riesgo.</li>
-    </ul>
-
-    <h4>Penalizaciones y salidas</h4>
+    <h4>Actividad</h4>
     <div class="rules-limits">
-      <div class="rules-limit"><span>Penalizaciones para expulsión</span><b>3</b></div>
-      <div class="rules-limit"><span>Máximo de salidas</span><b>3</b></div>
+      <div class="rules-limit"><span>Mensajes mínimos por semana</span><b>60</b></div>
+      <div class="rules-limit"><span>Faltas para la expulsión</span><b>3</b></div>
     </div>
-    <p>Cada regla rota tendrá una penalización. Con tres penalizaciones se aplica la expulsión.</p>
+    <ul>
+      <li>Sé activo en lo posible. Si no puedes, por temas personales o por tu estilo de vida, avisa a los admins / helpers para tener en cuenta tus posibilidades y no eliminarte injustificadamente.</li>
+      <li>Cumple con el mínimo de <b>60 mensajes a la semana</b>.</li>
+    </ul>
 
-    <h4>Inactividad</h4>
-    <p>En caso de inactividad, avisa a los owners o admins.</p>
+    <h4>Registro</h4>
+    <ul>
+      <li>Añade tu rol en el apartado de “nickname”.</li>
+      <li>Es obligatorio registrar tu cumpleaños con el comando <b>#cumple DD/MM</b> (D = día, M = mes). No pongas tu año de nacimiento.</li>
+    </ul>
 
-    <p class="rules-foot">¡Diviértete!</p>
+    <h4>Matrimonio, adopción y embarazo</h4>
+    <ul>
+      <li>Está prohibido usar comandos de matrimonio, adopción, embarazo o similares si no cuentas antes con el certificado correspondiente, que se adquiere en <b>SUNAELY SHOP</b>.</li>
+    </ul>
+
+    <h4>Faltas</h4>
+    <p>Si incumples las reglas y acumulas <b>3 faltas</b>, serás expulsado del team de inmediato.</p>
+
+    <p class="rules-foot">¡Gracias por cuidar este espacio!</p>
     <p class="rules-sign">Att: La administración de Sunaely</p>
   </div>
 </dialog>
@@ -203,81 +205,6 @@
   const $ = (id) => document.getElementById(id);
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // ---------- Efectos del amanecer ----------
-  const rnd = (a, b) => a + Math.random() * (b - a);
-  const hero = $('hero');
-
-  // Polen / polvo en suspensión
-  if (!prefersReducedMotion){
-    const layer = $('motesLayer'), n = innerWidth < 480 ? 12 : 22, f = document.createDocumentFragment();
-    for (let i = 0; i < n; i++){
-      const m = document.createElement('span'); m.className = 'mote'; const s = rnd(1.5, 3.8).toFixed(1);
-      m.style.cssText = `left:${rnd(0,100).toFixed(1)}%;width:${s}px;height:${s}px;filter:blur(${rnd(0,1.2).toFixed(1)}px)`;
-      m.style.setProperty('--dur', rnd(12, 24).toFixed(1) + 's'); m.style.setProperty('--delay', (4 + rnd(0, 14)).toFixed(1) + 's');
-      m.style.setProperty('--sway', rnd(-70, 70).toFixed(0) + 'px'); f.appendChild(m);
-    }
-    layer.appendChild(f);
-  }
-
-  // Estrellas de la noche
-  (function(){
-    const layer = $('starsLayer'), n = innerWidth < 480 ? 40 : 90, f = document.createDocumentFragment();
-    for (let i = 0; i < n; i++){
-      const s = document.createElement('span'); s.className = 'star'; const z = rnd(.7, 2.2).toFixed(2);
-      s.style.cssText = `top:${rnd(0,100).toFixed(1)}%;left:${rnd(0,100).toFixed(1)}%;width:${z}px;height:${z}px`;
-      s.style.setProperty('--dur', rnd(2,5).toFixed(2) + 's'); s.style.setProperty('--delay', rnd(0,5).toFixed(2) + 's');
-      s.style.setProperty('--o-min', rnd(.15,.35).toFixed(2)); s.style.setProperty('--o-max', rnd(.7,1).toFixed(2)); f.appendChild(s);
-    }
-    layer.appendChild(f);
-  })();
-
-  // Rayos crepusculares irregulares (gradiente cónico aleatorio, sin costuras)
-  (function(){
-    const N = 140, a = Array.from({length: N}, () => Math.pow(Math.random(), 3) * .36); a.push(a[0]);
-    $('rays').style.setProperty('--rays', 'conic-gradient(from 0deg,' + a.map((v, i) => `rgba(255,244,200,${v.toFixed(3)}) ${(i / N * 360).toFixed(1)}deg`).join(',') + ')');
-  })();
-
-  // Cordilleras generadas con desplazamiento del punto medio + luz de borde hacia el sol
-  (function(){
-    const ridge = (seed, base, amp, rough, dip) => {
-      let s = seed; const R = () => (s = (s * 16807) % 2147483647) / 2147483647;
-      let p = [base + (R() - .5) * amp, base + (R() - .5) * amp], a = amp;
-      for (let k = 0; k < 8; k++){ const q = []; for (let i = 0; i < p.length - 1; i++) q.push(p[i], (p[i] + p[i+1]) / 2 + (R() - .5) * a); q.push(p[p.length-1]); p = q; a *= rough; }
-      const n = p.length - 1;
-      return p.map((y, i) => { const x = i / n * 1440; return [x.toFixed(1), Math.max(6, y + dip * Math.exp(-Math.pow((x - 720) / 260, 2))).toFixed(1)]; });
-    };
-    const L = [ // semilla, base, amplitud, rugosidad, hueco bajo el sol, color arriba, color abajo, luz de borde, z
-      [7919, 56, 78, .6, 30, '#f6bd5c', '#ea9c3a', .95, 4],
-      [104729, 78, 62, .6, 8, '#e08a2c', '#c5701f', .6, 7],
-      [1299709, 114, 44, .58, 0, '#c9781e', '#e09a34', .32, 9],
-      [15485863, 148, 22, .52, 0, '#e29a32', '#fff3d1', 0, 10]];
-    L.forEach(([sd, b, am, ro, dp, c1, c2, rim, z], i) => {
-      const pts = ridge(sd, b, am, ro, dp), top = 'M' + pts.map(q => q.join(' ')).join('L');
-      hero.insertAdjacentHTML('beforeend', `<svg class="ridge" data-d="${[.4,.8,1.3,1.8][i]}" style="z-index:${z}" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="rg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient><linearGradient id="rm${i}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#fff2a8" stop-opacity="0"/><stop offset=".5" stop-color="#fffbd0" stop-opacity="${rim}"/><stop offset="1" stop-color="#fff2a8" stop-opacity="0"/></linearGradient></defs><path d="${top}L1440 170L0 170Z" fill="url(#rg${i})"/><path d="${top}" fill="none" stroke="url(#rm${i})" stroke-width="1.6"/></svg>`);
-    });
-  })();
-
-  // Título letra a letra
-  (function(){
-    const el = $('heroTitle'), text = el.textContent; el.textContent = '';
-    [...text].forEach((ch, i) => { const s = document.createElement('span'); s.className = 'letter'; s.style.setProperty('--i', i); s.textContent = ch === ' ' ? '\u00A0' : ch; el.appendChild(s); });
-  })();
-
-  // Paralaje por capas (ratón + scroll) y brillo de las tarjetas
-  if (!prefersReducedMotion){
-    const layers = [...hero.querySelectorAll('[data-d]')];
-    layers.push(...[...hero.querySelectorAll('.cl')].map((el, i) => (el.dataset.d = [.3, .6, 1][i], el)));
-    let mx = 0, my = 0, sy = 0, tick = false;
-    const apply = () => { tick = false; layers.forEach(el => { const d = +el.dataset.d; el.style.translate = `${(mx * d).toFixed(1)}px ${(my * d + sy * (.04 + d * .05)).toFixed(1)}px`; }); };
-    const req = () => { if (!tick){ tick = true; requestAnimationFrame(apply); } };
-    if (!('ontouchstart' in window)) document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5) * 12; my = (e.clientY / innerHeight - .5) * 8; req(); });
-    addEventListener('scroll', () => { sy = Math.min(scrollY, 400); req(); }, { passive: true });
-    document.addEventListener('pointermove', e => {
-      const c = e.target.closest && e.target.closest('.nav-card'); if (!c) return;
-      const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    });
-  }
 
   function escapeHtml(str){
     return String(str ?? '').replace(/[&<>"']/g, (m) => ({

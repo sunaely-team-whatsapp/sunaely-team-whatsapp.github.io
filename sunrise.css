@@ -1,0 +1,101 @@
+/* Efectos de amanecer: solo los usa la portada (index.html). */
+  .sky{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  /* Velo de noche que se disipa al amanecer */
+  .night-veil{ position:absolute; inset:0; background:linear-gradient(180deg,#05060f 0%,#140b22 55%,#26122e 100%); animation:nightLift 6.5s cubic-bezier(.4,0,.2,1) .4s forwards; }
+  @keyframes nightLift{ to{ opacity:0; } }
+  .dawn-glow{ position:absolute; left:50%; top:-10%; width:160vmax; height:90vmax; transform:translateX(-50%);
+    background:radial-gradient(ellipse at 50% 18%, rgba(255,205,70,.38), rgba(255,160,60,.14) 38%, transparent 66%);
+    opacity:0; animation:glowIn 5s ease-out 1.2s forwards; }
+  @keyframes glowIn{ to{ opacity:1; } }
+  @keyframes glowBreath{ 0%,100%{ opacity:1; } 50%{ opacity:.72; } }
+
+  .stars{ position:absolute; inset:0; animation:starsFade 5s ease-in 1.2s forwards; }
+  .star{ position:absolute; border-radius:50%; background:#fff; animation:twinkle var(--dur,3s) ease-in-out infinite; animation-delay:var(--delay,0s); }
+  @keyframes twinkle{ 0%,100%{ opacity:var(--o-min,.25); transform:scale(1); } 50%{ opacity:var(--o-max,.95); transform:scale(1.4); } }
+  @keyframes starsFade{ to{ opacity:0; } }
+
+  /* =====================  SUNAELY · AMANECER REALISTA  ===================== */
+
+  .hero{ position:relative; width:100%; height:430px; overflow:hidden; z-index:0; contain:layout paint; }
+  .hero::after{ content:""; display:block; position:absolute; left:0; right:0; bottom:0; height:64px; z-index:30; background:linear-gradient(180deg,transparent,var(--bg)); pointer-events:none; }
+  .hero-sky{ position:absolute; inset:0; z-index:0;
+    background:linear-gradient(180deg,#4a9fe0 0%,#78bdf0 20%,#b9e0f6 38%,#fff0b0 55%,#ffd75a 68%,#ffb52e 80%,#ff8f1f 92%); }
+  .hero-night{ position:absolute; inset:0; z-index:20; background:linear-gradient(180deg,rgba(3,4,12,.97),rgba(18,10,32,.92) 65%,rgba(38,18,46,.88)); animation:nightLift 6.5s cubic-bezier(.4,0,.2,1) .4s forwards; }
+  .hero .stars{ z-index:21; inset:0 0 35% 0; }
+  @keyframes fadeIn{ to{ opacity:var(--o,1); } }
+  @keyframes breathe{ 0%,100%{ opacity:var(--o,1); } 50%{ opacity:calc(var(--o,1)*.78); } }
+
+  .sun-wrap{ position:absolute; left:50%; top:300px; width:0; height:0; z-index:1; }
+  .sun-wrap > *{ position:absolute; pointer-events:none; }
+  .bloom{ left:-700px; top:-700px; width:1400px; height:1400px; border-radius:50%; opacity:0; --o:1;
+    background:radial-gradient(circle,rgba(255,214,150,.38) 0,rgba(255,170,60,.34) 9%,rgba(255,120,90,.18) 27%,transparent 55%);
+    animation:fadeIn 4s ease-out 1.2s forwards; }
+  .band{ left:-950px; top:-110px; width:1900px; height:220px; opacity:0; --o:.9;
+    background:radial-gradient(ellipse at center,rgba(255,170,50,.55),transparent 68%); animation:fadeIn 4s ease-out 1.5s forwards; }
+  .rays{ left:-800px; top:-800px; width:1600px; height:800px; opacity:0; --o:1; animation:fadeIn 4s ease 3s forwards, breathe 14s ease-in-out 7s infinite; }
+  .sun{ left:-46px; top:-46px; width:92px; height:92px; border-radius:50%;
+    background:radial-gradient(circle,#fffff6 0%,#fff4c8 45%,#ffe08a 78%,#ffc060 100%);
+    box-shadow:0 0 30px 10px rgba(255,226,160,.9),0 0 90px 40px rgba(255,170,90,.55),0 0 200px 90px rgba(255,110,80,.3);
+    animation:sunRise 5.2s cubic-bezier(.2,.7,.2,1) .4s both; }
+  @keyframes sunRise{ from{ transform:translateY(135px) scale(1.12); filter:saturate(1.7) hue-rotate(-14deg) brightness(.7); } to{ transform:none; filter:none; } }
+  .flash{ left:-380px; top:-380px; width:760px; height:760px; border-radius:50%; opacity:0;
+    background:radial-gradient(circle,rgba(255,250,225,.95),rgba(255,210,140,.4) 30%,transparent 62%); animation:crest 2.6s ease-out 2.3s forwards; }
+  @keyframes crest{ 0%{ opacity:0; transform:scale(.3); } 25%{ opacity:.85; } 100%{ opacity:0; transform:scale(1.5); } }
+  .streak{ left:-520px; top:-2px; width:1040px; height:4px; opacity:0; --o:.8;
+    background:linear-gradient(90deg,transparent,rgba(255,236,190,.9) 50%,transparent); animation:fadeIn 3s ease 3s forwards; }
+
+  /* Nubes: ruido fractal iluminado desde el sol (filtros SVG) */
+  .cl{ display:block; position:absolute; left:-10%; width:120%; z-index:3; pointer-events:none; opacity:var(--o,.9); will-change:transform;
+    animation:driftA var(--dur,150s) ease-in-out infinite alternate; }
+  .cl.c1{ top:20px; height:150px; --o:.6; --dur:200s; z-index:2; }
+  .cl.c2{ top:110px; height:230px; --o:.92; --dur:150s; z-index:3; }
+  .cl.c3{ top:240px; height:120px; --o:.8; --dur:110s; z-index:5; }
+  @keyframes driftA{ from{ transform:translateX(-4%); } to{ transform:translateX(4%); } }
+  .fog{ position:absolute; left:-20%; width:140%; height:90px; pointer-events:none;
+    background:radial-gradient(ellipse at 50% 60%,rgba(255,250,215,.55),transparent 70%); animation:driftA 90s ease-in-out infinite alternate; }
+  .fog.f1{ bottom:70px; z-index:6; } .fog.f2{ bottom:30px; z-index:8; opacity:.7; animation-duration:120s; }
+  .ridge{ position:absolute; left:-3%; bottom:0; width:106%; height:170px; pointer-events:none; }
+
+  /* Polen dorado ascendente */
+  .motes{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .mote{ position:absolute; bottom:-12px; border-radius:50%;
+    background:radial-gradient(circle,rgba(255,236,170,1),rgba(230,140,20,0) 70%); box-shadow:0 0 8px 2px rgba(255,190,90,.55);
+    opacity:0; animation:moteFloat var(--dur,14s) ease-in var(--delay,0s) infinite; }
+  @keyframes moteFloat{ 0%{ opacity:0; transform:translate(0,0) scale(.6); } 12%{ opacity:.95; } 50%{ transform:translate(calc(var(--sway,20px)*-.6),-55vh) scale(1.1); } 90%{ opacity:.6; } 100%{ opacity:0; transform:translate(var(--sway,20px),-112vh) scale(.7); } }
+
+  /* Pájaros cruzando el amanecer */
+  .bird{ position:fixed; z-index:0; left:-60px; top:var(--top,18%); width:26px; height:12px; pointer-events:none; opacity:0;
+    animation:birdFly var(--dur,26s) linear var(--delay,8s) infinite; }
+  .bird svg{ width:100%; height:100%; overflow:visible; transform-origin:50% 60%; animation:flap .55s ease-in-out infinite alternate; }
+  @keyframes flap{ from{ transform:scaleY(1); } to{ transform:scaleY(.25); } }
+  @keyframes birdFly{ 0%{ opacity:0; transform:translate(0,0); } 4%{ opacity:.75; } 50%{ transform:translate(55vw,-40px); } 96%{ opacity:.75; } 100%{ opacity:0; transform:translate(112vw,10px); } }
+
+  /* ---------- Título y tarjetas ---------- */
+  .page-index .title-wrap{ overflow:visible; }
+  .page-index .title-wrap h1 .letter{ display:inline-block; opacity:0; transform:translateY(18px) scale(.85);
+    animation:letterRise .7s cubic-bezier(.2,.9,.3,1.1) forwards; animation-delay:calc(2.7s + var(--i,0)*.05s); }
+  @keyframes letterRise{ 0%{ opacity:0; transform:translateY(18px) scale(.85); } 60%{ opacity:1; } 100%{ opacity:1; transform:none; } }
+  .page-index h1{ background:linear-gradient(100deg,#f5a000 0%,#e8780c 55%,#d4560a 100%); -webkit-background-clip:text; background-clip:text; }
+  .page-index .title-wrap h1 .letter{ -webkit-text-fill-color:transparent; color:transparent; background:inherit; -webkit-background-clip:text; background-clip:text; }
+  .page-index .subtitle{ opacity:0; animation:heroRise .9s ease-out 3.6s forwards; }
+  @keyframes heroRise{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:none; } }
+  .page-index .title-wrap::after{ content:''; position:absolute; inset:-22px -18px; background:linear-gradient(115deg,transparent 35%,rgba(255,240,200,.7) 50%,transparent 65%); background-size:250% 250%; background-position:200% 0; opacity:0; pointer-events:none; animation:titleShine 1.6s ease-out 3.4s 1 forwards; }
+  @keyframes titleShine{ 0%{ background-position:200% 0; opacity:1; } 75%{ opacity:1; } 100%{ background-position:-60% 0; opacity:0; } }
+  .page-index .nav-card-wrap.reveal{ opacity:0; animation:cardRise .7s ease-out forwards; animation-delay:var(--card-delay,0s); }
+  @keyframes cardRise{ from{ opacity:0; transform:translateY(20px) scale(.97); } to{ opacity:1; transform:none; } }
+  /* Brillo cálido que sigue al cursor sobre las tarjetas */
+  .nav-card{ position:relative; overflow:hidden; }
+  .nav-card::before{ content:''; position:absolute; inset:0; background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,200,110,.22),transparent 60%); opacity:0; transition:opacity .25s; pointer-events:none; }
+  .nav-card:hover::before{ opacity:1; }
+
+  @media (prefers-reduced-motion: reduce){
+    .star,.bird,.mote,.cl,.fog,.rays,.bloom,.dawn-glow,.grain,.rip,.gl,.refl{ animation:none !important; } .rip{ opacity:.5; }
+    .hero-night,.night-veil,.flash{ display:none; }
+    .sun{ animation:none !important; } .bloom,.band,.rays,.streak,.dawn-glow,.page-index .title-wrap h1 .letter,.page-index .subtitle,.page-index .nav-card-wrap.reveal{ animation:none !important; opacity:1 !important; transform:none !important; filter:none !important; }
+    .page-index .title-wrap::after{ display:none; } .hero .stars{ opacity:.3; }
+  }
+
+
+  @media (max-width: 600px){
+    .bird, .fog{ display: none; } .hero{ height: 380px; } .sun-wrap{ top: 262px; }
+  }
