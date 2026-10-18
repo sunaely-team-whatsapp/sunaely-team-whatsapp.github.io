@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sunaely-team-whatsapp.github.io/sitemap.xml

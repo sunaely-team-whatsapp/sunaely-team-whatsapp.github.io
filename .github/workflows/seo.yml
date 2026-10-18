@@ -1,0 +1,50 @@
+name: SEO (bloques, sitemap, robots y noindex)
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore: ['sitemap.xml', 'robots.txt']
+  schedule:
+    - cron: '17 5 * * *'   # cada día, por si cambias la visibilidad de una página desde el índice
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: seo
+  cancel-in-progress: false
+
+jobs:
+  seo:
+    runs-on: ubuntu-latest
+    env:
+      # Settings → Secrets and variables → Actions → Variables → FIREBASE_PROJECT (el projectId de Sunaely)
+      FIREBASE_PROJECT: ${{ vars.FIREBASE_PROJECT }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generar SEO, sitemap y robots
+        run: python3 .github/scripts/seo.py
+
+      - name: Guardar cambios
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+          else
+            git commit -m "SEO automático: bloques, sitemap y robots"
+            git pull --rebase
+            git push
+            gh workflow run pages.yml || true
+          fi
+
+      - name: Auditoría SEO
+        run: python3 .github/scripts/seo.py --check
