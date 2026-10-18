@@ -85,15 +85,6 @@
 <radialGradient id="g3" gradientUnits="userSpaceOnUse" cx="800" cy="120" r="950"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#fff4c6"/><stop offset=".48" stop-color="#ffe0a0"/><stop offset=".78" stop-color="#c4def2"/><stop offset="1" stop-color="#8dbbe4"/></radialGradient>
 <filter id="f3" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".006 .03" numOctaves="4" seed="9"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.0 0 0 0 -1.25" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
 <rect width="1600" height="120" fill="url(#g3)" filter="url(#f3)"/></svg>
-<svg class="river" viewBox="0 0 1440 130" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs>
-<linearGradient id="mead" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f8f2a"/><stop offset=".55" stop-color="#7fb83e"/><stop offset="1" stop-color="#b6d95a"/></linearGradient>
-<linearGradient id="wat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset=".35" stop-color="#8fd0f2"/><stop offset="1" stop-color="#3f9ad8"/></linearGradient>
-<linearGradient id="refl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c0" stop-opacity=".95"/><stop offset="1" stop-color="#ffd25a" stop-opacity="0"/></linearGradient>
-<clipPath id="rv"><path d="M690 25C680 55 560 75 520 100S400 125 340 130L1100 130C1040 118 900 100 860 84S770 50 750 25Z"/></clipPath></defs>
-<path d="M0 28C300 10 560 36 760 24S1200 8 1440 30V130H0Z" fill="url(#mead)"/>
-<path d="M690 25C680 55 560 75 520 100S400 125 340 130L1100 130C1040 118 900 100 860 84S770 50 750 25Z" fill="url(#wat)"/>
-<g clip-path="url(#rv)"><rect x="660" y="20" width="120" height="120" fill="url(#refl)" class="refl"/><g id="ripples"></g></g>
-<path d="M690 25C680 55 560 75 520 100S400 125 340 130M750 25C770 50 860 84 900 100S1040 118 1100 130" fill="none" stroke="#dff59a" stroke-width="2.2" opacity=".8"/></svg>
   <div class="fog f1"></div><div class="fog f2"></div>
   <div class="hero-night"></div>
   <div class="stars" id="starsLayer"></div>
@@ -119,50 +110,43 @@
   <div class="rules-head">
     <div>
       <h3 id="rulesTitle">Reglas del team</h3>
-      <p>Para que entre todos tengamos una buena convivencia, estas son las reglas de Sunaely.</p>
+      <p>Bienvenidx a este bello team. Esperamos que pases una buena estancia y que entre todos tengamos una buena convivencia.</p>
     </div>
     <button class="rules-x" id="rulesClose" type="button" aria-label="Cerrar">×</button>
   </div>
   <div class="rules-body">
     <h4>Convivencia</h4>
     <ul>
-      <li>Respeto hacia administradores e integrantes para evitar conflictos. Si alguien no lo cumple, avisa a los admins / helpers.</li>
-      <li>Evita generar revuelos con temas delicados como gustos, creencias, política o cualquier tema que pueda generar conflicto entre integrantes.</li>
-      <li>Evita ignorar a los demás integrantes. Si te sientes ignorado, avisa a los admins para darle seguimiento: haremos todo lo posible por evitar la exclusión en nuestros espacios.</li>
+      <li>Trato amable y respetuoso entre todos. No ignorar ni excluir a ningún integrante, admin u owner, y no acosar a nadie.</li>
+      <li>Evitar bromas de mal gusto o que puedan incomodar. Cuando a alguien le empieza a sentar mal, deja de ser una broma: pon límites.</li>
+      <li>Evitar conflictos y mantener un ambiente tranquilo. No peleas. Se permiten las groserías, pero sin exagerar hasta causar problemas.</li>
     </ul>
 
     <h4>Contenido prohibido</h4>
     <ul>
-      <li>No enviar contenido sensible: gore, contenido para adultos o vídeos relacionados, links, imágenes de autolesiones, política o situaciones personales que pongan en peligro tu integridad.</li>
-      <li>No promocionar teams, cuentas, links y similares, ni en el chat ni por privado.</li>
-      <li>No hacer spam de ningún tipo.</li>
+      <li>Temas <b>+18</b> y <b>gore</b>: pornografía de cualquier tipo (también stickers, vídeos e imágenes) y muertes con exceso de sangre.</li>
+      <li>Sitios web con virus o similares.</li>
+      <li>Spam. Incluye el spam de menciones: si una persona recibe <b>más de 3 menciones</b>, cuenta como spam aunque las hagan personas distintas.</li>
+      <li>Evitar la mención de @todos: solo los admins pueden usarla, y solo para cosas necesarias. Si la usan mal, recibirán una penalización.</li>
     </ul>
 
-    <h4>Actividad</h4>
+    <h4>Temas delicados e información personal</h4>
+    <ul>
+      <li>Por favor, no hablar ni tocar temas de suicidio, autolesiones u otros temas personales delicados: puede incomodar a los demás. Si necesitas hablar con alguien, acude a administración.</li>
+      <li>No compartir información personal que te pueda poner en riesgo.</li>
+    </ul>
+
+    <h4>Penalizaciones y salidas</h4>
     <div class="rules-limits">
-      <div class="rules-limit"><span>Mensajes mínimos por semana</span><b>60</b></div>
-      <div class="rules-limit"><span>Faltas para la expulsión</span><b>3</b></div>
+      <div class="rules-limit"><span>Penalizaciones para expulsión</span><b>3</b></div>
+      <div class="rules-limit"><span>Máximo de salidas</span><b>3</b></div>
     </div>
-    <ul>
-      <li>Sé activo en lo posible. Si no puedes, por temas personales o por tu estilo de vida, avisa a los admins / helpers para tener en cuenta tus posibilidades y no eliminarte injustificadamente.</li>
-      <li>Cumple con el mínimo de <b>60 mensajes a la semana</b>.</li>
-    </ul>
+    <p>Cada regla rota tendrá una penalización. Con tres penalizaciones se aplica la expulsión.</p>
 
-    <h4>Registro</h4>
-    <ul>
-      <li>Añade tu rol en el apartado de “nickname”.</li>
-      <li>Es obligatorio registrar tu cumpleaños con el comando <b>#cumple DD/MM</b> (D = día, M = mes). No pongas tu año de nacimiento.</li>
-    </ul>
+    <h4>Inactividad</h4>
+    <p>En caso de inactividad, avisa a los owners o admins.</p>
 
-    <h4>Matrimonio, adopción y embarazo</h4>
-    <ul>
-      <li>Está prohibido usar comandos de matrimonio, adopción, embarazo o similares si no cuentas antes con el certificado correspondiente, que se adquiere en <b>SUNAELY SHOP</b>.</li>
-    </ul>
-
-    <h4>Faltas</h4>
-    <p>Si incumples las reglas y acumulas <b>3 faltas</b>, serás expulsado del team de inmediato.</p>
-
-    <p class="rules-foot">¡Gracias por cuidar este espacio!</p>
+    <p class="rules-foot">¡Diviértete!</p>
     <p class="rules-sign">Att: La administración de Sunaely</p>
   </div>
 </dialog>
@@ -264,27 +248,14 @@
       return p.map((y, i) => { const x = i / n * 1440; return [x.toFixed(1), Math.max(6, y + dip * Math.exp(-Math.pow((x - 720) / 260, 2))).toFixed(1)]; });
     };
     const L = [ // semilla, base, amplitud, rugosidad, hueco bajo el sol, color arriba, color abajo, luz de borde, z
-      [7919, 56, 78, .6, 30, '#cfe27a', '#a6c75a', .95, 4],
-      [104729, 78, 62, .6, 8, '#86b645', '#639a36', .6, 7],
-      [1299709, 114, 44, .58, 0, '#4f8c2d', '#3c7625', .32, 9],
-      [15485863, 148, 22, .52, 0, '#3f7a26', '#2f6420', 0, 10]];
+      [7919, 56, 78, .6, 30, '#f6bd5c', '#ea9c3a', .95, 4],
+      [104729, 78, 62, .6, 8, '#e08a2c', '#c5701f', .6, 7],
+      [1299709, 114, 44, .58, 0, '#c9781e', '#e09a34', .32, 9],
+      [15485863, 148, 22, .52, 0, '#e29a32', '#fff3d1', 0, 10]];
     L.forEach(([sd, b, am, ro, dp, c1, c2, rim, z], i) => {
       const pts = ridge(sd, b, am, ro, dp), top = 'M' + pts.map(q => q.join(' ')).join('L');
-      hero.insertAdjacentHTML('beforeend', `<svg class="ridge" data-d="${[.4,.8,1.3,1.8][i]}" style="z-index:${z}" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="rg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient><linearGradient id="rm${i}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#f4ffb0" stop-opacity="0"/><stop offset=".5" stop-color="#fffbd0" stop-opacity="${rim}"/><stop offset="1" stop-color="#f4ffb0" stop-opacity="0"/></linearGradient></defs><path d="${top}L1440 170L0 170Z" fill="url(#rg${i})"/><path d="${top}" fill="none" stroke="url(#rm${i})" stroke-width="1.6"/></svg>`);
+      hero.insertAdjacentHTML('beforeend', `<svg class="ridge" data-d="${[.4,.8,1.3,1.8][i]}" style="z-index:${z}" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="rg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient><linearGradient id="rm${i}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#fff2a8" stop-opacity="0"/><stop offset=".5" stop-color="#fffbd0" stop-opacity="${rim}"/><stop offset="1" stop-color="#fff2a8" stop-opacity="0"/></linearGradient></defs><path d="${top}L1440 170L0 170Z" fill="url(#rg${i})"/><path d="${top}" fill="none" stroke="url(#rm${i})" stroke-width="1.6"/></svg>`);
     });
-  })();
-
-
-  // Río: ondas que fluyen hacia el espectador + destellos del sol en el agua
-  (function(){
-    const g = document.getElementById('ripples'); if (!g) return; let s = '';
-    for (let i = 0; i < 46; i++){
-      const y = 30 + Math.random() * 98, k = (y - 22) / 108, mid = 720 - (720 - 560) * Math.pow(k, 1.3) * .2;
-      const x = mid + (Math.random() - .5) * (60 + k * 520), rx = 6 + k * 34 + Math.random() * 10;
-      s += `<ellipse class="rip" cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="${rx.toFixed(0)}" ry="${(1 + k * 2.2).toFixed(1)}" style="--d:${(3 + Math.random() * 4).toFixed(1)}s;animation-delay:${(-Math.random() * 6).toFixed(1)}s"/>`;
-    }
-    for (let i = 0; i < 16; i++) s += `<circle class="gl" cx="${(690 + Math.random() * 60).toFixed(0)}" cy="${(30 + Math.random() * 95).toFixed(0)}" r="${(1.2 + Math.random() * 2).toFixed(1)}" style="animation-delay:${(-Math.random() * 3).toFixed(1)}s"/>`;
-    g.innerHTML = s;
   })();
 
   // Título letra a letra
