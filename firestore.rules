@@ -1,0 +1,55 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Ocupados y reservados: todos leen, solo el admin logueado escribe/borra
+    match /ocupados/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    match /reservados/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // Buscados: todos leen, solo el admin logueado crea/edita/borra
+    match /buscados/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // Ajustes sueltos (link del lobby): todos leen, solo el admin escribe
+    match /ajustes/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Árbol genealógico: todos leen, solo el admin logueado escribe
+    match /arbol/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // Páginas del índice: todos leen (para saber qué está oculto), solo el admin cambia la visibilidad
+    match /paginas/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // Registros mensuales de mensajes: todos leen, solo el admin logueado escribe.
+    // Guardan el id del miembro y un alias público (personaje o máscara), nunca el nombre del chat.
+    match /registros/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // Miembros (identificados por su tel/usuario de WhatsApp): SOLO el admin logueado puede leer o escribir.
+    // A propósito no hay "allow read: if true" aquí — sin sesión, Firestore deniega la lectura
+    // antes de que el dato llegue al navegador, no es solo una cuestión de interfaz.
+    match /miembros/{docId} {
+      allow read, create, update, delete: if request.auth != null;
+    }
+  }
+}

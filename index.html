@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://sunaely-team-whatsapp.github.io/">
 <link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/">
 <link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/">
-<meta name="theme-color" content="#1d1030">
+<meta name="theme-color" content="#ffb52e">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sunaely Team">
 <meta property="og:locale" content="es_ES">
@@ -28,12 +28,12 @@
 <link rel="stylesheet" href="styles.css">
 <style>
   /* ---- Reglas del team (botón de info + ventana) ---- */
-  .rules-btn{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; margin-left:8px; padding:0; vertical-align:middle; border-radius:50%; border:1px solid var(--gold-dim); background:rgba(255,184,86,.08); color:var(--gold); cursor:pointer; transition:background .15s, border-color .15s, color .15s, box-shadow .15s; }
-  .rules-btn:hover{ border-color:var(--gold); color:#ffe3b0; background:rgba(255,184,86,.18); box-shadow:0 0 14px rgba(255,184,86,.35); }
+  .rules-btn{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; margin-left:8px; padding:0; vertical-align:middle; border-radius:50%; border:1px solid var(--gold-dim); background:rgba(230,140,20,.08); color:var(--gold); cursor:pointer; transition:background .15s, border-color .15s, color .15s, box-shadow .15s; }
+  .rules-btn:hover{ border-color:var(--gold); color:#8a4a05; background:rgba(230,140,20,.18); box-shadow:0 0 14px rgba(230,140,20,.35); }
   .rules-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-  #rulesDialog{ width:min(660px, 94vw); max-width:none; max-height:88vh; padding:0; border:1px solid rgba(255,184,86,.35); border-radius:8px; background:linear-gradient(180deg,#2a1636,#1a0e26); color:var(--ink); box-shadow:0 30px 80px rgba(0,0,0,.65), 0 0 60px rgba(255,184,86,.08); overflow:hidden; }
+  #rulesDialog{ width:min(660px, 94vw); max-width:none; max-height:88vh; padding:0; border:1px solid rgba(230,140,20,.35); border-radius:8px; background:linear-gradient(180deg,#fffaf0,#ffefc4); color:var(--ink); box-shadow:0 30px 80px rgba(0,0,0,.65), 0 0 60px rgba(230,140,20,.08); overflow:hidden; }
   #rulesDialog[open]{ display:flex; flex-direction:column; animation:rulesIn .22s ease-out; }
-  #rulesDialog::backdrop{ background:rgba(14,5,18,.72); backdrop-filter:blur(3px); }
+  #rulesDialog::backdrop{ background:rgba(60,35,5,.5); backdrop-filter:blur(3px); }
   @keyframes rulesIn{ from{ opacity:0; transform:translateY(14px) scale(.985); } to{ opacity:1; transform:none; } }
   .rules-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:20px 22px 12px; border-bottom:1px solid rgba(255,214,170,.12); }
   .rules-head h3{ margin:0; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.7rem; color:var(--gold); }
@@ -41,20 +41,20 @@
   .rules-x{ flex:0 0 auto; width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,214,170,.25); background:none; color:var(--ink-soft); font-size:1.2rem; line-height:1; cursor:pointer; }
   .rules-x:hover{ border-color:var(--gold); color:var(--gold); }
   .rules-body{ padding:16px 22px 22px; overflow-y:auto; }
-  .rules-body h4{ margin:20px 0 8px; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.2rem; color:#ffd9a0; }
+  .rules-body h4{ margin:20px 0 8px; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.2rem; color:#9a5200; }
   .rules-body h4:first-child{ margin-top:4px; }
   .rules-body p, .rules-body li{ font-size:1rem; line-height:1.55; color:var(--ink); margin:0 0 8px; }
   .rules-body ul{ margin:0; padding-left:20px; }
   .rules-body li::marker{ color:var(--gold-dim); }
   .rules-body a{ color:var(--gold); }
   .rules-limits{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:6px 0 4px; }
-  .rules-limit{ border:1px solid rgba(255,184,86,.35); border-radius:6px; background:rgba(255,184,86,.06); padding:12px 14px; text-align:center; }
+  .rules-limit{ border:1px solid rgba(230,140,20,.35); border-radius:6px; background:rgba(230,140,20,.06); padding:12px 14px; text-align:center; }
   .rules-limit span{ display:block; font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); }
   .rules-limit b{ display:block; margin-top:2px; font-family:'Cormorant',serif; font-size:1.9rem; color:var(--gold); }
-  .rules-notice{ margin-top:6px; padding:12px 14px; border-left:3px solid var(--gold); background:rgba(255,255,255,.04); border-radius:0 6px 6px 0; }
+  .rules-notice{ margin-top:6px; padding:12px 14px; border-left:3px solid var(--gold); background:rgba(255,255,255,.55); border-radius:0 6px 6px 0; }
   .rules-notice p{ margin:0; }
   .rules-couples{ display:flex; flex-wrap:wrap; gap:10px; margin:4px 0 8px; }
-  .rules-couple{ border:1px solid rgba(255,184,86,.35); border-radius:999px; padding:7px 16px; background:rgba(255,184,86,.06); font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.15rem; color:#ffe0b0; }
+  .rules-couple{ border:1px solid rgba(230,140,20,.35); border-radius:999px; padding:7px 16px; background:rgba(230,140,20,.06); font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.15rem; color:#8a4a05; }
   .rules-couple i{ color:var(--gold-dim); font-style:normal; margin:0 6px; }
   .rules-foot{ margin-top:18px; font-style:italic; color:var(--ink-soft); text-align:center; font-size:.95rem; }
   .rules-sign{ margin-top:4px; text-align:center; font-size:.9rem; color:var(--gold-dim); }
@@ -74,15 +74,15 @@
   <div class="hero-sky"></div>
   <div class="sun-wrap" data-d=".15"><div class="bloom"></div><div class="band"></div><div class="rays" id="rays"></div><div class="sun"></div><div class="flash"></div><div class="streak"></div></div>
 <svg class="cl c1" viewBox="0 0 1600 150" preserveAspectRatio="none"><defs>
-<radialGradient id="g1" gradientUnits="userSpaceOnUse" cx="800" cy="150" r="950"><stop offset="0" stop-color="#fff0c4"/><stop offset=".2" stop-color="#ffbe84"/><stop offset=".45" stop-color="#e0707a"/><stop offset=".75" stop-color="#85406a"/><stop offset="1" stop-color="#3a2152"/></radialGradient>
+<radialGradient id="g1" gradientUnits="userSpaceOnUse" cx="800" cy="150" r="950"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#fff4c6"/><stop offset=".48" stop-color="#ffe0a0"/><stop offset=".78" stop-color="#c4def2"/><stop offset="1" stop-color="#8dbbe4"/></radialGradient>
 <filter id="f1" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".0018 .035" numOctaves="4" seed="11"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.4 0 0 0 -1.7" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
 <rect width="1600" height="150" fill="url(#g1)" filter="url(#f1)"/></svg>
 <svg class="cl c2" viewBox="0 0 1600 230" preserveAspectRatio="none"><defs>
-<radialGradient id="g2" gradientUnits="userSpaceOnUse" cx="800" cy="230" r="950"><stop offset="0" stop-color="#fff0c4"/><stop offset=".2" stop-color="#ffbe84"/><stop offset=".45" stop-color="#e0707a"/><stop offset=".75" stop-color="#85406a"/><stop offset="1" stop-color="#3a2152"/></radialGradient>
+<radialGradient id="g2" gradientUnits="userSpaceOnUse" cx="800" cy="230" r="950"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#fff4c6"/><stop offset=".48" stop-color="#ffe0a0"/><stop offset=".78" stop-color="#c4def2"/><stop offset="1" stop-color="#8dbbe4"/></radialGradient>
 <filter id="f2" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".0045 .017" numOctaves="5" seed="3"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2.8 0 0 0 -1.05" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
 <rect width="1600" height="230" fill="url(#g2)" filter="url(#f2)"/></svg>
 <svg class="cl c3" viewBox="0 0 1600 120" preserveAspectRatio="none"><defs>
-<radialGradient id="g3" gradientUnits="userSpaceOnUse" cx="800" cy="120" r="950"><stop offset="0" stop-color="#fff0c4"/><stop offset=".2" stop-color="#ffbe84"/><stop offset=".45" stop-color="#e0707a"/><stop offset=".75" stop-color="#85406a"/><stop offset="1" stop-color="#3a2152"/></radialGradient>
+<radialGradient id="g3" gradientUnits="userSpaceOnUse" cx="800" cy="120" r="950"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#fff4c6"/><stop offset=".48" stop-color="#ffe0a0"/><stop offset=".78" stop-color="#c4def2"/><stop offset="1" stop-color="#8dbbe4"/></radialGradient>
 <filter id="f3" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".006 .03" numOctaves="4" seed="9"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.0 0 0 0 -1.25" result="n"/><feGaussianBlur in="n" stdDeviation="2.2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter></defs>
 <rect width="1600" height="120" fill="url(#g3)" filter="url(#f3)"/></svg>
   <div class="fog f1"></div><div class="fog f2"></div>
@@ -188,15 +188,13 @@
     getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  // TODO: crea un proyecto Firebase NUEVO para Sunaely y pega aquí su config
-  // (si no, compartirías base de datos con Moonlight).
   const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_PROYECTO.firebaseapp.com",
-    projectId: "TU_PROYECTO",
-    storageBucket: "TU_PROYECTO.firebasestorage.app",
-    messagingSenderId: "000000000000",
-    appId: "TU_APP_ID"
+    apiKey: "AIzaSyB8kDJ_Yq3wBHAoxCJSsGn-GGh4g6r4mXk",
+    authDomain: "sunaely-teamm.firebaseapp.com",
+    projectId: "sunaely-teamm",
+    storageBucket: "sunaely-teamm.firebasestorage.app",
+    messagingSenderId: "487274825899",
+    appId: "1:487274825899:web:a12b4812a8c978d4410fee"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -237,7 +235,7 @@
   // Rayos crepusculares irregulares (gradiente cónico aleatorio, sin costuras)
   (function(){
     const N = 140, a = Array.from({length: N}, () => Math.pow(Math.random(), 3) * .36); a.push(a[0]);
-    $('rays').style.setProperty('--rays', 'conic-gradient(from 0deg,' + a.map((v, i) => `rgba(255,228,175,${v.toFixed(3)}) ${(i / N * 360).toFixed(1)}deg`).join(',') + ')');
+    $('rays').style.setProperty('--rays', 'conic-gradient(from 0deg,' + a.map((v, i) => `rgba(255,244,200,${v.toFixed(3)}) ${(i / N * 360).toFixed(1)}deg`).join(',') + ')');
   })();
 
   // Cordilleras generadas con desplazamiento del punto medio + luz de borde hacia el sol
@@ -250,13 +248,13 @@
       return p.map((y, i) => { const x = i / n * 1440; return [x.toFixed(1), Math.max(6, y + dip * Math.exp(-Math.pow((x - 720) / 260, 2))).toFixed(1)]; });
     };
     const L = [ // semilla, base, amplitud, rugosidad, hueco bajo el sol, color arriba, color abajo, luz de borde, z
-      [7919, 56, 78, .6, 30, '#a8546a', '#5a2c52', .95, 4],
-      [104729, 78, 62, .6, 8, '#55264f', '#341a40', .6, 7],
-      [1299709, 114, 44, .58, 0, '#2f1640', '#22112f', .32, 9],
-      [15485863, 148, 22, .52, 0, '#1f1029', '#1d1030', 0, 10]];
+      [7919, 56, 78, .6, 30, '#f6bd5c', '#ea9c3a', .95, 4],
+      [104729, 78, 62, .6, 8, '#e08a2c', '#c5701f', .6, 7],
+      [1299709, 114, 44, .58, 0, '#c9781e', '#e09a34', .32, 9],
+      [15485863, 148, 22, .52, 0, '#e29a32', '#fff3d1', 0, 10]];
     L.forEach(([sd, b, am, ro, dp, c1, c2, rim, z], i) => {
       const pts = ridge(sd, b, am, ro, dp), top = 'M' + pts.map(q => q.join(' ')).join('L');
-      hero.insertAdjacentHTML('beforeend', `<svg class="ridge" data-d="${[.4,.8,1.3,1.8][i]}" style="z-index:${z}" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="rg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient><linearGradient id="rm${i}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#ffc878" stop-opacity="0"/><stop offset=".5" stop-color="#ffd890" stop-opacity="${rim}"/><stop offset="1" stop-color="#ffc878" stop-opacity="0"/></linearGradient></defs><path d="${top}L1440 170L0 170Z" fill="url(#rg${i})"/><path d="${top}" fill="none" stroke="url(#rm${i})" stroke-width="1.6"/></svg>`);
+      hero.insertAdjacentHTML('beforeend', `<svg class="ridge" data-d="${[.4,.8,1.3,1.8][i]}" style="z-index:${z}" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="rg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient><linearGradient id="rm${i}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#fff2a8" stop-opacity="0"/><stop offset=".5" stop-color="#fffbd0" stop-opacity="${rim}"/><stop offset="1" stop-color="#fff2a8" stop-opacity="0"/></linearGradient></defs><path d="${top}L1440 170L0 170Z" fill="url(#rg${i})"/><path d="${top}" fill="none" stroke="url(#rm${i})" stroke-width="1.6"/></svg>`);
     });
   })();
 
