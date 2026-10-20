@@ -3,13 +3,10 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Quién es admin. Ahora mismo: cualquier cuenta que haya iniciado sesión.
-    // IMPORTANTE: en Firebase → Authentication → Settings → "User actions", desactiva
-    // "Enable create (sign-up)" para que nadie pueda crearse una cuenta por su cuenta.
-    // Si quieres blindarlo del todo, cambia la línea por:
-    //   return request.auth != null && request.auth.token.email in ['tu_correo@gmail.com'];
+    // Único administrador: tu UID de Firebase Authentication.
+    // Aunque alguien consiga crear una cuenta, solo este UID puede escribir.
     function isAdmin() {
-      return request.auth != null;
+      return request.auth != null && request.auth.uid == '06m6pjSiPgNUTO1Qrmb4oO9zlqH2';
     }
 
     // Listas: todos leen, solo el admin escribe

@@ -1,4 +1,4 @@
-:root{
+  :root{
     --bg: #fff3d1;
     --bg-deep: #ffe7a8;
     --paper: rgba(255, 251, 238, 0.74);
@@ -538,3 +538,12 @@
     header.top{ flex-direction: column; }
     .admin-add.cols-2{ grid-template-columns: 1fr; }
   }
+
+/* ---- Fondo cálido + sol de la esquina (páginas interiores) ---- */
+.sky-bg{ position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(ellipse 900px 420px at 88% -4%,rgba(255,205,70,.5),transparent 62%),radial-gradient(ellipse 700px 500px at 4% 42%,rgba(110,185,240,.16),transparent 55%); }
+.sun-corner{ position:absolute; top:6px; right:14px; width:104px; height:104px; background:url(sol.webp) center/contain no-repeat;
+  filter:drop-shadow(0 0 18px rgba(255,190,70,.85)) drop-shadow(0 0 54px rgba(255,140,40,.45)); animation:sunBreathe 9s ease-in-out infinite; }
+@keyframes sunBreathe{ 0%,100%{ opacity:1; } 50%{ opacity:.82; } }
+@media (max-width:600px){ .sun-corner{ top:4px; right:6px; width:62px; height:62px; } }
+@media (prefers-reduced-motion: reduce){ .sun-corner{ animation:none; } }

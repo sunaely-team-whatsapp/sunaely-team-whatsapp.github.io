@@ -21,14 +21,14 @@
 <meta name="twitter:description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-20T22:30:24+02:00"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
 <!-- seo:end -->
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap"></noscript>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js">
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js">
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
 <style>
   select{width:100%;font-family:'Crimson Pro',serif;font-size:1rem;padding:8px 10px;border:1px solid var(--border);border-radius:3px;background:rgba(255,255,255,.6);color:var(--ink)}
   select option{background:#fff8e6}
@@ -63,14 +63,14 @@
   .imgmenu-list{ position:absolute; top:calc(100% + 4px); left:0; min-width:100%; z-index:30; background:#fffaf0; border:1px solid var(--border); border-radius:4px; box-shadow:0 12px 30px rgba(0,0,0,.5); overflow:hidden; }
   .imgmenu-list button{ display:block; width:100%; text-align:left; background:none; border:none; color:var(--ink); font-family:'Crimson Pro',serif; font-size:1rem; padding:9px 14px; cursor:pointer; white-space:nowrap; }
   .imgmenu-list button:hover{ background:rgba(230,140,20,.12); color:var(--gold); }
+  .li-name[data-j]::before{ content:attr(data-j); display:inline-block; margin-right:8px; padding:1px 7px; font-size:.68rem; letter-spacing:.5px; font-weight:600; vertical-align:middle; border:1px solid rgba(47,134,192,.35); border-radius:999px; background:rgba(95,180,236,.16); color:#2f6f9f; }
   .grupo-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
-  .sky-bg{ position:fixed; inset:0; z-index:0; pointer-events:none;
-    background:radial-gradient(ellipse 900px 420px at 88% -4%,rgba(255,205,70,.5),transparent 62%),radial-gradient(ellipse 700px 500px at 4% 42%,rgba(110,185,240,.16),transparent 55%); }
-  .sun-corner{ position:absolute; top:22px; right:34px; width:64px; height:64px; border-radius:50%;
-    background:radial-gradient(circle at 42% 38%,#fffbe6,#ffe27a 45%,#ffb347 100%);
-    box-shadow:0 0 28px 8px rgba(255,200,90,.75),0 0 90px 30px rgba(255,150,40,.35); animation:sunBreathe 8s ease-in-out infinite; }
-  @keyframes sunBreathe{ 0%,100%{ opacity:1; } 50%{ opacity:.85; } }
-  @media (max-width:600px){ .sun-corner{ top:14px; right:16px; width:40px; height:40px; } }
+  .view-toggles,.juego-tabs{ -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+  .juego-tabs{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px; }
+  .juego-tab{ font-family:'Crimson Pro',serif; font-size:1rem; padding:8px 16px; border:1px solid var(--border); border-radius:999px; background:var(--paper-alt); color:var(--ink-soft); cursor:pointer; transition:background .18s,border-color .18s,color .18s; }
+  .juego-tab:hover{ border-color:var(--gold); color:var(--ink); }
+  .juego-tab.on{ background:linear-gradient(180deg,#ffd75e,#ffb02e); border-color:var(--gold); color:#3a2307; font-weight:600; box-shadow:0 2px 10px rgba(230,140,20,.3); }
+  .juego-tab:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
   .panel[hidden]{ display:none !important; }
   .view-toggles{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 18px; }
   .vt-label{ color:var(--ink-soft); font-style:italic; margin-right:2px; }
@@ -134,10 +134,12 @@
           <button type="button" data-k="reservados">Reservados</button>
         </div>
       </div>
-      <button class="admin-toggle" id="exportBtn" hidden>Copiar texto para WhatsApp</button>
+      <button class="admin-toggle" id="exportBtn" hidden>Copiar texto para el lobby</button>
       <button class="admin-toggle" id="adminToggleBtn">Acceso admin</button>
     </div>
   </header>
+
+  <nav class="juego-tabs" id="juegoTabs" aria-label="Filtrar por juego"></nav>
 
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="Buscar un personaje..." autocomplete="off">
@@ -161,6 +163,10 @@
         <label for="ocNombre">Personaje</label>
         <input id="ocNombre" type="text" maxlength="40" placeholder="Beidou">
       </div>
+      <div class="full">
+        <label for="ocJuego">Juego</label>
+        <select id="ocJuego"></select>
+      </div>
       <button class="submit-btn" id="ocAddBtn" type="button">Añadir a ocupados</button>
     </div>
   </section>
@@ -179,6 +185,10 @@
       <div>
         <label for="bPedidoPor">Lo pide</label>
         <select id="bPedidoPor"></select>
+      </div>
+      <div>
+        <label for="bJuego">Juego</label>
+        <select id="bJuego"></select>
       </div>
       <div class="full">
         <label for="bMotivo">Para qué lo busca</label>
@@ -202,6 +212,10 @@
       <div class="full">
         <label for="rNombre">Personaje</label>
         <input id="rNombre" type="text" maxlength="40" placeholder="Beidou">
+      </div>
+      <div class="full">
+        <label for="rJuego">Juego</label>
+        <select id="rJuego"></select>
       </div>
       <button class="submit-btn" id="rAddBtn" type="button">Añadir a reservados</button>
     </div>
@@ -349,6 +363,21 @@
   let isAdmin = false;
   const $ = (id) => document.getElementById(id);
 
+  // ---------- Juegos de Hoyoverse (orden y cabeceras del texto del lobby) ----------
+  const JUEGOS = [
+    { id: 'genshin', tab: 'Genshin', nombre: 'Genshin Impact',    cab: '. 𖥔 ݁ ˖╭ ┆ɢᴇɴꜱʜɪɴ ɪᴍᴘᴀᴄᴛ╰⊹ ࣪' },
+    { id: 'hsr',     tab: 'Star Rail', nombre: 'Honkai Star Rail',  cab: '.𖥔 ݁ ˖╭ ┆ʜᴏɴᴋᴀɪ ꜱᴛᴀʀ ʀᴀɪʟ╰⊹ ࣪' },
+    { id: 'zzz',     tab: 'Zenless Zone Zero', nombre: 'Zenless Zone Zero', cab: '.𖥔 ݁ ˖╭ ┆ᴢᴇɴʟᴇss ᴢᴏɴᴇ ᴢᴇʀᴏ╰⊹ ࣪' }
+  ];
+  const CODIGO = { genshin: 'GI', hsr: 'HSR', zzz: 'ZZZ' };
+  const juegoDe = (x) => (x && JUEGOS.some(j => j.id === x.juego)) ? x.juego : 'genshin'; // sin dato → Genshin
+  const juegoOptions = JUEGOS.map(j => `<option value="${j.id}">${j.nombre}</option>`).join('');
+  const JUEGO_SELS = ['ocJuego', 'rJuego', 'bJuego'];
+  JUEGO_SELS.forEach(id => {
+    $(id).innerHTML = juegoOptions;
+    $(id).addEventListener('change', (e) => JUEGO_SELS.forEach(o => { $(o).value = e.target.value; })); // recuerda el último juego elegido
+  });
+
   // ---------- Admin login ----------
   const adminToggleBtn = $('adminToggleBtn');
   const loginDialog = $('loginDialog');
@@ -410,6 +439,23 @@
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '');
   }
+
+  // ---------- Pestañas por juego: Todo · Genshin · Star Rail · Zenless Zone Zero ----------
+  let juegoFiltro = JUEGOS.some(j => j.id === location.hash.slice(1)) ? location.hash.slice(1) : 'todo';
+  const tabsEl = $('juegoTabs');
+  [{ id: 'todo', tab: 'Todo' }, ...JUEGOS].forEach(j => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'juego-tab'; b.dataset.j = j.id; b.textContent = j.tab; b.setAttribute('role', 'tab');
+    b.addEventListener('click', () => {
+      juegoFiltro = j.id;
+      history.replaceState(null, '', j.id === 'todo' ? location.pathname + location.search : '#' + j.id);
+      marcarTab(); paintOcupados(); paintReservados(); paintBuscados();
+    });
+    tabsEl.appendChild(b);
+  });
+  function marcarTab(){ tabsEl.querySelectorAll('.juego-tab').forEach(b => { const on = b.dataset.j === juegoFiltro; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); }); }
+  marcarTab();
+  const delJuego = (x) => juegoFiltro === 'todo' || juegoDe(x) === juegoFiltro;
 
   let searchTerm = '';
   const searchInput = $('searchInput');
@@ -568,7 +614,7 @@
 
   function makeHandle(){
     const h = document.createElement('span');
-    h.className = 'handle' + (isAdmin && !searchTerm ? ' draggable' : '');
+    h.className = 'handle' + (isAdmin && !searchTerm && juegoFiltro === 'todo' ? ' draggable' : '');
     h.textContent = '✦';
     return h;
   }
@@ -591,16 +637,17 @@
       if (collectionName === 'ocupados') refreshPedidoOptions();
       updateLastUpdated();
       const sorted = [...cache].sort(orderComparator);
+      const base = sorted.filter(delJuego);
       const filtered = searchTerm
-        ? sorted.filter(item => normalize(item.nombre).includes(searchTerm))
-        : sorted;
+        ? base.filter(item => normalize(item.nombre).includes(searchTerm))
+        : base;
 
       if (cache.length === 0){
         emptyEl.hidden = false;
         emptyEl.textContent = emptyText;
       } else if (filtered.length === 0){
         emptyEl.hidden = false;
-        emptyEl.textContent = 'Ningún personaje coincide con tu búsqueda.';
+        emptyEl.textContent = (searchTerm ? 'Ningún personaje coincide con tu búsqueda.' : 'No hay personajes de este juego por ahora.');
       } else {
         emptyEl.hidden = true;
       }
@@ -615,19 +662,20 @@
           const inp = document.createElement('input');
           inp.type = 'text'; inp.maxLength = 40; inp.value = item.nombre; inp.placeholder = 'Personaje';
           form.appendChild(inp);
+          const jsel = document.createElement('select'); jsel.innerHTML = juegoOptions; jsel.value = juegoDe(item); form.appendChild(jsel);
           li.appendChild(form);
           const acts = document.createElement('div');
           acts.className = 'li-actions';
           acts.appendChild(makeActionBtn('Guardar', async () => {
             const nombre = inp.value.trim();
             if (!nombre) return;
-            if (nombre !== item.nombre){
-              if (item.miembroId){
+            if (nombre !== item.nombre || jsel.value !== juegoDe(item)){
+              if (item.miembroId && nombre !== item.nombre){
                 await updateDoc(doc(db, 'miembros', item.miembroId), {
                   historialPersonajes: arrayUnion({ nombre: item.nombre, fecha: new Date().toISOString() })
                 });
               }
-              await updateDoc(doc(db, 'ocupados', item.id), { nombre });
+              await updateDoc(doc(db, 'ocupados', item.id), { nombre, juego: jsel.value });
             }
             editingId = null;
             paint();
@@ -650,6 +698,7 @@
         const span = document.createElement('span');
         span.className = 'li-name';
         span.textContent = item.nombre;
+        span.dataset.j = CODIGO[juegoDe(item)];
         left.appendChild(span);
         li.appendChild(left);
         if (isAdmin){
@@ -687,6 +736,7 @@
     if (dup && !confirm(`Ya hay un ocupado llamado «${reservado.nombre}». ¿Añadirlo igualmente?`)) return;
     await addDoc(collection(db, 'ocupados'), {
       nombre: reservado.nombre,
+      juego: juegoDe(reservado),
       orden: nextOrden(ocupadosCtl.getCache()),
       createdAt: serverTimestamp()
     });
@@ -705,6 +755,7 @@
     const extras = todas.filter(x => x.id !== principal.id).map(pack);
     const data = {
       nombre: buscado.nombre,
+      juego: juegoDe(buscado),
       orden: nextOrden(ocupadosCtl.getCache()),
       createdAt: serverTimestamp(),
       origenBuscado: pack(principal)
@@ -722,6 +773,7 @@
     const origen = ocupado.origenBuscado || {};
     await addDoc(collection(db, 'buscados'), {
       nombre: ocupado.nombre,
+      juego: juegoDe(ocupado),
       pedidoPor: origen.pedidoPor || '',
       pedidoPorId: origen.pedidoPorId || null,
       motivo: origen.motivo || '',
@@ -732,7 +784,7 @@
     // si al encontrarlo había más gente pidiéndolo, esas peticiones también vuelven
     for (const x of (ocupado.origenesExtra || [])){
       await addDoc(collection(db, 'buscados'), {
-        nombre: ocupado.nombre, pedidoPor: x.pedidoPor || '', pedidoPorId: x.pedidoPorId || null,
+        nombre: ocupado.nombre, juego: juegoDe(ocupado), pedidoPor: x.pedidoPor || '', pedidoPorId: x.pedidoPorId || null,
         motivo: x.motivo || '', fecha: x.fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp()
       });
     }
@@ -742,7 +794,7 @@
   async function addOcupado(){
     const nombre = $('ocNombre').value.trim();
     if (!nombre) return;
-    await addDoc(collection(db, 'ocupados'), { nombre, orden: nextOrden(ocupadosCtl.getCache()), createdAt: serverTimestamp() });
+    await addDoc(collection(db, 'ocupados'), { nombre, juego: $('ocJuego').value, orden: nextOrden(ocupadosCtl.getCache()), createdAt: serverTimestamp() });
     $('ocNombre').value = '';
   }
   $('ocAddBtn').addEventListener('click', addOcupado);
@@ -751,7 +803,7 @@
   async function addReservado(){
     const nombre = $('rNombre').value.trim();
     if (!nombre) return;
-    await addDoc(collection(db, 'reservados'), { nombre, orden: nextOrden(reservadosCtl.getCache()), createdAt: serverTimestamp() });
+    await addDoc(collection(db, 'reservados'), { nombre, juego: $('rJuego').value, orden: nextOrden(reservadosCtl.getCache()), createdAt: serverTimestamp() });
     $('rNombre').value = '';
   }
   $('rAddBtn').addEventListener('click', addReservado);
@@ -965,7 +1017,7 @@
     allCaches.buscados = buscadosCache;
     updateLastUpdated();
     // Una tarjeta por personaje; cada petición (quién lo pide y por qué) va por separado dentro
-    const groups = groupBuscados();
+    const groups = groupBuscados().filter(items => delJuego(items[0]));
     const filtered = searchTerm
       ? groups.filter(items => items.some(r =>
           normalize(r.nombre).includes(searchTerm) ||
@@ -978,7 +1030,7 @@
       buscadosEmpty.textContent = 'Nadie anda buscando personaje por ahora.';
     } else if (filtered.length === 0){
       buscadosEmpty.hidden = false;
-      buscadosEmpty.textContent = 'Ningún personaje coincide con tu búsqueda.';
+      buscadosEmpty.textContent = (searchTerm ? 'Ningún personaje coincide con tu búsqueda.' : 'No hay personajes de este juego por ahora.');
     } else {
       buscadosEmpty.hidden = true;
     }
@@ -1010,7 +1062,8 @@
       const fechaInput = document.createElement('input');
       fechaInput.type = 'date';
       fechaInput.value = r.fecha || '';
-      form.append(nombreInput, pedidoInput, motivoInput, fechaInput);
+      const juegoInput = document.createElement('select'); juegoInput.innerHTML = juegoOptions; juegoInput.value = juegoDe(r);
+      form.append(nombreInput, juegoInput, pedidoInput, motivoInput, fechaInput);
       const actions = document.createElement('div');
       actions.className = 'li-actions';
       const save = async () => {
@@ -1022,7 +1075,7 @@
         const prev = editingBuscadoId;
         editingBuscadoId = null;
         try {
-          await updateDoc(doc(db, 'buscados', r.id), { nombre, pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fechaInput.value || null });
+          await updateDoc(doc(db, 'buscados', r.id), { nombre, juego: juegoInput.value, pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fechaInput.value || null });
         } catch (e) { editingBuscadoId = prev; paintBuscados(); throw e; }
         paintBuscados();
       };
@@ -1053,7 +1106,7 @@
         content.className = 'li-left';
         content.appendChild(makeHandle());
         const textWrap = document.createElement('div');
-        textWrap.innerHTML = `<div class="li-name">${escapeHtml(r.nombre)}</div>${metaHtml(r)}`;
+        textWrap.innerHTML = `<div class="li-name" data-j="${CODIGO[juegoDe(r)]}">${escapeHtml(r.nombre)}</div>${metaHtml(r)}`;
         content.appendChild(textWrap);
         li.appendChild(content);
         if (isAdmin) li.appendChild(adminActions(r));
@@ -1067,6 +1120,7 @@
       head.appendChild(makeHandle());
       const nm = document.createElement('div');
       nm.className = 'li-name';
+      nm.dataset.j = CODIGO[juegoDe(first)];
       nm.innerHTML = `${escapeHtml(first.nombre)}<span class="dup-badge">${items.length} personas lo piden</span>`;
       head.appendChild(nm);
       const top = document.createElement('div');
@@ -1110,7 +1164,7 @@
     const btn = $('bAddBtn');
     btn.disabled = true;
     try {
-      await addDoc(collection(db, 'buscados'), { nombre, pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp() });
+      await addDoc(collection(db, 'buscados'), { nombre, juego: $('bJuego').value, pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp() });
       $('bNombre').value = ''; $('bPedidoPor').value = ''; $('bMotivo').value = ''; $('bFecha').value = hoyISO();
     } catch (e) {
       statusLine.textContent = 'No se pudo añadir, inténtalo de nuevo.';
@@ -1228,23 +1282,41 @@
   });
 
   // ---------- Exportar a WhatsApp (solo admin, sin la fecha admin-only) ----------
+  // Texto para pegar en la descripción del lobby: por juego, por letra y en orden alfabético
   function generateWhatsAppText(){
-    const T = {
-      ocupados: 'ㅤ☄️⌢᛬ 𝑷𝒆𝒓𝒔𝒐𝒏𝒂𝒋𝒆𝒔 𝒐𝒄𝒖𝒑𝒂𝒅𝒐𝒔',
-      reservados: 'ㅤ☄️⌢᛬ 𝑷𝒆𝒓𝒔𝒐𝒏𝒂𝒋𝒆𝒔 𝒓𝒆𝒔𝒆𝒓𝒗𝒂𝒅𝒐𝒔',
-      buscados: 'ㅤ☄️⌢᛬ 𝑷𝒆𝒓𝒔𝒐𝒏𝒂𝒋𝒆𝒔 𝒃𝒖𝒔𝒄𝒂𝒅𝒐𝒔'
+    const TIT = {
+      ocupados: '⿻ ʟɪsᴛᴀ ᴅᴇ ᴘᴇʀꜱᴏɴᴀᴊᴇꜱ ᴏᴄᴜᴘᴀᴅᴏꜱ .ᐟ.ᐟ',
+      buscados: '⿻ ʟɪsᴛᴀ ᴅᴇ ʙᴜsᴄᴀᴅᴏs .ᐟ.ᐟ',
+      reservados: '⿻ ʟɪsᴛᴀ ᴅᴇ ʀᴇsᴇʀᴠᴀᴅᴏs .ᐟ.ᐟ'
     };
-    const FIN = '★ ————';
-    const bloque = (titulo, filas) => [titulo, '', ...(filas.length ? filas : ['ᰔ ']), FIN].join('\n');
-    const ocup = allCaches.ocupados.map(c => 'ᰔ ' + c.nombre);
-    const res = allCaches.reservados.map(c => 'ᰔ ' + c.nombre);
-    // Buscados: una línea por personaje; si lo piden varias personas, se juntan los motivos distintos
+    const SEP = '꒷꒦︶꒷꒦︶ ๋ ࣭ ⭑꒷꒦꒷꒦︶꒷꒦︶ ๋ ࣭ ⭑꒷꒦꒷꒦︶꒷꒦︶ ๋ ࣭ ⭑꒷', FIN = '—';
+    const k = (s) => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const letra = (s) => { const c = k(s).replace(/[^a-z0-9]/g, '').charAt(0).toUpperCase(); return /[A-Z]/.test(c) ? c : '#'; };
+    const bloque = (titulo, filas) => {
+      const out = [titulo, ''];
+      JUEGOS.forEach(j => {
+        out.push(j.cab, '');
+        const mios = filas.filter(f => f.juego === j.id).sort((x, y) => k(x.n).localeCompare(k(y.n), 'es'));
+        const porLetra = new Map();
+        mios.forEach(f => { const L = letra(f.n); if (!porLetra.has(L)) porLetra.set(L, []); porLetra.get(L).push(f.t); });
+        [...porLetra.keys()].sort((x, y) => x === '#' ? 1 : y === '#' ? -1 : (x < y ? -1 : 1)).forEach(L => {
+          out.push((L === '#' ? '#' : (L.charCodeAt(0) - 64) + '. ' + L), '', ...porLetra.get(L).map(t => '* ' + t), FIN, '');
+        });
+        if (!mios.length) out.push(FIN, '');
+      });
+      return out.join('\n').replace(/\n+$/, '');
+    };
+    const ocup = allCaches.ocupados.map(c => ({ n: c.nombre, t: c.nombre, juego: juegoDe(c) }));
+    const res = allCaches.reservados.map(c => ({ n: c.nombre, t: c.nombre, juego: juegoDe(c) }));
+    // Buscados: «Personaje (quien lo pide)»; si lo piden varios, se juntan los nombres
     const busc = groupBuscados().map(items => {
-      const motivos = [];
-      items.forEach(r => { const m = (r.motivo || '').trim(); if (m && !motivos.some(x => normalize(x) === normalize(m))) motivos.push(m); });
-      return 'ᰔ ' + items[0].nombre + (motivos.length ? ' — ' + motivos.join(' / ') : '');
+      const quien = [];
+      items.forEach(r => { const p = (r.pedidoPor || '').trim(); if (p && !quien.some(x => k(x) === k(p))) quien.push(p); });
+      return { n: items[0].nombre, t: items[0].nombre + (quien.length ? ' (' + quien.join(', ') + ')' : ''), juego: juegoDe(items[0]) };
     });
-    return [bloque(T.ocupados, ocup), bloque(T.buscados, busc), bloque(T.reservados, res)].join('\n\n');
+    const partes = [bloque(TIT.ocupados, ocup), SEP, bloque(TIT.buscados, busc)];
+    if (res.length) partes.push(SEP, bloque(TIT.reservados, res));
+    return partes.join('\n\n');
   }
 
   $('exportBtn').addEventListener('click', async () => {
