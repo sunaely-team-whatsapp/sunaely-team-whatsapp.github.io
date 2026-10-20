@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personajes de Sunaely Team · ocupados, buscados y reservados</title>
+<meta name="description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
+<!-- seo:start -->
+<link rel="canonical" href="https://sunaely-team-whatsapp.github.io/lista.html">
+<link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/lista.html">
+<link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/lista.html">
+<meta name="theme-color" content="#ffb52e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sunaely Team">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Personajes de Sunaely Team · ocupados, buscados y reservados">
+<meta property="og:description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
+<meta property="og:url" content="https://sunaely-team-whatsapp.github.io/lista.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Personajes de Sunaely Team · ocupados, buscados y reservados">
+<meta name="twitter:description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
+<!-- seo:end -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap"></noscript>
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js">
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js">
+<link rel="stylesheet" href="styles.css?v=6">
+<style>
+  select{width:100%;font-family:'Crimson Pro',serif;font-size:1rem;padding:8px 10px;border:1px solid var(--border);border-radius:3px;background:rgba(255,255,255,.6);color:var(--ink)}
+  select option{background:#fff8e6}
+  .li-edit-form select{flex:1;min-width:110px;padding:6px 8px;font-size:0.92rem}
+  .simple-list li.grupo{ flex-direction:column; align-items:stretch; gap:6px; }
+  .req-row{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:8px 0 6px 28px; border-top:1px dashed rgba(190,115,15,.14); }
+  .lobby-text{ color:var(--ink-soft); margin:0 0 14px; }
+  .lobby{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 12px; }
+  .lobby-card{ display:block; width:min(100%,380px); margin:0 0 16px; overflow:hidden; border:1px solid rgba(190,115,15,.2); border-radius:12px;
+    background:#fff8e6; color:var(--ink); text-decoration:none; box-shadow:0 8px 24px rgba(120,70,10,.22); transition:box-shadow .2s, border-color .2s; }
+  .lobby-card:hover{ border-color:var(--gold-dim); box-shadow:0 8px 28px rgba(230,140,20,.18); }
+  .lobby-card[hidden]{ display:none; }
+  .lobby-card img{ display:block; width:100%; aspect-ratio:1/1; object-fit:cover; }
+  .lc-body{ padding:12px 14px 10px; background:rgba(255,255,255,.55); border-bottom:1px solid rgba(190,115,15,.10); }
+  .lc-title{ display:flex; align-items:center; justify-content:center; gap:12px; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.6rem; color:var(--gold); line-height:1.1; }
+  .lc-orn{ flex:1; height:1px; position:relative; background:linear-gradient(90deg,transparent,var(--gold-dim)); }
+  .lc-orn.r{ background:linear-gradient(270deg,transparent,var(--gold-dim)); }
+  .lc-orn::after{ content:'◇'; position:absolute; right:-3px; top:-.62em; font-size:.8rem; font-style:normal; color:var(--gold); }
+  .lc-orn.r::after{ right:auto; left:-3px; }
+  .lc-sub{ margin-top:6px; text-align:center; font-size:.95rem; color:var(--ink-soft); }
+  .lc-btn{ padding:12px; text-align:center; border-top:1px solid rgba(190,115,15,.14); color:var(--gold); font-weight:600; letter-spacing:.3px; }
+  .lobby-card:hover .lc-btn{ background:rgba(230,140,20,.10); }
+  .lobby-note{ color:var(--ink-soft); font-style:italic; font-size:.95rem; margin:0; }
+  .lobby-admin{ display:flex; flex-direction:column; gap:8px; width:min(100%,380px); }
+  .lobby-admin-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .lobby-note{ flex:1 1 100%; }
+  /* Solo la caja del lobby es estrecha (mide lo que la tarjeta); el resto usa el ancho normal */
+  #lobbyPanel{ max-width:460px; margin-left:auto; margin-right:auto; }
+  header.top{ flex-wrap:wrap; gap:12px; }
+  .admin-actions{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
+  .imgmenu{ position:relative; }
+  .imgmenu-list{ position:absolute; top:calc(100% + 4px); left:0; min-width:100%; z-index:30; background:#fffaf0; border:1px solid var(--border); border-radius:4px; box-shadow:0 12px 30px rgba(0,0,0,.5); overflow:hidden; }
+  .imgmenu-list button{ display:block; width:100%; text-align:left; background:none; border:none; color:var(--ink); font-family:'Crimson Pro',serif; font-size:1rem; padding:9px 14px; cursor:pointer; white-space:nowrap; }
+  .imgmenu-list button:hover{ background:rgba(230,140,20,.12); color:var(--gold); }
+  .grupo-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .sky-bg{ position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(ellipse 900px 420px at 88% -4%,rgba(255,205,70,.5),transparent 62%),radial-gradient(ellipse 700px 500px at 4% 42%,rgba(110,185,240,.16),transparent 55%); }
+  .sun-corner{ position:absolute; top:22px; right:34px; width:64px; height:64px; border-radius:50%;
+    background:radial-gradient(circle at 42% 38%,#fffbe6,#ffe27a 45%,#ffb347 100%);
+    box-shadow:0 0 28px 8px rgba(255,200,90,.75),0 0 90px 30px rgba(255,150,40,.35); animation:sunBreathe 8s ease-in-out infinite; }
+  @keyframes sunBreathe{ 0%,100%{ opacity:1; } 50%{ opacity:.85; } }
+  @media (max-width:600px){ .sun-corner{ top:14px; right:16px; width:40px; height:40px; } }
+  .panel[hidden]{ display:none !important; }
+  .view-toggles{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 18px; }
+  .vt-label{ color:var(--ink-soft); font-style:italic; margin-right:2px; }
+  .vt{ position:relative; cursor:pointer; } .vt input{ position:absolute; opacity:0; pointer-events:none; }
+  .vt span{ display:inline-flex; align-items:center; gap:7px; padding:6px 14px 6px 10px; border:1px solid var(--border); border-radius:999px; background:var(--paper-alt); color:var(--ink-soft); transition:background .18s,border-color .18s,color .18s; }
+  .vt span::before{ content:''; width:14px; height:14px; border-radius:50%; border:2px solid var(--gold-dim); box-sizing:border-box; transition:background .18s,border-color .18s; }
+  .vt input:checked + span{ background:rgba(230,140,20,.16); border-color:var(--gold); color:var(--ink); }
+  .vt input:checked + span::before{ background:radial-gradient(circle,#fff6c0 0 35%,var(--gold) 40%); border-color:var(--gold); }
+  .vt input:focus-visible + span{ outline:2px solid var(--gold); outline-offset:2px; }
+  .rules-btn{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; margin-left:8px; padding:0; vertical-align:middle; border-radius:50%; border:1px solid var(--gold-dim); background:rgba(230,140,20,.08); color:var(--gold); cursor:pointer; transition:background .15s, border-color .15s, color .15s, box-shadow .15s; }
+  .rules-btn:hover{ border-color:var(--gold); color:#8a4a05; background:rgba(230,140,20,.18); box-shadow:0 0 14px rgba(230,140,20,.35); }
+  .rules-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  #rulesDialog{ width:min(660px, 94vw); max-width:none; max-height:88vh; padding:0; border:1px solid rgba(230,140,20,.35); border-radius:8px; background:linear-gradient(180deg,#fffaf0,#ffefc4); color:var(--ink); box-shadow:0 30px 80px rgba(0,0,0,.65), 0 0 60px rgba(230,140,20,.08); overflow:hidden; }
+  #rulesDialog[open]{ display:flex; flex-direction:column; animation:rulesIn .22s ease-out; }
+  #rulesDialog::backdrop{ background:rgba(60,35,5,.5); }
+  @keyframes rulesIn{ from{ opacity:0; transform:translateY(14px) scale(.985); } to{ opacity:1; transform:none; } }
+  .rules-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:20px 22px 12px; border-bottom:1px solid rgba(255,214,170,.12); }
+  .rules-head h3{ margin:0; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.7rem; color:var(--gold); }
+  .rules-head p{ margin:2px 0 0; font-size:.92rem; color:var(--ink-soft); }
+  .rules-x{ flex:0 0 auto; width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,214,170,.25); background:none; color:var(--ink-soft); font-size:1.2rem; line-height:1; cursor:pointer; }
+  .rules-x:hover{ border-color:var(--gold); color:var(--gold); }
+  .rules-body{ padding:16px 22px 22px; overflow-y:auto; }
+  .rules-body h4{ margin:20px 0 8px; font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.2rem; color:#9a5200; }
+  .rules-body h4:first-child{ margin-top:4px; }
+  .rules-body p, .rules-body li{ font-size:1rem; line-height:1.55; color:var(--ink); margin:0 0 8px; }
+  .rules-body ul{ margin:0; padding-left:20px; }
+  .rules-body li::marker{ color:var(--gold-dim); }
+  .rules-body a{ color:var(--gold); }
+  .rules-limits{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:6px 0 4px; }
+  .rules-limit{ border:1px solid rgba(230,140,20,.35); border-radius:6px; background:rgba(230,140,20,.06); padding:12px 14px; text-align:center; }
+  .rules-limit span{ display:block; font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); }
+  .rules-limit b{ display:block; margin-top:2px; font-family:'Cormorant',serif; font-size:1.9rem; color:var(--gold); }
+  .rules-notice{ margin-top:6px; padding:12px 14px; border-left:3px solid var(--gold); background:rgba(255,255,255,.55); border-radius:0 6px 6px 0; }
+  .rules-notice p{ margin:0; }
+  .rules-couples{ display:flex; flex-wrap:wrap; gap:10px; margin:4px 0 8px; }
+  .rules-couple{ border:1px solid rgba(230,140,20,.35); border-radius:999px; padding:7px 16px; background:rgba(230,140,20,.06); font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.15rem; color:#8a4a05; }
+  .rules-couple i{ color:var(--gold-dim); font-style:normal; margin:0 6px; }
+  .rules-foot{ margin-top:18px; font-style:italic; color:var(--ink-soft); text-align:center; font-size:.95rem; }
+  .rules-sign{ margin-top:4px; text-align:center; font-size:.9rem; color:var(--gold-dim); }
+  @media (max-width:520px){ .rules-limits{ grid-template-columns:1fr; } .rules-head{ padding:16px 16px 10px; } .rules-body{ padding:12px 16px 18px; } }
+</style>
+</head>
+<body>
+<div class="sky-bg" aria-hidden="true"><div class="sun-corner"></div></div>
+
+<div class="wrap">
+  <a class="back-link" href="index.html">← Volver al índice</a>
+  <header class="top">
+    <div>
+      <div class="title-wrap">
+        <h1>Sunaely Team</h1>
+      </div>
+      <p class="subtitle">Quién lleva cada personaje ahora mismo, cuáles andamos buscando y cuáles están reservados bajo el sol. <button class="rules-btn" id="rulesBtn" type="button" aria-haspopup="dialog" aria-label="Reglas del team" title="Reglas del team"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/></svg></button></p>
+    </div>
+    <div class="admin-actions">
+      <div class="imgmenu" id="imgMenu" hidden>
+        <button class="admin-toggle" id="exportImgBtn" type="button" aria-haspopup="true" aria-expanded="false">Exportar en imagen ▾</button>
+        <div class="imgmenu-list" id="imgMenuList" hidden>
+          <button type="button" data-k="ocupados">Ocupados</button>
+          <button type="button" data-k="buscados">Buscados</button>
+          <button type="button" data-k="reservados">Reservados</button>
+        </div>
+      </div>
+      <button class="admin-toggle" id="exportBtn" hidden>Copiar texto para WhatsApp</button>
+      <button class="admin-toggle" id="adminToggleBtn">Acceso admin</button>
+    </div>
+  </header>
+
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Buscar un personaje..." autocomplete="off">
+  </div>
+
+  <div class="view-toggles" role="group" aria-label="Secciones visibles">
+    <span class="vt-label">Mostrar:</span>
+    <label class="vt"><input type="checkbox" data-sec="ocupados" checked><span>Ocupados</span></label>
+    <label class="vt"><input type="checkbox" data-sec="buscados" checked><span>Buscados</span></label>
+    <label class="vt"><input type="checkbox" data-sec="reservados" checked><span>Reservados</span></label>
+  </div>
+
+  <section class="panel" id="sec-ocupados">
+    <h2>Ocupados</h2>
+    <p class="panel-desc">Ya están en manos de alguien del equipo.</p>
+    <ul class="simple-list" id="ocupadosList"></ul>
+    <p class="empty-note" id="ocupadosEmpty" hidden>El sol brilla y aún no hay personajes ocupados.</p>
+
+    <div class="admin-add cols-1" id="ocupadoAdminForm" hidden>
+      <div class="full">
+        <label for="ocNombre">Personaje</label>
+        <input id="ocNombre" type="text" maxlength="40" placeholder="Beidou">
+      </div>
+      <button class="submit-btn" id="ocAddBtn" type="button">Añadir a ocupados</button>
+    </div>
+  </section>
+
+  <section class="panel" id="sec-buscados">
+    <h2>Buscados</h2>
+    <p class="panel-desc">Si buscas un personaje, díselo a un admin para que lo añada aquí.</p>
+    <ul class="simple-list" id="buscadosList"></ul>
+    <p class="empty-note" id="buscadosEmpty" hidden>Nadie anda buscando personaje por ahora.</p>
+
+    <div class="admin-add cols-2" id="buscadoAdminForm" hidden>
+      <div>
+        <label for="bNombre">Personaje</label>
+        <input id="bNombre" type="text" maxlength="40" placeholder="Beidou">
+      </div>
+      <div>
+        <label for="bPedidoPor">Lo pide</label>
+        <select id="bPedidoPor"></select>
+      </div>
+      <div class="full">
+        <label for="bMotivo">Para qué lo busca</label>
+        <input id="bMotivo" type="text" maxlength="80" placeholder="Ej: pareja, equipo de co-op, sub DPS...">
+      </div>
+      <div class="full">
+        <label for="bFecha">Fecha solicitada (solo visible para admins)</label>
+        <input id="bFecha" type="date">
+      </div>
+      <button class="submit-btn" id="bAddBtn" type="button">Añadir a buscados</button>
+    </div>
+  </section>
+
+  <section class="panel" id="sec-reservados">
+    <h2>Reservados</h2>
+    <p class="panel-desc">Apartados para alguien, sin más detalle público.</p>
+    <ul class="simple-list" id="reservadosList"></ul>
+    <p class="empty-note" id="reservadosEmpty" hidden>Ninguna reserva en pie por ahora.</p>
+
+    <div class="admin-add cols-1" id="reservadoAdminForm" hidden>
+      <div class="full">
+        <label for="rNombre">Personaje</label>
+        <input id="rNombre" type="text" maxlength="40" placeholder="Beidou">
+      </div>
+      <button class="submit-btn" id="rAddBtn" type="button">Añadir a reservados</button>
+    </div>
+  </section>
+
+
+  
+
+  
+
+  <footer class="status" id="statusLine"></footer>
+  <section class="panel" id="lobbyPanel">
+    <h2>¿Quieres unirte?</h2>
+    <p class="lobby-text">Entra al lobby y escríbenos para unirte al team.</p>
+    <a class="lobby-card" id="lobbyLink" target="_blank" rel="noopener noreferrer" hidden>
+      <img id="lobbyImg" src="lobby.jpg" alt="Foto del grupo" loading="lazy">
+      <div class="lc-body">
+        <div class="lc-title"><span class="lc-orn"></span><span id="lobbyName">Lobby</span><span class="lc-orn r"></span></div>
+        <div class="lc-sub">Grupo de WhatsApp · Sunaely Team</div>
+      </div>
+      <div class="lc-btn">Ver grupo</div>
+    </a>
+    <div class="lobby">
+      <div class="lobby-admin" id="lobbyAdmin" hidden>
+        <input id="lobbyInput" type="text" placeholder="Link del lobby" autocomplete="off">
+        <input id="lobbyNombre" type="text" maxlength="40" placeholder="Nombre del grupo (por defecto: Lobby)" autocomplete="off">
+        <div class="lobby-admin-row">
+          <button class="btn-primary" id="lobbySave" type="button">Guardar</button>
+          <button class="btn-ghost" id="lobbyPrevBtn" type="button">Actualizar vista previa</button>
+          <button class="btn-ghost" id="lobbyFotoBtn" type="button">Cambiar foto a mano</button>
+          <button class="btn-ghost" id="lobbyFotoReset" type="button" hidden>Foto por defecto</button>
+          <input type="file" id="lobbyFoto" accept="image/*" hidden>
+        </div>
+      </div>
+      <p class="lobby-note" id="lobbyNote" hidden></p>
+    </div>
+  </section>
+
+  <p class="last-updated" id="lastUpdated"></p>
+</div>
+
+<dialog id="rulesDialog" aria-labelledby="rulesTitle">
+  <div class="rules-head">
+    <div>
+      <h3 id="rulesTitle">Reglas del team</h3>
+      <p>Para que entre todos tengamos una buena convivencia, estas son las reglas de Sunaely.</p>
+    </div>
+    <button class="rules-x" id="rulesClose" type="button" aria-label="Cerrar">×</button>
+  </div>
+  <div class="rules-body">
+    <h4>Convivencia</h4>
+    <ul>
+      <li>Respeto hacia administradores e integrantes para evitar conflictos. Si alguien no lo cumple, avisa a los admins / helpers.</li>
+      <li>Evita generar revuelos con temas delicados como gustos, creencias, política o cualquier tema que pueda generar conflicto entre integrantes.</li>
+      <li>Evita ignorar a los demás integrantes. Si te sientes ignorado, avisa a los admins para darle seguimiento: haremos todo lo posible por evitar la exclusión en nuestros espacios.</li>
+    </ul>
+
+    <h4>Contenido prohibido</h4>
+    <ul>
+      <li>No enviar contenido sensible: gore, contenido para adultos o vídeos relacionados, links, imágenes de autolesiones, política o situaciones personales que pongan en peligro tu integridad.</li>
+      <li>No promocionar teams, cuentas, links y similares, ni en el chat ni por privado.</li>
+      <li>No hacer spam de ningún tipo.</li>
+    </ul>
+
+    <h4>Actividad</h4>
+    <div class="rules-limits">
+      <div class="rules-limit"><span>Mensajes mínimos por semana</span><b>60</b></div>
+      <div class="rules-limit"><span>Faltas para la expulsión</span><b>3</b></div>
+    </div>
+    <ul>
+      <li>Sé activo en lo posible. Si no puedes, por temas personales o por tu estilo de vida, avisa a los admins / helpers para tener en cuenta tus posibilidades y no eliminarte injustificadamente.</li>
+      <li>Cumple con el mínimo de <b>60 mensajes a la semana</b>.</li>
+    </ul>
+
+    <h4>Registro</h4>
+    <ul>
+      <li>Añade tu rol en el apartado de “nickname”.</li>
+      <li>Es obligatorio registrar tu cumpleaños con el comando <b>#cumple DD/MM</b> (D = día, M = mes). No pongas tu año de nacimiento.</li>
+    </ul>
+
+    <h4>Matrimonio, adopción y embarazo</h4>
+    <ul>
+      <li>Está prohibido usar comandos de matrimonio, adopción, embarazo o similares si no cuentas antes con el certificado correspondiente, que se adquiere en <b>SUNAELY SHOP</b>.</li>
+    </ul>
+
+    <h4>Faltas</h4>
+    <p>Si incumples las reglas y acumulas <b>3 faltas</b>, serás expulsado del team de inmediato.</p>
+
+    <p class="rules-foot">¡Gracias por cuidar este espacio!</p>
+    <p class="rules-sign">Att: La administración de Sunaely</p>
+  </div>
+</dialog>
+
+<dialog id="loginDialog">
+  <div class="dialog-inner">
+    <h3>Acceso admin</h3>
+    <div class="dialog-field">
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username">
+    </div>
+    <div class="dialog-field">
+      <label for="loginPass">Contraseña</label>
+      <input id="loginPass" type="password" autocomplete="current-password">
+    </div>
+    <p class="dialog-error" id="loginError"></p>
+    <div class="dialog-actions">
+      <button class="btn-primary" id="loginSubmit" type="button">Entrar</button>
+      <button class="btn-ghost" id="loginCancel" type="button">Cancelar</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  var d = document.getElementById('rulesDialog'), b = document.getElementById('rulesBtn');
+  if (!d || !b) return;
+  b.addEventListener('click', function(){ if (d.showModal) d.showModal(); else d.setAttribute('open', ''); d.querySelector('.rules-body').scrollTop = 0; });
+  document.getElementById('rulesClose').addEventListener('click', function(){ d.close(); });
+  d.addEventListener('click', function(e){ if (e.target === d) d.close(); }); // clic fuera = cerrar
+})();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, arrayUnion, setDoc,
+    onSnapshot, query, orderBy, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8kDJ_Yq3wBHAoxCJSsGn-GGh4g6r4mXk",
+    authDomain: "sunaely-teamm.firebaseapp.com",
+    projectId: "sunaely-teamm",
+    storageBucket: "sunaely-teamm.firebasestorage.app",
+    messagingSenderId: "487274825899",
+    appId: "1:487274825899:web:a12b4812a8c978d4410fee"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  // El módulo de acceso admin se carga aparte para no retrasar la lista a los visitantes
+  const authP = import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js").then(m => ({ m, auth: m.getAuth(app) }));
+
+
+  let isAdmin = false;
+  const $ = (id) => document.getElementById(id);
+
+  // ---------- Admin login ----------
+  const adminToggleBtn = $('adminToggleBtn');
+  const loginDialog = $('loginDialog');
+  const loginEmail = $('loginEmail');
+  const loginPass = $('loginPass');
+  const loginError = $('loginError');
+  const statusLine = $('statusLine');
+
+  adminToggleBtn.addEventListener('click', () => {
+    if (isAdmin) {
+      authP.then(({ m, auth }) => m.signOut(auth));
+    } else {
+      loginError.textContent = '';
+      loginEmail.value = '';
+      loginPass.value = '';
+      loginDialog.showModal();
+    }
+  });
+
+  $('loginCancel').addEventListener('click', () => loginDialog.close());
+
+  $('loginSubmit').addEventListener('click', async () => {
+    loginError.textContent = '';
+    try {
+      const { m, auth } = await authP;
+      await m.signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPass.value);
+      loginDialog.close();
+    } catch (e) {
+      loginError.textContent = 'Email o contraseña incorrectos.';
+    }
+  });
+
+  const onAuth = (user) => {
+    isAdmin = !!user;
+    adminToggleBtn.textContent = isAdmin ? 'Salir del modo admin' : 'Acceso admin';
+    adminToggleBtn.classList.toggle('is-admin', isAdmin);
+    document.body.classList.toggle('is-admin', isAdmin);
+    $('ocupadoAdminForm').hidden = !isAdmin;
+    $('reservadoAdminForm').hidden = !isAdmin;
+    $('buscadoAdminForm').hidden = !isAdmin;
+    $('exportBtn').hidden = !isAdmin;
+    paintLobby();
+    $('imgMenu').hidden = !isAdmin;
+    paintOcupados();
+    paintReservados();
+    paintBuscados();
+  };
+  authP.then(({ m, auth }) => m.onAuthStateChanged(auth, onAuth)).catch(() => {});
+
+  function escapeHtml(str){
+    return String(str ?? '').replace(/[&<>"']/g, (m) => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[m]));
+  }
+
+  function normalize(str){
+    return String(str ?? '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  let searchTerm = '';
+  const searchInput = $('searchInput');
+  searchInput.addEventListener('input', () => {
+    searchTerm = normalize(searchInput.value.trim());
+    paintOcupados();
+    paintReservados();
+    paintBuscados();
+  });
+
+  // ---------- Sello de última actualización + datos para exportar ----------
+  const allCaches = { ocupados: [], reservados: [], buscados: [] };
+  const lastUpdatedEl = $('lastUpdated');
+
+  function updateLastUpdated(){
+    let maxDate = null;
+    Object.values(allCaches).flat().forEach(item => {
+      if (item.createdAt && typeof item.createdAt.toDate === 'function'){
+        const d = item.createdAt.toDate();
+        if (!maxDate || d > maxDate) maxDate = d;
+      }
+    });
+    if (maxDate){
+      const fecha = maxDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+      const hora = maxDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+      lastUpdatedEl.textContent = `Diario actualizado por última vez el ${fecha} a las ${hora}`;
+    }
+  }
+
+  function makeDeleteBtn(collectionName, id){
+    const btn = document.createElement('button');
+    btn.className = 'icon-btn';
+    btn.textContent = 'Quitar';
+    btn.addEventListener('click', () => deleteDoc(doc(db, collectionName, id)));
+    return btn;
+  }
+
+  // Al quitar un ocupado que tenía un miembro vinculado, se guarda en su ficha de
+  // Contactos que "ocupaba" ese personaje, antes de borrar el documento.
+  function makeDeleteOcupadoBtn(item){
+    const btn = document.createElement('button');
+    btn.className = 'icon-btn';
+    btn.textContent = 'Quitar';
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      try {
+        if (item.miembroId){
+          await updateDoc(doc(db, 'miembros', item.miembroId), {
+            historialPersonajes: arrayUnion({ nombre: item.nombre, fecha: new Date().toISOString() })
+          });
+        }
+        await deleteDoc(doc(db, 'ocupados', item.id));
+      } catch (e) {
+        statusLine.textContent = 'No se pudo quitar, inténtalo de nuevo.';
+        btn.disabled = false;
+      }
+    });
+    return btn;
+  }
+
+  function makeActionBtn(label, onClick, variant){
+    const btn = document.createElement('button');
+    btn.className = 'icon-btn ' + (variant || 'icon-btn-confirm');
+    btn.textContent = label;
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      try { await onClick(); }
+      catch (e) { statusLine.textContent = 'No se pudo completar la acción, inténtalo de nuevo.'; btn.disabled = false; }
+    });
+    return btn;
+  }
+
+  function orderComparator(a, b){
+    const av = typeof a.orden === 'number' ? a.orden : Infinity;
+    const bv = typeof b.orden === 'number' ? b.orden : Infinity;
+    if (av !== bv) return av - bv;
+    const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+    const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+    return at - bt;
+  }
+
+  function nextOrden(cache){
+    if (!cache.length) return 1000;
+    const max = Math.max(...cache.map(i => typeof i.orden === 'number' ? i.orden : 0));
+    return max + 1000;
+  }
+
+  function backfillOrden(collectionName, cache){
+    const missing = cache.filter(i => typeof i.orden !== 'number');
+    if (!missing.length) return;
+    const byCreated = [...cache].sort((a, b) => {
+      const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+      const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+      return at - bt;
+    });
+    byCreated.forEach((item, idx) => {
+      if (typeof item.orden !== 'number'){
+        updateDoc(doc(db, collectionName, item.id), { orden: (idx + 1) * 1000 }).catch(() => {});
+      }
+    });
+  }
+
+  // Arrastrar y soltar para reordenar (asa = el rombo ✦), vía Pointer Events (funciona con ratón y con el dedo)
+  function enableDragReorder(listEl, collectionName, getCache){
+    listEl.addEventListener('pointerdown', (e) => {
+      const handle = e.target.closest('.handle');
+      if (!handle || !handle.classList.contains('draggable')) return;
+      const li = handle.closest('li');
+      if (!li) return;
+      e.preventDefault();
+      li.classList.add('dragging');
+
+      const onMove = (ev) => {
+        const y = ev.clientY;
+        const siblings = [...listEl.querySelectorAll('li:not(.dragging)')];
+        let target = null;
+        for (const sib of siblings){
+          const rect = sib.getBoundingClientRect();
+          if (y < rect.top + rect.height / 2){ target = sib; break; }
+        }
+        if (target) listEl.insertBefore(li, target);
+        else listEl.appendChild(li);
+      };
+
+      const onUp = async () => {
+        li.classList.remove('dragging');
+        document.removeEventListener('pointermove', onMove);
+        document.removeEventListener('pointerup', onUp);
+
+        const ids = [...listEl.querySelectorAll('li')].map(x => x.dataset.id);
+        const cache = getCache();
+        const movedId = li.dataset.id;
+        const newIndex = ids.indexOf(movedId);
+        const prevItem = cache.find(i => i.id === ids[newIndex - 1]);
+        const nextItem = cache.find(i => i.id === ids[newIndex + 1]);
+        const prevOrden = prevItem && typeof prevItem.orden === 'number' ? prevItem.orden : null;
+        const nextOrdenVal = nextItem && typeof nextItem.orden === 'number' ? nextItem.orden : null;
+
+        let newOrden;
+        if (prevOrden == null && nextOrdenVal == null) newOrden = 1000;
+        else if (prevOrden == null) newOrden = nextOrdenVal - 1000;
+        else if (nextOrdenVal == null) newOrden = prevOrden + 1000;
+        else newOrden = (prevOrden + nextOrdenVal) / 2;
+
+        try {
+          await updateDoc(doc(db, collectionName, movedId), { orden: newOrden });
+        } catch (e) {
+          statusLine.textContent = 'No se pudo guardar el nuevo orden.';
+        }
+      };
+
+      document.addEventListener('pointermove', onMove);
+      document.addEventListener('pointerup', onUp);
+    });
+  }
+
+  function makeHandle(){
+    const h = document.createElement('span');
+    h.className = 'handle' + (isAdmin && !searchTerm ? ' draggable' : '');
+    h.textContent = '✦';
+    return h;
+  }
+
+  // ---------- Genérico: lista simple (ocupados / reservados) ----------
+  function setupSimpleList(collectionName, listEl, emptyEl, emptyText){
+    let cache = [];
+    let editingId = null;
+    onSnapshot(query(collection(db, collectionName), orderBy('createdAt', 'asc')),
+      (snap) => {
+        cache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        backfillOrden(collectionName, cache);
+        paint();
+      },
+      () => { statusLine.textContent = 'No se pudo conectar con la base de datos.'; }
+    );
+    function paint(){
+      listEl.innerHTML = '';
+      allCaches[collectionName] = cache;
+      if (collectionName === 'ocupados') refreshPedidoOptions();
+      updateLastUpdated();
+      const sorted = [...cache].sort(orderComparator);
+      const filtered = searchTerm
+        ? sorted.filter(item => normalize(item.nombre).includes(searchTerm))
+        : sorted;
+
+      if (cache.length === 0){
+        emptyEl.hidden = false;
+        emptyEl.textContent = emptyText;
+      } else if (filtered.length === 0){
+        emptyEl.hidden = false;
+        emptyEl.textContent = 'Ningún personaje coincide con tu búsqueda.';
+      } else {
+        emptyEl.hidden = true;
+      }
+
+      filtered.forEach(item => {
+        const li = document.createElement('li');
+        li.dataset.id = item.id;
+
+        if (collectionName === 'ocupados' && editingId === item.id){
+          const form = document.createElement('div');
+          form.className = 'li-edit-form';
+          const inp = document.createElement('input');
+          inp.type = 'text'; inp.maxLength = 40; inp.value = item.nombre; inp.placeholder = 'Personaje';
+          form.appendChild(inp);
+          li.appendChild(form);
+          const acts = document.createElement('div');
+          acts.className = 'li-actions';
+          acts.appendChild(makeActionBtn('Guardar', async () => {
+            const nombre = inp.value.trim();
+            if (!nombre) return;
+            if (nombre !== item.nombre){
+              if (item.miembroId){
+                await updateDoc(doc(db, 'miembros', item.miembroId), {
+                  historialPersonajes: arrayUnion({ nombre: item.nombre, fecha: new Date().toISOString() })
+                });
+              }
+              await updateDoc(doc(db, 'ocupados', item.id), { nombre });
+            }
+            editingId = null;
+            paint();
+          }));
+          const cancel = document.createElement('button');
+          cancel.className = 'icon-btn';
+          cancel.textContent = 'Cancelar';
+          cancel.addEventListener('click', () => { editingId = null; paint(); });
+          acts.appendChild(cancel);
+          li.appendChild(acts);
+          listEl.appendChild(li);
+          inp.focus();
+          inp.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); acts.firstChild.click(); } });
+          return;
+        }
+
+        const left = document.createElement('span');
+        left.className = 'li-left';
+        left.appendChild(makeHandle());
+        const span = document.createElement('span');
+        span.className = 'li-name';
+        span.textContent = item.nombre;
+        left.appendChild(span);
+        li.appendChild(left);
+        if (isAdmin){
+          const actions = document.createElement('div');
+          actions.className = 'li-actions';
+          if (collectionName === 'ocupados'){
+            actions.appendChild(makeActionBtn('Cambiar', async () => { editingId = item.id; paint(); }, 'icon-btn-edit'));
+          }
+          if (collectionName === 'reservados'){
+            actions.appendChild(makeActionBtn('Unido', () => moveReservadoToOcupados(item)));
+          }
+          if (collectionName === 'ocupados' && item.origenBuscado){
+            actions.appendChild(makeActionBtn('Liberar', () => restoreToBuscados(item)));
+          }
+          actions.appendChild(
+            collectionName === 'ocupados' ? makeDeleteOcupadoBtn(item) : makeDeleteBtn(collectionName, item.id)
+          );
+          li.appendChild(actions);
+        }
+        listEl.appendChild(li);
+      });
+    }
+    enableDragReorder(listEl, collectionName, () => cache);
+    return { paint, getCache: () => cache };
+  }
+
+  const ocupadosCtl = setupSimpleList('ocupados', $('ocupadosList'), $('ocupadosEmpty'), 'El sol brilla y aún no hay personajes ocupados.');
+  const reservadosCtl = setupSimpleList('reservados', $('reservadosList'), $('reservadosEmpty'), 'Ninguna reserva en pie por ahora.');
+  function paintOcupados(){ ocupadosCtl.paint(); }
+  function paintReservados(){ reservadosCtl.paint(); }
+
+  // Un reservado se ha unido al team: sale de reservados y entra directamente en ocupados
+  async function moveReservadoToOcupados(reservado){
+    const dup = ocupadosCtl.getCache().some(o => normalize(o.nombre) === normalize(reservado.nombre));
+    if (dup && !confirm(`Ya hay un ocupado llamado «${reservado.nombre}». ¿Añadirlo igualmente?`)) return;
+    await addDoc(collection(db, 'ocupados'), {
+      nombre: reservado.nombre,
+      orden: nextOrden(ocupadosCtl.getCache()),
+      createdAt: serverTimestamp()
+    });
+    await deleteDoc(doc(db, 'reservados', reservado.id));
+    statusLine.textContent = `«${reservado.nombre}» pasa a ocupados. Recuerda vincular su contacto en Contactos.`;
+  }
+
+  // Un buscado se ha encontrado: pasa a ocupados y se cierran TODAS las peticiones de ese personaje
+  // (quien lo pidió primero queda como origen; el resto se guarda por si el personaje se libera más adelante)
+  async function moveToOcupados(buscado){
+    const tms = (x) => x.createdAt && x.createdAt.toMillis ? x.createdAt.toMillis() : Number.MAX_SAFE_INTEGER;
+    const todas = buscadosCache.filter(x => normalize(x.nombre) === normalize(buscado.nombre)).sort((a, b) => tms(a) - tms(b));
+    if (!todas.some(x => x.id === buscado.id)) todas.unshift(buscado);
+    const pack = (x) => ({ pedidoPor: x.pedidoPor, pedidoPorId: x.pedidoPorId || null, motivo: x.motivo, fecha: x.fecha || null });
+    const principal = todas.find(x => x.id === buscado.id) || todas[0];
+    const extras = todas.filter(x => x.id !== principal.id).map(pack);
+    const data = {
+      nombre: buscado.nombre,
+      orden: nextOrden(ocupadosCtl.getCache()),
+      createdAt: serverTimestamp(),
+      origenBuscado: pack(principal)
+    };
+    if (extras.length) data.origenesExtra = extras;
+    await addDoc(collection(db, 'ocupados'), data);
+    await Promise.all(todas.map(x => deleteDoc(doc(db, 'buscados', x.id))));
+    statusLine.textContent = todas.length > 1
+      ? `«${buscado.nombre}» pasa a ocupados y se cierran las ${todas.length} peticiones (${todas.map(x => x.pedidoPor).join(', ')}).`
+      : `«${buscado.nombre}» pasa a ocupados. Recuerda vincular su contacto en Contactos.`;
+  }
+
+  // Un ocupado que venía de un buscado queda libre: vuelve a buscados con los datos originales, sin volver a escribirlos
+  async function restoreToBuscados(ocupado){
+    const origen = ocupado.origenBuscado || {};
+    await addDoc(collection(db, 'buscados'), {
+      nombre: ocupado.nombre,
+      pedidoPor: origen.pedidoPor || '',
+      pedidoPorId: origen.pedidoPorId || null,
+      motivo: origen.motivo || '',
+      fecha: origen.fecha || null,
+      orden: nextOrden(buscadosCache),
+      createdAt: serverTimestamp()
+    });
+    // si al encontrarlo había más gente pidiéndolo, esas peticiones también vuelven
+    for (const x of (ocupado.origenesExtra || [])){
+      await addDoc(collection(db, 'buscados'), {
+        nombre: ocupado.nombre, pedidoPor: x.pedidoPor || '', pedidoPorId: x.pedidoPorId || null,
+        motivo: x.motivo || '', fecha: x.fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp()
+      });
+    }
+    await deleteDoc(doc(db, 'ocupados', ocupado.id));
+  }
+
+  async function addOcupado(){
+    const nombre = $('ocNombre').value.trim();
+    if (!nombre) return;
+    await addDoc(collection(db, 'ocupados'), { nombre, orden: nextOrden(ocupadosCtl.getCache()), createdAt: serverTimestamp() });
+    $('ocNombre').value = '';
+  }
+  $('ocAddBtn').addEventListener('click', addOcupado);
+  $('ocNombre').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addOcupado(); } });
+
+  async function addReservado(){
+    const nombre = $('rNombre').value.trim();
+    if (!nombre) return;
+    await addDoc(collection(db, 'reservados'), { nombre, orden: nextOrden(reservadosCtl.getCache()), createdAt: serverTimestamp() });
+    $('rNombre').value = '';
+  }
+  $('rAddBtn').addEventListener('click', addReservado);
+  $('rNombre').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addReservado(); } });
+
+  // ---------- Buscados (con quién y para qué) ----------
+  const buscadosList = $('buscadosList');
+  const buscadosEmpty = $('buscadosEmpty');
+  let buscadosCache = [];
+  let editingBuscadoId = null;
+
+  onSnapshot(query(collection(db, 'buscados'), orderBy('createdAt', 'asc')),
+    (snap) => {
+      buscadosCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      backfillOrden('buscados', buscadosCache);
+      paintBuscados();
+    },
+    () => { statusLine.textContent = 'No se pudo conectar con la base de datos.'; }
+  );
+  enableDragReorder(buscadosList, 'buscados', () => buscadosCache);
+
+  // Opciones de "Lo pide": solo personajes ocupados ahora (agrupados por miembro)
+  function pedidoOptions(){
+    const out = [], byId = {};
+    allCaches.ocupados.forEach(o => {
+      if (o.miembroId){
+        if (!byId[o.miembroId]){ byId[o.miembroId] = { id: o.miembroId, label: [] }; out.push(byId[o.miembroId]); }
+        byId[o.miembroId].label.push(o.nombre);
+      } else out.push({ id: '', label: [o.nombre] });
+    });
+    return out.map(x => ({ id: x.id, label: x.label.join(' / ') }));
+  }
+  function fillPedidoSelect(sel, current){
+    const opts = pedidoOptions();
+    if (current && !opts.some(o => o.label === current.label)) opts.unshift(current);
+    sel.innerHTML = '<option value="">— Elegir —</option>' + opts.map((o, i) => `<option value="${i}">${escapeHtml(o.label)}</option>`).join('');
+    sel._opts = opts;
+    if (current) sel.value = String(opts.findIndex(o => o.label === current.label));
+  }
+  const pedidoSel = (sel) => sel._opts && sel.value !== '' ? sel._opts[+sel.value] : null;
+  function refreshPedidoOptions(){
+    const sel = $('bPedidoPor'), prev = pedidoSel(sel);
+    fillPedidoSelect(sel, null);
+    if (prev){ const i = sel._opts.findIndex(o => o.label === prev.label); if (i >= 0) sel.value = String(i); }
+  }
+
+  function formatFecha(fecha){
+    if (!fecha) return null;
+    const [y, m, d] = fecha.split('-').map(Number);
+    const dt = new Date(y, m - 1, d);
+    return dt.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // La fecha de solicitud empieza siempre en el día de hoy (hora local)
+  const hoyISO = () => new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  $('bFecha').value = hoyISO();
+
+  function groupBuscados(){
+    const tms = (x) => x.createdAt && x.createdAt.toMillis ? x.createdAt.toMillis() : Number.MAX_SAFE_INTEGER;
+    const map = new Map();
+    [...buscadosCache].sort((a, b) => tms(a) - tms(b)).forEach(r => {
+      const k = normalize(r.nombre);
+      if (!map.has(k)) map.set(k, []);
+      map.get(k).push(r);
+    });
+    return [...map.values()].sort((a, b) => orderComparator(a[0], b[0]));
+  }
+
+  // ---------- Buscados en imagen (solo admin, sin la fecha admin-only) ----------
+  async function exportBuscadosImage(){
+    const groups = groupBuscados();
+    if (!groups.length){ statusLine.textContent = 'No hay buscados que exportar.'; return; }
+    try { await Promise.all([document.fonts.load("600 30px 'Crimson Pro'"), document.fonts.load("400 22px 'Crimson Pro'"), document.fonts.load("italic 600 64px 'Cormorant'")]); } catch (e) {}
+    const W = 1080, pad = 56, cardX = pad, cardW = W - pad * 2, inX = cardX + 70, inW = cardW - 70 - 28;
+    const SERIF = "'Crimson Pro', Georgia, serif", COR = "'Cormorant', Georgia, serif";
+    const mc = document.createElement('canvas').getContext('2d');
+    const font = (b) => `${b ? 600 : 400} 23px ${SERIF}`;
+    // Ajuste de línea con partes en negrita y normales
+    const wrap = (r) => {
+      const toks = [];
+      [['Lo pide ', false], [r.pedidoPor, true], [' — ' + r.motivo, false]].forEach(([t, b]) => t.split(/(\s+)/).forEach(w => { if (w) toks.push({ w, b }); }));
+      const lines = [[]]; let x = 0;
+      toks.forEach(tk => {
+        mc.font = font(tk.b);
+        const wd = mc.measureText(tk.w).width;
+        if (x + wd > inW && !/^\s+$/.test(tk.w) && lines[lines.length - 1].length){ lines.push([]); x = 0; }
+        if (/^\s+$/.test(tk.w) && !lines[lines.length - 1].length) return;
+        lines[lines.length - 1].push({ ...tk, wd }); x += wd;
+      });
+      return lines;
+    };
+    const LH = 31;
+    const cards = groups.map(items => {
+      const reqs = items.map(r => ({ lines: wrap(r) }));
+      const h = 24 + 44 + reqs.reduce((a, q) => a + q.lines.length * LH + 18, 0) + 6;
+      return { items, reqs, h };
+    });
+    const head = 170, foot = 70;
+    const H = head + cards.reduce((a, c) => a + c.h + 18, 0) + foot;
+    const k = Math.max(0.6, Math.min(2, Math.sqrt(16e6 / (W * H))));
+    const cv = document.createElement('canvas');
+    cv.width = Math.round(W * k); cv.height = Math.round(H * k);
+    const c = cv.getContext('2d'); c.scale(k, k);
+    const bg = c.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#fff3d1'); bg.addColorStop(1, '#ffe7a8');
+    c.fillStyle = bg; c.fillRect(0, 0, W, H);
+    const glow = c.createRadialGradient(W * .85, 0, 0, W * .85, 0, Math.max(W, H) * .5);
+    glow.addColorStop(0, 'rgba(230,140,20,0.2)'); glow.addColorStop(1, 'rgba(230,140,20,0)');
+    c.fillStyle = glow; c.fillRect(0, 0, W, H);
+    let seed = 777; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < Math.round(W * H / 9000); i++){
+      c.fillStyle = `rgba(255,170,40,${(0.2 + rnd() * 0.7).toFixed(2)})`;
+      c.beginPath(); c.arc(rnd() * W, rnd() * H, 0.5 + rnd(), 0, 7); c.fill();
+    }
+    c.textBaseline = 'alphabetic';
+    c.fillStyle = '#3a2307'; c.font = `italic 600 66px ${COR}`; c.fillText('Se buscan', pad, 92);
+    c.fillStyle = '#b9873a'; c.font = `italic 22px ${COR}`; c.fillText('Sunaely Team ☀️', pad + 2, 128);
+    const rr = (x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
+    let y = head;
+    cards.forEach(cd => {
+      rr(cardX, y, cardW, cd.h, 8); c.fillStyle = 'rgba(255,251,238,0.88)'; c.fill();
+      c.strokeStyle = 'rgba(190,115,15,0.2)'; c.lineWidth = 1.2; c.stroke();
+      c.fillStyle = '#b9873a'; c.font = `26px ${SERIF}`; c.fillText('✦', cardX + 24, y + 52);
+      c.fillStyle = '#3a2307'; c.font = `600 34px ${SERIF}`; c.fillText(cd.items[0].nombre, inX - 8, y + 54);
+      if (cd.items.length > 1){
+        const nw = c.measureText(cd.items[0].nombre).width;
+        const txt = `${cd.items.length} personas lo piden`;
+        c.font = `700 17px ${SERIF}`;
+        const bw = c.measureText(txt).width + 22, bx = inX - 8 + nw + 16, by = y + 30;
+        rr(bx, by, bw, 28, 14); c.strokeStyle = '#b9873a'; c.lineWidth = 1.2; c.stroke();
+        c.fillStyle = '#d9780b'; c.fillText(txt, bx + 11, by + 20);
+      }
+      let ty = y + 24 + 44;
+      cd.reqs.forEach((q, qi) => {
+        if (qi > 0){ c.setLineDash([3, 5]); c.strokeStyle = 'rgba(190,115,15,0.18)'; c.lineWidth = 1; c.beginPath(); c.moveTo(inX - 8, ty - 8); c.lineTo(cardX + cardW - 24, ty - 8); c.stroke(); c.setLineDash([]); }
+        q.lines.forEach(line => {
+          let x = inX; ty += LH - 4;
+          line.forEach(tk => { c.font = font(tk.b); c.fillStyle = tk.b ? '#e6a23c' : '#7d5a2a'; c.fillText(tk.w, x, ty); x += tk.wd; });
+          ty += 4;
+        });
+        ty += 18;
+      });
+      y += cd.h + 18;
+    });
+    c.fillStyle = '#b9873a'; c.font = `italic 18px ${COR}`; c.textAlign = 'center';
+    c.fillText('Actualizado el ' + new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }), W / 2, H - 28);
+    cv.toBlob((blob) => {
+      if (!blob){ statusLine.textContent = 'No se pudo generar la imagen.'; return; }
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = 'buscados-sunaely.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }, 'image/png');
+  }
+  // ---------- Ocupados / reservados en imagen ----------
+  async function exportListImage(kind){
+    const items = (allCaches[kind] || []).map(x => x.nombre).filter(Boolean);
+    const title = kind === 'ocupados' ? 'Personajes ocupados' : 'Personajes reservados';
+    try { await Promise.all([document.fonts.load("600 32px 'Crimson Pro'"), document.fonts.load("italic 600 64px 'Cormorant'")]); } catch (e) {}
+    const W = 1080, pad = 56, cols = 2, rows = Math.max(1, Math.ceil(items.length / cols)), BH = 56, GAP = 12, IP = 24;
+    const SERIF = "'Crimson Pro', Georgia, serif", COR = "'Cormorant', Georgia, serif";
+    const head = 170, foot = 70, cardH = IP * 2 + rows * BH + (rows - 1) * GAP, H = head + cardH + foot;
+    const k = Math.max(0.6, Math.min(2, Math.sqrt(16e6 / (W * H))));
+    const cv = document.createElement('canvas'); cv.width = Math.round(W * k); cv.height = Math.round(H * k);
+    const c = cv.getContext('2d'); c.scale(k, k);
+    const bg = c.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#fff3d1'); bg.addColorStop(1, '#ffe7a8');
+    c.fillStyle = bg; c.fillRect(0, 0, W, H);
+    const glow = c.createRadialGradient(W * .85, 0, 0, W * .85, 0, Math.max(W, H) * .5);
+    glow.addColorStop(0, 'rgba(230,140,20,0.2)'); glow.addColorStop(1, 'rgba(230,140,20,0)');
+    c.fillStyle = glow; c.fillRect(0, 0, W, H);
+    let seed = 777; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < Math.round(W * H / 9000); i++){ c.fillStyle = `rgba(255,170,40,${(0.2 + rnd() * 0.7).toFixed(2)})`; c.beginPath(); c.arc(rnd() * W, rnd() * H, 0.5 + rnd(), 0, 7); c.fill(); }
+    c.textBaseline = 'alphabetic';
+    c.fillStyle = '#3a2307'; c.font = `italic 600 66px ${COR}`; c.fillText(title, pad, 92);
+    c.fillStyle = '#b9873a'; c.font = `italic 22px ${COR}`; c.fillText('Sunaely Team ☀️', pad + 2, 128);
+    const rr = (x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
+    rr(pad, head, W - pad * 2, cardH, 8); c.fillStyle = 'rgba(255,251,238,0.88)'; c.fill(); c.strokeStyle = 'rgba(190,115,15,0.2)'; c.lineWidth = 1.2; c.stroke();
+    if (!items.length){ c.fillStyle = '#7d5a2a'; c.font = `italic 26px ${COR}`; c.fillText('Nadie por ahora.', pad + 34, head + 62); }
+    const bw = (W - pad * 2 - IP * 2 - GAP) / 2;
+    // una caja por personaje, igual que en la web (se rellena de izquierda a derecha)
+    items.forEach((nm, i) => {
+      const col = i % 2, row = Math.floor(i / 2);
+      const x = pad + IP + col * (bw + GAP), y = head + IP + row * (BH + GAP);
+      rr(x, y, bw, BH, 6); c.fillStyle = 'rgba(255,255,255,.6)'; c.fill();
+      c.strokeStyle = 'rgba(190,115,15,0.22)'; c.lineWidth = 1.2; c.stroke();
+      c.textAlign = 'left';
+      c.fillStyle = '#b9873a'; c.font = `24px ${SERIF}`; c.fillText('✦', x + 20, y + 37);
+      c.fillStyle = '#3a2307'; c.font = `600 29px ${SERIF}`; c.fillText(nm, x + 62, y + 38, bw - 80);
+    });
+    c.fillStyle = '#b9873a'; c.font = `italic 18px ${COR}`; c.textAlign = 'center';
+    c.fillText('Actualizado el ' + new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }), W / 2, H - 28);
+    cv.toBlob((blob) => {
+      if (!blob){ statusLine.textContent = 'No se pudo generar la imagen.'; return; }
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = kind + '-sunaely.png';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }, 'image/png');
+  }
+  // desplegable «Exportar en imagen»
+  const imgBtn = $('exportImgBtn'), imgList = $('imgMenuList');
+  const closeImgMenu = () => { imgList.hidden = true; imgBtn.setAttribute('aria-expanded', 'false'); };
+  imgBtn.addEventListener('click', (e) => { e.stopPropagation(); imgList.hidden = !imgList.hidden; imgBtn.setAttribute('aria-expanded', String(!imgList.hidden)); });
+  document.addEventListener('click', closeImgMenu);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeImgMenu(); });
+  imgList.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-k]'); if (!b) return;
+    closeImgMenu();
+    if (b.dataset.k === 'buscados') exportBuscadosImage(); else exportListImage(b.dataset.k);
+  });
+
+  function paintBuscados(){
+    buscadosList.innerHTML = '';
+    allCaches.buscados = buscadosCache;
+    updateLastUpdated();
+    // Una tarjeta por personaje; cada petición (quién lo pide y por qué) va por separado dentro
+    const groups = groupBuscados();
+    const filtered = searchTerm
+      ? groups.filter(items => items.some(r =>
+          normalize(r.nombre).includes(searchTerm) ||
+          normalize(r.pedidoPor).includes(searchTerm) ||
+          normalize(r.motivo).includes(searchTerm)))
+      : groups;
+
+    if (buscadosCache.length === 0){
+      buscadosEmpty.hidden = false;
+      buscadosEmpty.textContent = 'Nadie anda buscando personaje por ahora.';
+    } else if (filtered.length === 0){
+      buscadosEmpty.hidden = false;
+      buscadosEmpty.textContent = 'Ningún personaje coincide con tu búsqueda.';
+    } else {
+      buscadosEmpty.hidden = true;
+    }
+
+    const metaHtml = (r) => {
+      const fechaTxt = isAdmin && r.fecha ? formatFecha(r.fecha) : null;
+      return `<div class="li-meta">Lo pide <b>${escapeHtml(r.pedidoPor)}</b> — ${escapeHtml(r.motivo)}</div>` +
+        (fechaTxt ? `<div class="li-meta li-admin-only">Solicitado el ${escapeHtml(fechaTxt)}</div>` : '');
+    };
+    const adminActions = (r, conEncontrado = true) => {
+      const actions = document.createElement('div');
+      actions.className = 'li-actions';
+      actions.appendChild(makeActionBtn('Editar', () => { editingBuscadoId = r.id; paintBuscados(); }, 'icon-btn-edit'));
+      if (conEncontrado) actions.appendChild(makeActionBtn('Encontrado', () => moveToOcupados(r)));
+      actions.appendChild(makeDeleteBtn('buscados', r.id));
+      return actions;
+    };
+    const editParts = (r) => {
+      const form = document.createElement('div');
+      form.className = 'li-edit-form li-edit-form-wide';
+      const nombreInput = document.createElement('input');
+      nombreInput.type = 'text'; nombreInput.maxLength = 40; nombreInput.placeholder = 'Personaje';
+      nombreInput.value = r.nombre;
+      const pedidoInput = document.createElement('select');
+      fillPedidoSelect(pedidoInput, { id: r.pedidoPorId || '', label: r.pedidoPor });
+      const motivoInput = document.createElement('input');
+      motivoInput.type = 'text'; motivoInput.maxLength = 80; motivoInput.placeholder = 'Para qué lo busca';
+      motivoInput.value = r.motivo;
+      const fechaInput = document.createElement('input');
+      fechaInput.type = 'date';
+      fechaInput.value = r.fecha || '';
+      form.append(nombreInput, pedidoInput, motivoInput, fechaInput);
+      const actions = document.createElement('div');
+      actions.className = 'li-actions';
+      const save = async () => {
+        const nombre = nombreInput.value.trim();
+        const ped = pedidoSel(pedidoInput);
+        const pedidoPor = ped ? ped.label : '';
+        const motivo = motivoInput.value.trim();
+        if (!nombre || !pedidoPor || !motivo) return;
+        const prev = editingBuscadoId;
+        editingBuscadoId = null;
+        try {
+          await updateDoc(doc(db, 'buscados', r.id), { nombre, pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fechaInput.value || null });
+        } catch (e) { editingBuscadoId = prev; paintBuscados(); throw e; }
+        paintBuscados();
+      };
+      actions.appendChild(makeActionBtn('Guardar', save));
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'icon-btn';
+      cancelBtn.textContent = 'Cancelar';
+      cancelBtn.addEventListener('click', () => { editingBuscadoId = null; paintBuscados(); });
+      actions.appendChild(cancelBtn);
+      return { form, actions, focus: () => nombreInput.focus() };
+    };
+
+    filtered.forEach(items => {
+      const first = items[0];
+      const li = document.createElement('li');
+      li.dataset.id = first.id;
+
+      if (items.length === 1){
+        const r = first;
+        if (editingBuscadoId === r.id){
+          const e = editParts(r);
+          li.append(e.form, e.actions);
+          buscadosList.appendChild(li);
+          e.focus();
+          return;
+        }
+        const content = document.createElement('div');
+        content.className = 'li-left';
+        content.appendChild(makeHandle());
+        const textWrap = document.createElement('div');
+        textWrap.innerHTML = `<div class="li-name">${escapeHtml(r.nombre)}</div>${metaHtml(r)}`;
+        content.appendChild(textWrap);
+        li.appendChild(content);
+        if (isAdmin) li.appendChild(adminActions(r));
+        buscadosList.appendChild(li);
+        return;
+      }
+
+      li.classList.add('grupo');
+      const head = document.createElement('div');
+      head.className = 'li-left';
+      head.appendChild(makeHandle());
+      const nm = document.createElement('div');
+      nm.className = 'li-name';
+      nm.innerHTML = `${escapeHtml(first.nombre)}<span class="dup-badge">${items.length} personas lo piden</span>`;
+      head.appendChild(nm);
+      const top = document.createElement('div');
+      top.className = 'grupo-top';
+      top.appendChild(head);
+      if (isAdmin){
+        const fa = document.createElement('div');
+        fa.className = 'li-actions';
+        fa.appendChild(makeActionBtn('Encontrado', () => moveToOcupados(first)));
+        top.appendChild(fa);
+      }
+      li.appendChild(top);
+      let focusFn = null;
+      items.forEach(r => {
+        const row = document.createElement('div');
+        row.className = 'req-row';
+        if (editingBuscadoId === r.id){
+          const e = editParts(r);
+          row.append(e.form, e.actions);
+          focusFn = e.focus;
+        } else {
+          const t = document.createElement('div');
+          t.innerHTML = metaHtml(r);
+          row.appendChild(t);
+          if (isAdmin) row.appendChild(adminActions(r, false));
+        }
+        li.appendChild(row);
+      });
+      buscadosList.appendChild(li);
+      if (focusFn) focusFn();
+    });
+  }
+
+  async function addBuscado(){
+    const nombre = $('bNombre').value.trim();
+    const ped = pedidoSel($('bPedidoPor'));
+    const pedidoPor = ped ? ped.label : '';
+    const motivo = $('bMotivo').value.trim();
+    const fecha = $('bFecha').value;
+    if (!nombre || !pedidoPor || !motivo) return;
+    const btn = $('bAddBtn');
+    btn.disabled = true;
+    try {
+      await addDoc(collection(db, 'buscados'), { nombre, pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp() });
+      $('bNombre').value = ''; $('bPedidoPor').value = ''; $('bMotivo').value = ''; $('bFecha').value = hoyISO();
+    } catch (e) {
+      statusLine.textContent = 'No se pudo añadir, inténtalo de nuevo.';
+    } finally {
+      btn.disabled = false;
+    }
+  }
+  $('bAddBtn').addEventListener('click', addBuscado);
+  ['bNombre', 'bPedidoPor', 'bMotivo', 'bFecha'].forEach(id => {
+    $(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addBuscado(); } });
+  });
+
+  // ---------- Link del lobby (lo cambia el admin desde aquí) ----------
+  let lobbyUrl = '', lobbyAt = null, lobbyNombre = '', lobbyFoto = '';
+  const lobbyRef = () => doc(db, 'ajustes', 'lobby');
+  const lobbyFail = (t) => { const n = $('lobbyNote'); n.dataset.err = '1'; n.hidden = false; n.textContent = t; };
+  function paintLobby(){
+    const has = !!lobbyUrl;
+    $('lobbyPanel').hidden = !has && !isAdmin;
+    $('lobbyLink').hidden = !has;
+    if (has) $('lobbyLink').href = lobbyUrl;
+    $('lobbyName').textContent = lobbyNombre || 'Lobby';
+    const img = $('lobbyImg'), want = lobbyFoto || 'lobby.jpg';
+    if (img.getAttribute('src') !== want){ img.dataset.fb = ''; img.style.display = ''; img.src = want; }
+    $('lobbyAdmin').hidden = !isAdmin;
+    $('lobbyFotoReset').hidden = !lobbyFoto;
+    if (isAdmin && document.activeElement !== $('lobbyInput')) $('lobbyInput').value = lobbyUrl;
+    if (isAdmin && document.activeElement !== $('lobbyNombre')) $('lobbyNombre').value = lobbyNombre;
+    const note = $('lobbyNote');
+    if (note.dataset.err !== '1') note.hidden = !(isAdmin && has && lobbyAt);
+    if (!note.hidden && note.dataset.err !== '1') note.textContent = 'Actualizado el ' + lobbyAt.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) + ' a las ' + lobbyAt.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  }
+  $('lobbyImg').addEventListener('error', (e) => {
+    const img = e.target;
+    if (!img.dataset.fb && img.getAttribute('src') !== 'lobby.jpg'){ img.dataset.fb = '1'; img.src = 'lobby.jpg'; }
+    else img.style.display = 'none';
+  });
+  onSnapshot(lobbyRef(), (snap) => {
+    const d = snap.exists() ? snap.data() : {};
+    lobbyUrl = typeof d.url === 'string' ? d.url : '';
+    lobbyNombre = typeof d.nombre === 'string' ? d.nombre : '';
+    lobbyFoto = typeof d.foto === 'string' ? d.foto : '';
+    lobbyAt = d.updatedAt && d.updatedAt.toDate ? d.updatedAt.toDate() : null;
+    $('lobbyNote').dataset.err = '0';
+    paintLobby();
+  }, () => paintLobby());
+  $('lobbySave').addEventListener('click', async () => {
+    let u = $('lobbyInput').value.trim();
+    if (u && !/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u;
+    if (u && !/^https?:\/\//i.test(u)) return lobbyFail('El link tiene que empezar por http:// o https://');
+    const cambio = u !== lobbyUrl;
+    try {
+      $('lobbyNote').dataset.err = '0';
+      await setDoc(lobbyRef(), { url: u, nombre: $('lobbyNombre').value.trim(), updatedAt: serverTimestamp() }, { merge: true });
+    } catch (e) { return lobbyFail('No se pudo guardar, inténtalo de nuevo.'); }
+    if (cambio && u) actualizarVista(u);   // link nuevo: se saca solo la foto y el nombre del grupo
+  });
+
+  // Vista previa automática (como la de WhatsApp): se pide una vez, aquí, y se guarda; los visitantes no dependen de nadie
+  const conTimeout = (url, ms = 15000) => { const c = new AbortController(); setTimeout(() => c.abort(), ms); return fetch(url, { signal: c.signal }); };
+  async function sacarVista(url){
+    const r = await conTimeout('https://api.microlink.io/?url=' + encodeURIComponent(url));
+    const j = await r.json();
+    if (j.status !== 'success' || !j.data) throw new Error('sin datos');
+    const d = j.data;
+    let nombre = String(d.title || '').trim().slice(0, 60);
+    if (/^whatsapp/i.test(nombre)) nombre = '';
+    let foto = '';
+    const img = d.image && d.image.url;
+    if (img){
+      try {
+        const pr = await conTimeout('https://images.weserv.nl/?url=' + encodeURIComponent(img) + '&w=640&h=640&fit=cover&output=jpg&q=85');
+        if (pr.ok){
+          const b = await pr.blob();
+          if (b.type.startsWith('image/')) foto = await new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(b); });
+        }
+      } catch (e) {}
+    }
+    return { nombre, foto };
+  }
+  async function actualizarVista(url){
+    const btn = $('lobbyPrevBtn'), t = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Buscando…';
+    try {
+      const v = await sacarVista(url || lobbyUrl);
+      if (!v.nombre && !v.foto) throw new Error('vacío');
+      const upd = { updatedAt: serverTimestamp() };
+      if (v.nombre) upd.nombre = v.nombre;
+      if (v.foto) upd.foto = v.foto;
+      await setDoc(lobbyRef(), upd, { merge: true });
+    } catch (e) {
+      lobbyFail('No se pudo sacar la vista previa automática. Puedes poner la foto y el nombre a mano.');
+    }
+    btn.disabled = false; btn.textContent = t;
+  }
+  $('lobbyPrevBtn').addEventListener('click', () => { if (!lobbyUrl) return lobbyFail('Primero guarda el link del lobby.'); $('lobbyNote').dataset.err = '0'; actualizarVista(); });
+
+  // Foto del grupo: se elige desde el móvil/PC, se recorta a cuadrado y se guarda comprimida
+  $('lobbyFotoBtn').addEventListener('click', () => $('lobbyFoto').click());
+  $('lobbyFoto').addEventListener('change', async (e) => {
+    const f = e.target.files[0]; e.target.value = '';
+    if (!f) return;
+    try {
+      const bmp = await createImageBitmap(f);
+      const S = 640, m = Math.min(bmp.width, bmp.height), cv = document.createElement('canvas');
+      cv.width = cv.height = S;
+      cv.getContext('2d').drawImage(bmp, (bmp.width - m) / 2, (bmp.height - m) / 2, m, m, 0, 0, S, S);
+      $('lobbyNote').dataset.err = '0';
+      await setDoc(lobbyRef(), { foto: cv.toDataURL('image/jpeg', 0.85), updatedAt: serverTimestamp() }, { merge: true });
+    } catch (err) { lobbyFail('No se pudo cambiar la foto, prueba con otra imagen.'); }
+  });
+  $('lobbyFotoReset').addEventListener('click', async () => {
+    try { await setDoc(lobbyRef(), { foto: '', updatedAt: serverTimestamp() }, { merge: true }); }
+    catch (e) { lobbyFail('No se pudo quitar la foto.'); }
+  });
+
+  // ---------- Exportar a WhatsApp (solo admin, sin la fecha admin-only) ----------
+  function generateWhatsAppText(){
+    const T = {
+      ocupados: 'ㅤ☄️⌢᛬ 𝑷𝒆𝒓𝒔𝒐𝒏𝒂𝒋𝒆𝒔 𝒐𝒄𝒖𝒑𝒂𝒅𝒐𝒔',
+      reservados: 'ㅤ☄️⌢᛬ 𝑷𝒆𝒓𝒔𝒐𝒏𝒂𝒋𝒆𝒔 𝒓𝒆𝒔𝒆𝒓𝒗𝒂𝒅𝒐𝒔',
+      buscados: 'ㅤ☄️⌢᛬ 𝑷𝒆𝒓𝒔𝒐𝒏𝒂𝒋𝒆𝒔 𝒃𝒖𝒔𝒄𝒂𝒅𝒐𝒔'
+    };
+    const FIN = '★ ————';
+    const bloque = (titulo, filas) => [titulo, '', ...(filas.length ? filas : ['ᰔ ']), FIN].join('\n');
+    const ocup = allCaches.ocupados.map(c => 'ᰔ ' + c.nombre);
+    const res = allCaches.reservados.map(c => 'ᰔ ' + c.nombre);
+    // Buscados: una línea por personaje; si lo piden varias personas, se juntan los motivos distintos
+    const busc = groupBuscados().map(items => {
+      const motivos = [];
+      items.forEach(r => { const m = (r.motivo || '').trim(); if (m && !motivos.some(x => normalize(x) === normalize(m))) motivos.push(m); });
+      return 'ᰔ ' + items[0].nombre + (motivos.length ? ' — ' + motivos.join(' / ') : '');
+    });
+    return [bloque(T.ocupados, ocup), bloque(T.buscados, busc), bloque(T.reservados, res)].join('\n\n');
+  }
+
+  $('exportBtn').addEventListener('click', async () => {
+    const btn = $('exportBtn');
+    const original = btn.textContent;
+    try {
+      await navigator.clipboard.writeText(generateWhatsAppText());
+      btn.textContent = '¡Copiado!';
+    } catch (e) {
+      btn.textContent = 'No se pudo copiar';
+    }
+    setTimeout(() => { btn.textContent = original; }, 2000);
+  });
+
+  // ---------- Secciones visibles (todas se ven por defecto) ----------
+  document.querySelectorAll('.view-toggles input').forEach(cb => cb.addEventListener('change', () => {
+    $('sec-' + cb.dataset.sec).hidden = !cb.checked;
+  }));
+</script>
+</body>
+</html>
