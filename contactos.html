@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contactos — Sunaely Team</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=7">
+<style>
+  /* Formulario de vincular: en móvil se parte en filas en vez de salirse de la pantalla */
+  #unlinkedList li{ flex-wrap:wrap; gap:8px; }
+  #unlinkedList .li-actions.contact-edit{ flex:1 1 100%; flex-wrap:wrap; align-items:center; gap:8px; min-width:0; }
+  #unlinkedList .contact-edit > input[type=text]{ flex:1 1 100%; width:100%; min-width:0; }
+</style>
+</head>
+<body>
+<div class="sky-bg" aria-hidden="true"><div class="sun-corner"></div></div>
+
+<div class="wrap">
+  <a class="back-link" href="index.html">← Volver al índice</a>
+  <header class="top">
+    <div>
+      <div class="title-wrap">
+        <h1>Contactos</h1>
+      </div>
+      <p class="subtitle">Cada miembro se identifica por su teléfono o usuario de WhatsApp, no por el personaje que lleve — así, si se va o cambia de rol, no se pierde su historial.</p>
+    </div>
+    <button class="admin-toggle" id="adminToggleBtn">Acceso admin</button>
+  </header>
+
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Buscar por personaje (actual o anterior) o contacto..." autocomplete="off">
+  </div>
+
+  <section class="panel">
+    <h2>Miembros</h2>
+    <p class="panel-desc" id="panelDesc">Cada fila es una persona, con el personaje (o personajes) que ocupa ahora mismo.</p>
+    <ul class="simple-list" id="memberList"></ul>
+    <p class="empty-note" id="memberEmpty" hidden></p>
+  </section>
+
+  <section class="panel" id="unlinkedPanel" hidden>
+    <h2>Personajes sin vincular</h2>
+    <p class="panel-desc">Estos personajes están en "Ocupados" pero todavía no tienen un contacto asociado. Para crear un miembro nuevo (o añadirle otro personaje a uno ya existente), escribe su teléfono o usuario aquí.</p>
+    <ul class="simple-list" id="unlinkedList"></ul>
+  </section>
+
+  <footer class="status" id="statusLine"></footer>
+</div>
+
+<dialog id="loginDialog">
+  <div class="dialog-inner">
+    <h3>Acceso admin</h3>
+    <div class="dialog-field">
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username">
+    </div>
+    <div class="dialog-field">
+      <label for="loginPass">Contraseña</label>
+      <input id="loginPass" type="password" autocomplete="current-password">
+    </div>
+    <p class="dialog-error" id="loginError"></p>
+    <div class="dialog-actions">
+      <button class="btn-primary" id="loginSubmit" type="button">Entrar</button>
+      <button class="btn-ghost" id="loginCancel" type="button">Cancelar</button>
+    </div>
+  </div>
+</dialog>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc, updateDoc, deleteField,
+    onSnapshot, query, where, orderBy, serverTimestamp, arrayUnion
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8kDJ_Yq3wBHAoxCJSsGn-GGh4g6r4mXk",
+    authDomain: "sunaely-teamm.firebaseapp.com",
+    projectId: "sunaely-teamm",
+    storageBucket: "sunaely-teamm.firebasestorage.app",
+    messagingSenderId: "487274825899",
+    appId: "1:487274825899:web:a12b4812a8c978d4410fee"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const $ = (id) => document.getElementById(id);
+
+
+  function escapeHtml(str){
+    return String(str ?? '').replace(/[&<>"']/g, (m) => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[m]));
+  }
+  function normalize(str){
+    return String(str ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  function maskContacto(value){
+    return String(value || '').split('').map(ch => {
+      if (/[0-9]/.test(ch)) return '•';
+      if (/[a-zA-ZÀ-ÿ]/.test(ch)) return 'x';
+      return ch;
+    }).join('');
+  }
+  // El propio contacto (normalizado) es el ID del documento del miembro en Firestore.
+  // Identificador interno (DNI) de cada miembro: aleatorio, no revela el contacto y no cambia nunca
+  const nuevoId = () => 'm-' + [...crypto.getRandomValues(new Uint8Array(12))].map(b => (b % 36).toString(36)).join('');
+
+  // Contacto normalizado: sirve para reconocer a alguien que ya existe (no es el id del documento)
+  function memberIdFrom(contacto){
+    return String(contacto || '').trim().toLowerCase().replace(/[\/\s]+/g, '_');
+  }
+
+
+  // ---------- Edad (se entra con 15–18; a los 19 no pasa nada) ----------
+  function edadInfo(nac){
+    if (!nac) return null;
+    const [y, mo, d] = nac.split('-').map(Number);
+    const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+    let edad = hoy.getFullYear() - y;
+    if (hoy < new Date(hoy.getFullYear(), mo - 1, d)) edad--;
+    const dias = Math.ceil((new Date(y + 19, mo - 1, d) - hoy) / 864e5);
+    return { edad, dias };
+  }
+  function edadTxt(nac, ocupa = true){
+    // Sunaely: se entra con 15–18 años. Quien cumple 19 estando dentro se queda, así que no hay aviso de expulsión a los 19.
+    const i = edadInfo(nac);
+    if (!i && !ocupa) return { html: '', nivel: 'ok' };
+    if (!i) return { html: '<span style="color:var(--danger,#c0482f)">Falta fecha de nacimiento</span>', nivel: 'falta' };
+    if (i.edad < 15) return { html: `<b style="color:var(--danger,#c0482f)">${i.edad} años — menor de 15, no cumple el mínimo</b>`, nivel: 'expulsar', motivo: 'Menor de 15' };
+    return { html: `${i.edad} años`, nivel: 'ok' };
+  }
+
+  // Fecha de nacimiento como dd / mm / 20aa (solo se teclean 2 cifras del año)
+  function makeNacField(iso, onCommit){
+    const w = document.createElement('span');
+    w.style.cssText = 'display:inline-flex;align-items:center;gap:2px;margin-right:8px';
+    const mk = (ph) => { const i = document.createElement('input'); i.type = 'text'; i.inputMode = 'numeric'; i.maxLength = 2; i.placeholder = ph; i.autocomplete = 'off'; i.style.cssText = 'width:2.6em;padding:3px 4px;font-size:0.88rem;text-align:center'; return i; };
+    const sep = (t) => { const e = document.createElement('span'); e.textContent = t; return e; };
+    const dd = mk('dd'), mm = mk('mm'), yy = mk('aa');
+    w.append(dd, sep('/'), mm, sep('/20'), yy);
+    if (iso && iso.startsWith('20')){ const [y, m, d] = iso.split('-'); dd.value = d; mm.value = m; yy.value = y.slice(2); }
+    w.getISO = () => {
+      if (dd.value.length !== 2 || mm.value.length !== 2 || yy.value.length !== 2) return '';
+      const y = 2000 + Number(yy.value), m = Number(mm.value), d = Number(dd.value);
+      const dt = new Date(y, m - 1, d);
+      if (dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return '';
+      return `${y}-${mm.value}-${dd.value}`;
+    };
+    const els = [dd, mm, yy];
+    els.forEach((el, i) => el.addEventListener('input', () => {
+      el.value = el.value.replace(/\D/g, '');
+      if (el.value.length === 2 && els[i + 1]) els[i + 1].focus();
+      const full = els.every(x => x.value.length === 2), v = w.getISO();
+      els.forEach(x => x.style.borderColor = (full && !v) ? 'var(--danger,#e66)' : '');
+      if (v && onCommit) onCommit(v);
+    }));
+    return w;
+  }
+
+  function orderComparator(a, b){
+    const av = typeof a.orden === 'number' ? a.orden : Infinity;
+    const bv = typeof b.orden === 'number' ? b.orden : Infinity;
+    if (av !== bv) return av - bv;
+    const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+    const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+    return at - bt;
+  }
+  function nextOrden(cache){
+    if (!cache.length) return 1000;
+    const max = Math.max(...cache.map(i => typeof i.orden === 'number' ? i.orden : 0));
+    return max + 1000;
+  }
+  function backfillOrden(collectionName, cache){
+    const missing = cache.filter(i => typeof i.orden !== 'number');
+    if (!missing.length) return;
+    const byCreated = [...cache].sort((a, b) => {
+      const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+      const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+      return at - bt;
+    });
+    byCreated.forEach((item, idx) => {
+      if (typeof item.orden !== 'number'){
+        updateDoc(doc(db, collectionName, item.id), { orden: (idx + 1) * 1000 }).catch(() => {});
+      }
+    });
+  }
+  function makeHandle(draggable){
+    const h = document.createElement('span');
+    h.className = 'handle' + (draggable ? ' draggable' : '');
+    h.textContent = '✦';
+    return h;
+  }
+
+  function makeStepper(label, value, onChange){
+    const wrap = document.createElement('span');
+    wrap.className = 'stepper';
+
+    const lbl = document.createElement('span');
+    lbl.className = 'stepper-label';
+    lbl.textContent = label + ':';
+
+    const minusBtn = document.createElement('button');
+    minusBtn.className = 'icon-btn stepper-btn';
+    minusBtn.textContent = '−';
+    minusBtn.type = 'button';
+
+    const valSpan = document.createElement('span');
+    valSpan.className = 'stepper-value';
+    valSpan.textContent = value;
+
+    const plusBtn = document.createElement('button');
+    plusBtn.className = 'icon-btn stepper-btn icon-btn-confirm';
+    plusBtn.textContent = '+';
+    plusBtn.type = 'button';
+
+    minusBtn.addEventListener('click', () => onChange(Math.max(0, value - 1)));
+    plusBtn.addEventListener('click', () => onChange(value + 1));
+
+    wrap.append(lbl, minusBtn, valSpan, plusBtn);
+    return wrap;
+  }
+  function enableDragReorder(listEl, collectionName, getCache){
+    listEl.addEventListener('pointerdown', (e) => {
+      const handle = e.target.closest('.handle');
+      if (!handle || !handle.classList.contains('draggable')) return;
+      const li = handle.closest('li');
+      if (!li) return;
+      e.preventDefault();
+      li.classList.add('dragging');
+
+      const onMove = (ev) => {
+        const y = ev.clientY;
+        const siblings = [...listEl.querySelectorAll('li:not(.dragging)')];
+        let target = null;
+        for (const sib of siblings){
+          const rect = sib.getBoundingClientRect();
+          if (y < rect.top + rect.height / 2){ target = sib; break; }
+        }
+        if (target) listEl.insertBefore(li, target);
+        else listEl.appendChild(li);
+      };
+
+      const onUp = async () => {
+        li.classList.remove('dragging');
+        document.removeEventListener('pointermove', onMove);
+        document.removeEventListener('pointerup', onUp);
+
+        const ids = [...listEl.querySelectorAll('li')].map(x => x.dataset.id);
+        const cache = getCache();
+        const movedId = li.dataset.id;
+        const newIndex = ids.indexOf(movedId);
+        const prevItem = cache.find(i => i.id === ids[newIndex - 1]);
+        const nextItem = cache.find(i => i.id === ids[newIndex + 1]);
+        const prevOrden = prevItem && typeof prevItem.orden === 'number' ? prevItem.orden : null;
+        const nextOrdenVal = nextItem && typeof nextItem.orden === 'number' ? nextItem.orden : null;
+
+        let newOrden;
+        if (prevOrden == null && nextOrdenVal == null) newOrden = 1000;
+        else if (prevOrden == null) newOrden = nextOrdenVal - 1000;
+        else if (nextOrdenVal == null) newOrden = prevOrden + 1000;
+        else newOrden = (prevOrden + nextOrdenVal) / 2;
+
+        try {
+          await updateDoc(doc(db, collectionName, movedId), { orden: newOrden });
+        } catch (e) {
+          statusLine.textContent = 'No se pudo guardar el nuevo orden.';
+        }
+      };
+
+      document.addEventListener('pointermove', onMove);
+      document.addEventListener('pointerup', onUp);
+    });
+  }
+
+  // ---------- Admin login ----------
+  let isAdmin = false;
+  const adminToggleBtn = $('adminToggleBtn');
+  const loginDialog = $('loginDialog');
+  const loginEmail = $('loginEmail');
+  const loginPass = $('loginPass');
+  const loginError = $('loginError');
+  const statusLine = $('statusLine');
+
+  adminToggleBtn.addEventListener('click', () => {
+    if (isAdmin) {
+      signOut(auth);
+    } else {
+      loginError.textContent = '';
+      loginEmail.value = '';
+      loginPass.value = '';
+      loginDialog.showModal();
+    }
+  });
+  $('loginCancel').addEventListener('click', () => loginDialog.close());
+  $('loginSubmit').addEventListener('click', async () => {
+    loginError.textContent = '';
+    try {
+      await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPass.value);
+      loginDialog.close();
+    } catch (e) {
+      loginError.textContent = 'Email o contraseña incorrectos.';
+    }
+  });
+
+  // ---------- Datos ----------
+  const memberList = $('memberList');
+  const memberEmpty = $('memberEmpty');
+  const unlinkedPanel = $('unlinkedPanel');
+  const unlinkedList = $('unlinkedList');
+  const panelDesc = $('panelDesc');
+
+  let ocupadosCache = [];
+  let miembrosCache = [];   // solo se llena estando logueado
+  let miembrosUnsub = null;
+  enableDragReorder(memberList, 'miembros', () => miembrosCache);
+  let searchTerm = '';
+
+  onSnapshot(query(collection(db, 'ocupados'), orderBy('createdAt', 'asc')),
+    (snap) => { ocupadosCache = snap.docs.map(d => ({ id: d.id, ...d.data() })); render(); },
+    () => { statusLine.textContent = 'No se pudo conectar con la base de datos.'; }
+  );
+
+  $('searchInput').addEventListener('input', (e) => {
+    searchTerm = normalize(e.target.value.trim());
+    render();
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    isAdmin = !!user;
+    adminToggleBtn.textContent = isAdmin ? 'Salir del modo admin' : 'Acceso admin';
+    adminToggleBtn.classList.toggle('is-admin', isAdmin);
+    unlinkedPanel.hidden = !isAdmin;
+    panelDesc.textContent = isAdmin
+      ? 'Cada fila es una persona (identificada por su contacto real), con el personaje que ocupa ahora mismo. Si no ocupa ninguno, se queda como "Sin rol actual" — su ficha no desaparece.'
+      : 'Cada fila es una persona, con el personaje (o personajes) que ocupa ahora mismo.';
+
+    if (isAdmin && !miembrosUnsub){
+      miembrosUnsub = onSnapshot(collection(db, 'miembros'), (snap) => {
+        miembrosCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        backfillOrden('miembros', miembrosCache);
+        render();
+      });
+    } else if (!isAdmin && miembrosUnsub){
+      miembrosUnsub();
+      miembrosUnsub = null;
+      miembrosCache = [];
+    }
+    render();
+  });
+
+  // Agrupa los personajes ocupados por miembroId: { miembroId: [nombre1, nombre2, ...] }
+  function rolesPorMiembro(){
+    const map = {};
+    ocupadosCache.forEach(o => {
+      if (!o.miembroId) return;
+      if (!map[o.miembroId]) map[o.miembroId] = [];
+      map[o.miembroId].push(o.nombre);
+    });
+    return map;
+  }
+
+  function render(){
+    const roles = rolesPorMiembro();
+
+    if (!isAdmin){
+      renderPublic(roles);
+    } else {
+      renderAdmin(roles);
+      renderUnlinked();
+    }
+  }
+
+  function renderPublic(roles){
+    memberList.innerHTML = '';
+    // Solo miembros con al menos un personaje visible (con máscara pública) y con datos que coincidan la búsqueda.
+    const rows = Object.keys(roles)
+      .map(miembroId => {
+        const chars = ocupadosCache.filter(o => o.miembroId === miembroId && o.contactoMask);
+        if (!chars.length) return null;
+        return { mask: chars[0].contactoMask, roles: chars.map(c => c.nombre) };
+      })
+      .filter(Boolean);
+
+    const filtered = searchTerm
+      ? rows.filter(r => r.roles.some(n => normalize(n).includes(searchTerm)))
+      : rows;
+
+    if (rows.length === 0){
+      memberEmpty.hidden = false;
+      memberEmpty.textContent = 'Todavía no hay miembros con contacto vinculado.';
+    } else if (filtered.length === 0){
+      memberEmpty.hidden = false;
+      memberEmpty.textContent = 'Ningún resultado coincide con tu búsqueda.';
+    } else {
+      memberEmpty.hidden = true;
+    }
+
+    filtered.forEach(r => {
+      const li = document.createElement('li');
+      const left = document.createElement('span');
+      left.className = 'li-left';
+      const name = document.createElement('span');
+      name.className = 'li-name';
+      name.textContent = r.mask;
+      left.appendChild(name);
+      li.appendChild(left);
+      const meta = document.createElement('span');
+      meta.className = 'li-meta';
+      meta.textContent = 'Ocupa: ' + r.roles.join(', ');
+      li.appendChild(meta);
+      memberList.appendChild(li);
+    });
+  }
+
+  // Cambiar el teléfono/usuario de un miembro sin tocar su identificador interno
+  async function cambiarContacto(id){
+    const m = miembrosCache.find(x => x.id === id); if (!m) return;
+    const val = (prompt('Nuevo teléfono o usuario de WhatsApp para ' + (m.contacto || m.id) + ':', m.contacto || '') || '').trim();
+    if (!val || val === m.contacto) return;
+    const key = memberIdFrom(val);
+    if (!key) return;
+    const otro = miembrosCache.find(x => x.id !== id && (x.contactoKey === key || x.id === key || (x.contactosAnteriores || []).includes(key)));
+    if (otro){ statusLine.textContent = 'Ese contacto ya pertenece a otro miembro (' + (otro.apodoInterno || otro.id) + ').'; return; }
+    try {
+      const viejoKey = m.contactoKey || memberIdFrom(m.contacto || m.id);
+      await updateDoc(doc(db, 'miembros', id), { contacto: val, contactoKey: key, contactosAnteriores: arrayUnion(viejoKey) });
+      await Promise.all(ocupadosCache.filter(o => o.miembroId === id)
+        .map(o => updateDoc(doc(db, 'ocupados', o.id), { contactoMask: maskContacto(val) })));
+      statusLine.textContent = 'Contacto actualizado.';
+    } catch (e) { statusLine.textContent = 'No se pudo cambiar el contacto: ' + (e.code || e.message); }
+  }
+
+  function renderAdmin(roles){
+    memberList.innerHTML = '';
+    const sorted = [...miembrosCache].sort(orderComparator);
+    const rows = sorted.map(m => ({
+      id: m.id,
+      contacto: m.contacto || m.id,
+      apodoInterno: m.apodoInterno || '',
+      nacimiento: m.nacimiento || '',
+      cambiosDisponibles: typeof m.cambiosDisponibles === 'number' ? m.cambiosDisponibles : 1,
+      salidasDisponibles: typeof m.salidasDisponibles === 'number' ? m.salidasDisponibles : 3,
+      roles: roles[m.id] || [],
+      historialPersonajes: Array.isArray(m.historialPersonajes) ? m.historialPersonajes : []
+    }));
+
+    const filtered = searchTerm
+      ? rows.filter(r => r.roles.some(n => normalize(n).includes(searchTerm)) || normalize(r.contacto).includes(searchTerm) || normalize(r.apodoInterno).includes(searchTerm) || r.historialPersonajes.some(h => normalize(h.nombre).includes(searchTerm)))
+      : rows;
+
+    if (rows.length === 0){
+      memberEmpty.hidden = false;
+      memberEmpty.textContent = 'Todavía no hay ningún miembro registrado.';
+    } else if (filtered.length === 0){
+      memberEmpty.hidden = false;
+      memberEmpty.textContent = 'Ningún resultado coincide con tu búsqueda.';
+    } else {
+      memberEmpty.hidden = true;
+    }
+
+    filtered.forEach(r => {
+      const li = document.createElement('li');
+      li.dataset.id = r.id;
+
+      const left = document.createElement('span');
+      left.className = 'li-left';
+      left.appendChild(makeHandle(!searchTerm));
+
+      const textWrap = document.createElement('div');
+      const name = document.createElement('div');
+      name.className = 'li-name';
+      name.textContent = r.contacto;
+      textWrap.appendChild(name);
+
+      const meta = document.createElement('div');
+      meta.className = 'li-meta';
+      const rolesTxt = r.roles.length ? r.roles.join(', ') : 'Sin rol actual';
+      const pastNames = [...new Set(r.historialPersonajes.map(h => h.nombre))].filter(n => !r.roles.includes(n));
+      let metaHtml = `Ocupa: <b>${escapeHtml(rolesTxt)}</b>`;
+      if (pastNames.length) metaHtml += ` — Ocupaba: ${escapeHtml(pastNames.join(', '))}`;
+      metaHtml += ` — ${escapeHtml(r.apodoInterno)}`;
+      meta.innerHTML = metaHtml;
+      textWrap.appendChild(meta);
+
+      const nacRow = document.createElement('div');
+      nacRow.className = 'li-meta';
+      const nacTxt = document.createElement('span');
+      nacTxt.innerHTML = edadTxt(r.nacimiento, r.roles.length > 0).html;
+      const nacInput = makeNacField(r.nacimiento, (v) => { if (v !== r.nacimiento) updateDoc(doc(db, 'miembros', r.id), { nacimiento: v }); });
+      nacRow.append('Nació: ', nacInput, nacTxt);
+      textWrap.appendChild(nacRow);
+
+      const steppers = document.createElement('div');
+      steppers.className = 'stepper-row';
+      steppers.appendChild(makeStepper('Cambios', r.cambiosDisponibles, (val) =>
+        updateDoc(doc(db, 'miembros', r.id), { cambiosDisponibles: val })
+      ));
+      steppers.appendChild(makeStepper('Salidas', r.salidasDisponibles, (val) =>
+        updateDoc(doc(db, 'miembros', r.id), { salidasDisponibles: val })
+      ));
+      textWrap.appendChild(steppers);
+
+      left.appendChild(textWrap);
+      li.appendChild(left);
+
+      const actions = document.createElement('div');
+      actions.className = 'li-actions';
+      const chBtn = document.createElement('button');
+      chBtn.className = 'icon-btn';
+      chBtn.textContent = 'Cambiar contacto';
+      chBtn.addEventListener('click', () => cambiarContacto(r.id));
+      actions.appendChild(chBtn);
+      li.appendChild(actions);
+
+      memberList.appendChild(li);
+    });
+  }
+
+  function renderUnlinked(){
+    unlinkedList.innerHTML = '';
+    const sinVincular = ocupadosCache.filter(o => !o.miembroId);
+    sinVincular.forEach(o => {
+      const li = document.createElement('li');
+      const left = document.createElement('span');
+      left.className = 'li-left';
+      const name = document.createElement('span');
+      name.className = 'li-name';
+      name.textContent = o.nombre;
+      left.appendChild(name);
+      li.appendChild(left);
+
+      const actions = document.createElement('div');
+      actions.className = 'li-actions contact-edit';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = 'Teléfono o usuario de WhatsApp';
+      const nacNuevo = makeNacField('');
+      nacNuevo.title = 'Fecha de nacimiento (obligatoria si es miembro nuevo)';
+
+      const link = async () => {
+        const val = input.value.trim();
+        if (!val) return;
+        const key = memberIdFrom(val);
+        if (!key) return;
+        // ¿Ya existe? Primero el formato antiguo (id = contacto) y luego por el campo contactoKey
+        let memberId = null;
+        if ((await getDoc(doc(db, 'miembros', key))).exists()) memberId = key;
+        else {
+          const found = await getDocs(query(collection(db, 'miembros'), where('contactoKey', '==', key)));
+          if (!found.empty) memberId = found.docs[0].id;
+          else {
+            const prev = await getDocs(query(collection(db, 'miembros'), where('contactosAnteriores', 'array-contains', key)));
+            if (!prev.empty) memberId = prev.docs[0].id;
+          }
+        }
+        if (!memberId){
+          const nacISO = nacNuevo.getISO();
+          if (!nacISO){ nacNuevo.querySelector('input').focus(); statusLine.textContent = 'Para crear un miembro nuevo hace falta su fecha de nacimiento.'; return; }
+          const ed = edadInfo(nacISO);
+          if (ed && ed.edad < 15){ statusLine.textContent = 'Tiene ' + ed.edad + ' años: el mínimo para entrar en Sunaely es 15.'; return; }
+          if (ed && ed.edad > 18 && !confirm('Tiene ' + ed.edad + ' años. En Sunaely se entra con 15–18 (quien cumple 19 dentro se queda). ¿Vincular de todas formas?')) return;
+          const maxNum = Math.max(0, ...miembrosCache.map(m => parseInt(String(m.apodoInterno || '').replace(/\D/g, ''), 10) || 0));
+          memberId = nuevoId();
+          await setDoc(doc(db, 'miembros', memberId), {
+            contacto: val,
+            contactoKey: key,
+            nacimiento: nacISO,
+            apodoInterno: 'Miembro-' + String(maxNum + 1).padStart(3, '0'),
+            cambiosDisponibles: 1,
+            salidasDisponibles: 3,
+            activo: true,
+            historial: [],
+            orden: nextOrden(miembrosCache),
+            createdAt: serverTimestamp()
+          });
+        }
+        await setDoc(doc(db, 'ocupados', o.id), { miembroId: memberId, contactoMask: maskContacto(val) }, { merge: true });
+      };
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); link(); } });
+
+      const linkBtn = document.createElement('button');
+      linkBtn.className = 'icon-btn icon-btn-confirm';
+      linkBtn.textContent = 'Vincular';
+      linkBtn.addEventListener('click', link);
+
+      actions.appendChild(input);
+      actions.appendChild(nacNuevo);
+      actions.appendChild(linkBtn);
+      li.appendChild(actions);
+      unlinkedList.appendChild(li);
+    });
+  }
+</script>
+</body>
+</html>
