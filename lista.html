@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/lista.html">
-<meta name="theme-color" content="#1d1030">
+<meta name="theme-color" content="#ffb52e">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sunaely Team">
 <meta property="og:locale" content="es_ES">
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Personajes de Sunaely Team · ocupados, buscados y reservados">
 <meta name="twitter:description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-20T21:14:42Z"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
 <!-- seo:end -->
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,6 +71,24 @@
   .juego-tab:hover{ border-color:var(--gold); color:var(--ink); }
   .juego-tab.on{ background:linear-gradient(180deg,#ffd75e,#ffb02e); border-color:var(--gold); color:#3a2307; font-weight:600; box-shadow:0 2px 10px rgba(230,140,20,.3); }
   .juego-tab:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  select[data-dd]{ display:none !important; }
+  .dd{ position:relative; width:100%; } .li-edit-form .dd{ flex:1; min-width:110px; }
+  .dd-btn{ position:relative; width:100%; text-align:left; font-family:'Crimson Pro',serif; font-size:1rem; padding:8px 34px 8px 10px; border:1px solid var(--border); border-radius:3px; background:rgba(255,255,255,.6); color:var(--ink); cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+  .li-edit-form .dd-btn{ padding:6px 30px 6px 8px; font-size:.92rem; }
+  .dd-btn:hover,.dd-btn[aria-expanded="true"]{ border-color:var(--gold); }
+  .dd-btn:focus-visible{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(230,140,20,.22); }
+  .dd-btn.vacio{ color:var(--ink-soft); font-style:italic; }
+  .dd-btn::after{ content:''; position:absolute; right:12px; top:50%; margin-top:-3px; border:5px solid transparent; border-top-color:var(--gold); border-bottom:0; transition:transform .18s; }
+  .dd-btn[aria-expanded="true"]::after{ transform:rotate(180deg); }
+  .dd-list{ position:fixed; z-index:200; margin:0; padding:5px; list-style:none; max-height:240px; overflow:auto; background:linear-gradient(180deg,#fffaf0,#ffefc4); border:1px solid rgba(230,140,20,.45); border-radius:9px; box-shadow:0 14px 34px rgba(120,70,10,.28); animation:ddIn .14s ease-out; }
+  .dd-list[hidden]{ display:none; }
+  @keyframes ddIn{ from{ opacity:0; transform:translateY(-4px) scale(.98); } to{ opacity:1; transform:none; } }
+  .dd-list li{ position:relative; padding:8px 12px 8px 30px; border-radius:6px; cursor:pointer; color:var(--ink); font-size:1rem; }
+  .dd-list li:hover{ background:rgba(255,190,60,.32); }
+  .dd-list li.sel{ font-weight:600; color:#8a4a05; background:rgba(255,190,60,.18); }
+  .dd-list li.sel::before{ content:'✦'; position:absolute; left:10px; color:var(--gold); }
+  .alias-box{ display:flex; flex-direction:column; gap:6px; } .li-edit-form .alias-box{ flex:1 1 100%; }
+  .li-alias{ margin-left:8px; font-size:.9rem; font-style:italic; color:var(--ink-soft); }
   .panel[hidden]{ display:none !important; }
   .view-toggles{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 18px; }
   .vt-label{ color:var(--ink-soft); font-style:italic; margin-right:2px; }
@@ -164,6 +182,10 @@
         <input id="ocNombre" type="text" maxlength="40" placeholder="Beidou">
       </div>
       <div class="full">
+        <label>Nombre adicional <small>(opcional)</small></label>
+        <div class="alias-box" id="ocAlias"></div>
+      </div>
+      <div class="full">
         <label for="ocJuego">Juego</label>
         <select id="ocJuego"></select>
       </div>
@@ -185,6 +207,10 @@
       <div>
         <label for="bPedidoPor">Lo pide</label>
         <select id="bPedidoPor"></select>
+      </div>
+      <div class="full">
+        <label>Nombre adicional <small>(opcional)</small></label>
+        <div class="alias-box" id="bAlias"></div>
       </div>
       <div>
         <label for="bJuego">Juego</label>
@@ -212,6 +238,10 @@
       <div class="full">
         <label for="rNombre">Personaje</label>
         <input id="rNombre" type="text" maxlength="40" placeholder="Beidou">
+      </div>
+      <div class="full">
+        <label>Nombre adicional <small>(opcional)</small></label>
+        <div class="alias-box" id="rAlias"></div>
       </div>
       <div class="full">
         <label for="rJuego">Juego</label>
@@ -363,6 +393,29 @@
   let isAdmin = false;
   const $ = (id) => document.getElementById(id);
 
+  // ---------- Nombres adicionales: siempre hay un hueco vacío al final; se quitan los sobrantes solos ----------
+  function aliasField(box, initial){
+    const mk = (v) => {
+      const i = document.createElement('input'); i.type = 'text'; i.maxLength = 40; i.placeholder = 'Otro nombre (opcional)'; i.value = v || '';
+      i.addEventListener('input', fix);
+      i.addEventListener('blur', () => { if (!i.value.trim() && i !== box.lastElementChild) i.remove(); fix(); });
+      return i;
+    };
+    const fix = () => {
+      const ins = [...box.children];
+      while (ins.length > 1 && !ins[ins.length - 1].value.trim() && !ins[ins.length - 2].value.trim()) ins.pop().remove();
+      const last = box.lastElementChild;
+      if (!last || last.value.trim()) box.appendChild(mk(''));
+    };
+    const set = (arr) => { box.innerHTML = ''; (arr || []).forEach(v => box.appendChild(mk(v))); fix(); };
+    set(initial);
+    return {
+      get: () => { const seen = new Set(); return [...box.children].map(i => i.value.trim()).filter(v => v && !seen.has(v.toLowerCase()) && seen.add(v.toLowerCase())); },
+      reset: () => set([])
+    };
+  }
+  const aliasHtml = (x) => (x && x.nombresExtra && x.nombresExtra.length) ? `<span class="li-alias">${escapeHtml(x.nombresExtra.join(' · '))}</span>` : '';
+
   // ---------- Juegos de Hoyoverse (orden y cabeceras del texto del lobby) ----------
   const JUEGOS = [
     { id: 'genshin', tab: 'Genshin', nombre: 'Genshin Impact',    cab: '. 𖥔 ݁ ˖╭ ┆ɢᴇɴꜱʜɪɴ ɪᴍᴘᴀᴄᴛ╰⊹ ࣪' },
@@ -372,6 +425,7 @@
   const CODIGO = { genshin: 'GI', hsr: 'HSR', zzz: 'ZZZ' };
   const juegoDe = (x) => (x && JUEGOS.some(j => j.id === x.juego)) ? x.juego : 'genshin'; // sin dato → Genshin
   const juegoOptions = JUEGOS.map(j => `<option value="${j.id}">${j.nombre}</option>`).join('');
+  const ocAlias = aliasField($('ocAlias')), rAlias = aliasField($('rAlias')), bAlias = aliasField($('bAlias'));
   const JUEGO_SELS = ['ocJuego', 'rJuego', 'bJuego'];
   JUEGO_SELS.forEach(id => {
     $(id).innerHTML = juegoOptions;
@@ -439,6 +493,51 @@
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '');
   }
+
+  // ---------- Desplegables con la estética de Sunaely (sustituyen al <select> nativo, que se ve blanco/gris) ----------
+  const selValue = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value');
+  let ddOpen = null;
+  function closeDD(){ if (ddOpen){ ddOpen.list.hidden = true; ddOpen.btn.setAttribute('aria-expanded', 'false'); ddOpen = null; } }
+  function enhanceSelect(sel){
+    if (sel._dd) return; sel._dd = true;
+    const wrap = document.createElement('div'); wrap.className = 'dd';
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'dd-btn'; btn.setAttribute('aria-haspopup', 'listbox'); btn.setAttribute('aria-expanded', 'false');
+    const list = document.createElement('ul'); list.className = 'dd-list'; list.setAttribute('role', 'listbox'); list.hidden = true;
+    wrap.append(btn, list); sel.after(wrap); sel.setAttribute('data-dd', '');
+    const sync = () => {
+      const o = sel.selectedOptions[0]; btn.textContent = o ? o.textContent : ''; btn.classList.toggle('vacio', !o || o.value === '');
+      list.innerHTML = '';
+      [...sel.options].forEach((op, i) => { const li = document.createElement('li'); li.setAttribute('role', 'option'); li.textContent = op.textContent; li.dataset.i = i; if (op.selected) li.classList.add('sel'); list.appendChild(li); });
+    };
+    Object.defineProperty(sel, 'value', { get(){ return selValue.get.call(sel); }, set(v){ selValue.set.call(sel, v); sync(); } });
+    new MutationObserver(sync).observe(sel, { childList: true, subtree: true });
+    const change = () => sel.dispatchEvent(new Event('change', { bubbles: true }));
+    const pick = (i) => { sel.selectedIndex = i; sync(); closeDD(); change(); btn.focus(); };
+    const openDD = () => {
+      closeDD(); const r = btn.getBoundingClientRect(); list.style.minWidth = r.width + 'px'; list.style.left = r.left + 'px';
+      const abajo = innerHeight - r.bottom > 230 || r.top < 230;
+      list.style.top = abajo ? (r.bottom + 4) + 'px' : 'auto'; list.style.bottom = abajo ? 'auto' : (innerHeight - r.top + 4) + 'px';
+      list.hidden = false; btn.setAttribute('aria-expanded', 'true'); ddOpen = { list, btn };
+      const s = list.querySelector('.sel'); if (s) s.scrollIntoView({ block: 'nearest' });
+    };
+    btn.addEventListener('click', () => (ddOpen && ddOpen.btn === btn) ? closeDD() : openDD());
+    list.addEventListener('click', (e) => { const li = e.target.closest('li'); if (li) pick(+li.dataset.i); });
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closeDD(); return; }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+        e.preventDefault(); const n = sel.options.length; if (!n) return;
+        sel.selectedIndex = (sel.selectedIndex + (e.key === 'ArrowDown' ? 1 : -1) + n) % n; sync(); change();
+      }
+    });
+    sync();
+  }
+  document.addEventListener('click', (e) => { if (ddOpen && !e.target.closest('.dd')) closeDD(); });
+  addEventListener('scroll', (e) => { if (!(e.target.closest && e.target.closest('.dd-list'))) closeDD(); }, true);
+  addEventListener('resize', closeDD);
+  document.querySelectorAll('select').forEach(enhanceSelect);
+  new MutationObserver((ms) => ms.forEach(m => m.addedNodes.forEach(n => {
+    if (n.nodeType !== 1) return; if (n.tagName === 'SELECT') enhanceSelect(n); else if (n.querySelectorAll) n.querySelectorAll('select').forEach(enhanceSelect);
+  }))).observe(document.body, { childList: true, subtree: true });
 
   // ---------- Pestañas por juego: Todo · Genshin · Star Rail · Zenless Zone Zero ----------
   let juegoFiltro = JUEGOS.some(j => j.id === location.hash.slice(1)) ? location.hash.slice(1) : 'todo';
@@ -528,13 +627,9 @@
     return btn;
   }
 
-  function orderComparator(a, b){
-    const av = typeof a.orden === 'number' ? a.orden : Infinity;
-    const bv = typeof b.orden === 'number' ? b.orden : Infinity;
-    if (av !== bv) return av - bv;
-    const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
-    const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
-    return at - bt;
+  function orderComparator(a, b){ // siempre alfabético (sin tildes), da igual cuándo se añadió
+    const k = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    return k(a.nombre).localeCompare(k(b.nombre), 'es');
   }
 
   function nextOrden(cache){
@@ -560,6 +655,7 @@
 
   // Arrastrar y soltar para reordenar (asa = el rombo ✦), vía Pointer Events (funciona con ratón y con el dedo)
   function enableDragReorder(listEl, collectionName, getCache){
+    return; // el orden es alfabético automático: ya no se arrastra
     listEl.addEventListener('pointerdown', (e) => {
       const handle = e.target.closest('.handle');
       if (!handle || !handle.classList.contains('draggable')) return;
@@ -614,7 +710,7 @@
 
   function makeHandle(){
     const h = document.createElement('span');
-    h.className = 'handle' + (isAdmin && !searchTerm && juegoFiltro === 'todo' ? ' draggable' : '');
+    h.className = 'handle' + (false ? ' draggable' : '');
     h.textContent = '✦';
     return h;
   }
@@ -639,7 +735,7 @@
       const sorted = [...cache].sort(orderComparator);
       const base = sorted.filter(delJuego);
       const filtered = searchTerm
-        ? base.filter(item => normalize(item.nombre).includes(searchTerm))
+        ? base.filter(item => [item.nombre, ...(item.nombresExtra || [])].some(n => normalize(n).includes(searchTerm)))
         : base;
 
       if (cache.length === 0){
@@ -663,19 +759,20 @@
           inp.type = 'text'; inp.maxLength = 40; inp.value = item.nombre; inp.placeholder = 'Personaje';
           form.appendChild(inp);
           const jsel = document.createElement('select'); jsel.innerHTML = juegoOptions; jsel.value = juegoDe(item); form.appendChild(jsel);
+          const alBox = document.createElement('div'); alBox.className = 'alias-box'; form.appendChild(alBox); const al = aliasField(alBox, item.nombresExtra || []);
           li.appendChild(form);
           const acts = document.createElement('div');
           acts.className = 'li-actions';
           acts.appendChild(makeActionBtn('Guardar', async () => {
             const nombre = inp.value.trim();
             if (!nombre) return;
-            if (nombre !== item.nombre || jsel.value !== juegoDe(item)){
+            if (nombre !== item.nombre || jsel.value !== juegoDe(item) || JSON.stringify(al.get()) !== JSON.stringify(item.nombresExtra || [])){
               if (item.miembroId && nombre !== item.nombre){
                 await updateDoc(doc(db, 'miembros', item.miembroId), {
                   historialPersonajes: arrayUnion({ nombre: item.nombre, fecha: new Date().toISOString() })
                 });
               }
-              await updateDoc(doc(db, 'ocupados', item.id), { nombre, juego: jsel.value });
+              await updateDoc(doc(db, 'ocupados', item.id), { nombre, juego: jsel.value, nombresExtra: al.get() });
             }
             editingId = null;
             paint();
@@ -700,6 +797,7 @@
         span.textContent = item.nombre;
         span.dataset.j = CODIGO[juegoDe(item)];
         left.appendChild(span);
+        left.insertAdjacentHTML('beforeend', aliasHtml(item));
         li.appendChild(left);
         if (isAdmin){
           const actions = document.createElement('div');
@@ -737,6 +835,7 @@
     await addDoc(collection(db, 'ocupados'), {
       nombre: reservado.nombre,
       juego: juegoDe(reservado),
+      nombresExtra: reservado.nombresExtra || [],
       orden: nextOrden(ocupadosCtl.getCache()),
       createdAt: serverTimestamp()
     });
@@ -756,6 +855,7 @@
     const data = {
       nombre: buscado.nombre,
       juego: juegoDe(buscado),
+      nombresExtra: buscado.nombresExtra || [],
       orden: nextOrden(ocupadosCtl.getCache()),
       createdAt: serverTimestamp(),
       origenBuscado: pack(principal)
@@ -774,6 +874,7 @@
     await addDoc(collection(db, 'buscados'), {
       nombre: ocupado.nombre,
       juego: juegoDe(ocupado),
+      nombresExtra: ocupado.nombresExtra || [],
       pedidoPor: origen.pedidoPor || '',
       pedidoPorId: origen.pedidoPorId || null,
       motivo: origen.motivo || '',
@@ -784,7 +885,7 @@
     // si al encontrarlo había más gente pidiéndolo, esas peticiones también vuelven
     for (const x of (ocupado.origenesExtra || [])){
       await addDoc(collection(db, 'buscados'), {
-        nombre: ocupado.nombre, juego: juegoDe(ocupado), pedidoPor: x.pedidoPor || '', pedidoPorId: x.pedidoPorId || null,
+        nombre: ocupado.nombre, juego: juegoDe(ocupado), nombresExtra: ocupado.nombresExtra || [], pedidoPor: x.pedidoPor || '', pedidoPorId: x.pedidoPorId || null,
         motivo: x.motivo || '', fecha: x.fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp()
       });
     }
@@ -794,8 +895,8 @@
   async function addOcupado(){
     const nombre = $('ocNombre').value.trim();
     if (!nombre) return;
-    await addDoc(collection(db, 'ocupados'), { nombre, juego: $('ocJuego').value, orden: nextOrden(ocupadosCtl.getCache()), createdAt: serverTimestamp() });
-    $('ocNombre').value = '';
+    await addDoc(collection(db, 'ocupados'), { nombre, juego: $('ocJuego').value, nombresExtra: ocAlias.get(), orden: nextOrden(ocupadosCtl.getCache()), createdAt: serverTimestamp() });
+    $('ocNombre').value = ''; ocAlias.reset();
   }
   $('ocAddBtn').addEventListener('click', addOcupado);
   $('ocNombre').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addOcupado(); } });
@@ -803,8 +904,8 @@
   async function addReservado(){
     const nombre = $('rNombre').value.trim();
     if (!nombre) return;
-    await addDoc(collection(db, 'reservados'), { nombre, juego: $('rJuego').value, orden: nextOrden(reservadosCtl.getCache()), createdAt: serverTimestamp() });
-    $('rNombre').value = '';
+    await addDoc(collection(db, 'reservados'), { nombre, juego: $('rJuego').value, nombresExtra: rAlias.get(), orden: nextOrden(reservadosCtl.getCache()), createdAt: serverTimestamp() });
+    $('rNombre').value = ''; rAlias.reset();
   }
   $('rAddBtn').addEventListener('click', addReservado);
   $('rNombre').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addReservado(); } });
@@ -1020,7 +1121,7 @@
     const groups = groupBuscados().filter(items => delJuego(items[0]));
     const filtered = searchTerm
       ? groups.filter(items => items.some(r =>
-          normalize(r.nombre).includes(searchTerm) ||
+          [r.nombre, ...(r.nombresExtra || [])].some(n => normalize(n).includes(searchTerm)) ||
           normalize(r.pedidoPor).includes(searchTerm) ||
           normalize(r.motivo).includes(searchTerm)))
       : groups;
@@ -1063,7 +1164,8 @@
       fechaInput.type = 'date';
       fechaInput.value = r.fecha || '';
       const juegoInput = document.createElement('select'); juegoInput.innerHTML = juegoOptions; juegoInput.value = juegoDe(r);
-      form.append(nombreInput, juegoInput, pedidoInput, motivoInput, fechaInput);
+      const alBoxB = document.createElement('div'); alBoxB.className = 'alias-box'; const alB = aliasField(alBoxB, r.nombresExtra || []);
+      form.append(nombreInput, juegoInput, alBoxB, pedidoInput, motivoInput, fechaInput);
       const actions = document.createElement('div');
       actions.className = 'li-actions';
       const save = async () => {
@@ -1075,7 +1177,7 @@
         const prev = editingBuscadoId;
         editingBuscadoId = null;
         try {
-          await updateDoc(doc(db, 'buscados', r.id), { nombre, juego: juegoInput.value, pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fechaInput.value || null });
+          await updateDoc(doc(db, 'buscados', r.id), { nombre, juego: juegoInput.value, nombresExtra: alB.get(), pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fechaInput.value || null });
         } catch (e) { editingBuscadoId = prev; paintBuscados(); throw e; }
         paintBuscados();
       };
@@ -1106,7 +1208,7 @@
         content.className = 'li-left';
         content.appendChild(makeHandle());
         const textWrap = document.createElement('div');
-        textWrap.innerHTML = `<div class="li-name" data-j="${CODIGO[juegoDe(r)]}">${escapeHtml(r.nombre)}</div>${metaHtml(r)}`;
+        textWrap.innerHTML = `<div class="li-name" data-j="${CODIGO[juegoDe(r)]}">${escapeHtml(r.nombre)}</div>${aliasHtml(r)}${metaHtml(r)}`;
         content.appendChild(textWrap);
         li.appendChild(content);
         if (isAdmin) li.appendChild(adminActions(r));
@@ -1121,7 +1223,7 @@
       const nm = document.createElement('div');
       nm.className = 'li-name';
       nm.dataset.j = CODIGO[juegoDe(first)];
-      nm.innerHTML = `${escapeHtml(first.nombre)}<span class="dup-badge">${items.length} personas lo piden</span>`;
+      nm.innerHTML = `${escapeHtml(first.nombre)}${aliasHtml({ nombresExtra: [...new Set(items.flatMap(x => x.nombresExtra || []))] })}<span class="dup-badge">${items.length} personas lo piden</span>`;
       head.appendChild(nm);
       const top = document.createElement('div');
       top.className = 'grupo-top';
@@ -1164,8 +1266,8 @@
     const btn = $('bAddBtn');
     btn.disabled = true;
     try {
-      await addDoc(collection(db, 'buscados'), { nombre, juego: $('bJuego').value, pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp() });
-      $('bNombre').value = ''; $('bPedidoPor').value = ''; $('bMotivo').value = ''; $('bFecha').value = hoyISO();
+      await addDoc(collection(db, 'buscados'), { nombre, juego: $('bJuego').value, nombresExtra: bAlias.get(), pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp() });
+      $('bNombre').value = ''; bAlias.reset(); $('bPedidoPor').value = ''; $('bMotivo').value = ''; $('bFecha').value = hoyISO();
     } catch (e) {
       statusLine.textContent = 'No se pudo añadir, inténtalo de nuevo.';
     } finally {
