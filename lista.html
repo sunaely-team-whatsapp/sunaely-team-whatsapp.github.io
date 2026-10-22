@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/lista.html">
-<meta name="theme-color" content="#1d1030">
+<meta name="theme-color" content="#ffb52e">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sunaely Team">
 <meta property="og:locale" content="es_ES">
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Personajes de Sunaely Team · ocupados, buscados y reservados">
 <meta name="twitter:description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-21T10:37:33Z"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
 <!-- seo:end -->
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +29,7 @@
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js">
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js">
 <link rel="stylesheet" href="styles.css?v=7">
+<script src="personajes.js?v=1" defer></script>
 <style>
   select{width:100%;font-family:'Crimson Pro',serif;font-size:1rem;padding:8px 10px;border:1px solid var(--border);border-radius:3px;background:rgba(255,255,255,.6);color:var(--ink)}
   select option{background:#fff8e6}
@@ -89,6 +90,7 @@
   @keyframes ddIn{ from{ opacity:0; transform:translateY(-4px) scale(.98); } to{ opacity:1; transform:none; } }
   .dd-list li{ position:relative; padding:8px 12px 8px 30px; border-radius:6px; cursor:pointer; color:var(--ink); font-size:1rem; }
   .dd-list li:hover{ background:rgba(255,190,60,.32); }
+  .dd-list li.on{ background:rgba(255,190,60,.32); }
   .dd-list li.sel{ font-weight:600; color:#8a4a05; background:rgba(255,190,60,.18); }
   .dd-list li.sel::before{ content:'✦'; position:absolute; left:10px; color:var(--gold); }
   .alias-box{ display:flex; flex-direction:column; gap:6px; } .li-edit-form .alias-box{ flex:1 1 100%; }
@@ -543,6 +545,58 @@
     if (n.nodeType !== 1) return; if (n.tagName === 'SELECT') enhanceSelect(n); else if (n.querySelectorAll) n.querySelectorAll('select').forEach(enhanceSelect);
   }))).observe(document.body, { childList: true, subtree: true });
 
+  // ---------- Autocompletado de nombres: personajes del juego elegido + los que ya están en las listas ----------
+  const sugList = document.createElement('ul'); sugList.className = 'dd-list'; sugList.setAttribute('role', 'listbox'); sugList.hidden = true; document.body.appendChild(sugList);
+  let sugInput = null, sugItems = [], sugIdx = -1, sugDb = new Set();
+  const kk = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const MEM_KEY = 'sunaely:nombres';
+  const memNombres = () => { try { return JSON.parse(localStorage.getItem(MEM_KEY)) || []; } catch (e) { return []; } };
+  function recordarNombre(n){ try { const l = memNombres().filter(x => kk(x) !== kk(n)); l.unshift(n); localStorage.setItem(MEM_KEY, JSON.stringify(l.slice(0, 400))); } catch (e) {} }
+  const sugClose = () => { sugList.hidden = true; sugIdx = -1; };
+  const sugRender = () => { sugList.innerHTML = ''; sugItems.forEach((n, i) => { const li = document.createElement('li'); li.textContent = n; li.dataset.i = i; if (i === sugIdx) li.classList.add('on'); sugList.appendChild(li); }); };
+  function sugCandidates(getJuego){
+    const m = new Map(), add = (n) => { if (n && !m.has(kk(n))) m.set(kk(n), n); };
+    [allCaches.ocupados, allCaches.reservados, buscadosCache].forEach(arr => (arr || []).forEach(x => { add(x.nombre); (x.nombresExtra || []).forEach(add); }));
+    memNombres().forEach(add);                       // y los que has ido escribiendo antes
+    sugDb = new Set(m.keys());                       // los de tus listas, primero
+    ((window.PERSONAJES || {})[getJuego()] || []).forEach(add);
+    return [...m.values()];
+  }
+  function attachNameSuggest(input, getJuego){
+    input.setAttribute('autocomplete', 'off');
+    const cmp = (a, b) => ((sugDb.has(kk(a)) ? 0 : 1) - (sugDb.has(kk(b)) ? 0 : 1)) || kk(a).localeCompare(kk(b), 'es');
+    const refresh = (inline) => {
+      const v = input.value, q = kk(v.trim());
+      if (!q){ sugClose(); return; }
+      const c = sugCandidates(getJuego).filter(n => kk(n) !== q);
+      const ini = c.filter(n => kk(n).startsWith(q)).sort(cmp);
+      const pal = c.filter(n => !kk(n).startsWith(q) && kk(n).split(' ').some(w => w.startsWith(q))).sort(cmp);
+      sugItems = [...ini, ...pal].slice(0, 6);
+      if (!sugItems.length){ sugClose(); return; }
+      sugInput = input; sugIdx = -1; sugRender();
+      const r = input.getBoundingClientRect();
+      sugList.style.minWidth = r.width + 'px'; sugList.style.left = r.left + 'px'; sugList.style.top = (r.bottom + 4) + 'px'; sugList.style.bottom = 'auto'; sugList.hidden = false;
+      if (inline && ini.length && input.selectionStart === v.length){ input.value = ini[0]; input.setSelectionRange(v.length, ini[0].length); } // «V» → «Venti» (lo añadido queda seleccionado)
+    };
+    input.addEventListener('input', (e) => { if (e.isComposing) return; refresh(!/^delete/.test(e.inputType || '') && e.inputType !== 'historyUndo'); });
+    input.addEventListener('keydown', (e) => {
+      if (sugList.hidden || sugInput !== input) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){ e.preventDefault(); sugIdx = (sugIdx + (e.key === 'ArrowDown' ? 1 : -1) + sugItems.length) % sugItems.length; sugRender(); }
+      else if (e.key === 'Enter' && sugIdx >= 0){ e.preventDefault(); input.value = sugItems[sugIdx]; sugClose(); }
+      else if (e.key === 'Escape'){ sugClose(); }
+      else if (e.key === 'Tab' || e.key === 'ArrowRight'){ if (input.selectionEnd > input.selectionStart) input.setSelectionRange(input.value.length, input.value.length); sugClose(); }
+    });
+    input.addEventListener('blur', () => setTimeout(() => { if (sugInput === input) sugClose(); }, 120));
+  }
+  sugList.addEventListener('mousedown', (e) => {
+    const li = e.target.closest('li'); if (!li || !sugInput) return;
+    e.preventDefault(); sugInput.value = sugItems[+li.dataset.i]; sugInput.setSelectionRange(sugInput.value.length, sugInput.value.length); sugClose();
+  });
+  addEventListener('scroll', (e) => { if (!(e.target.closest && e.target.closest('.dd-list'))) sugClose(); }, true);
+  attachNameSuggest($('ocNombre'), () => $('ocJuego').value);
+  attachNameSuggest($('rNombre'), () => $('rJuego').value);
+  attachNameSuggest($('bNombre'), () => $('bJuego').value);
+
   // ---------- Pestañas por juego: Todo · Genshin · Star Rail · Zenless Zone Zero ----------
   let juegoFiltro = JUEGOS.some(j => j.id === location.hash.slice(1)) ? location.hash.slice(1) : 'todo';
   const tabsEl = $('juegoTabs');
@@ -771,7 +825,7 @@
           const inp = document.createElement('input');
           inp.type = 'text'; inp.maxLength = 40; inp.value = item.nombre; inp.placeholder = 'Personaje';
           form.appendChild(inp);
-          const jsel = document.createElement('select'); jsel.innerHTML = juegoOptions; jsel.value = juegoDe(item); form.appendChild(jsel);
+          const jsel = document.createElement('select'); jsel.innerHTML = juegoOptions; jsel.value = juegoDe(item); form.appendChild(jsel); attachNameSuggest(inp, () => jsel.value);
           const alBox = document.createElement('div'); alBox.className = 'alias-box'; form.appendChild(alBox); const al = aliasField(alBox, item.nombresExtra || []);
           li.appendChild(form);
           const acts = document.createElement('div');
@@ -909,7 +963,7 @@
     const nombre = $('ocNombre').value.trim();
     if (!nombre) return;
     await addDoc(collection(db, 'ocupados'), { nombre, juego: $('ocJuego').value, nombresExtra: ocAlias.get(), orden: nextOrden(ocupadosCtl.getCache()), createdAt: serverTimestamp() });
-    $('ocNombre').value = ''; ocAlias.reset();
+    recordarNombre(nombre); $('ocNombre').value = ''; ocAlias.reset();
   }
   $('ocAddBtn').addEventListener('click', addOcupado);
   $('ocNombre').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addOcupado(); } });
@@ -918,7 +972,7 @@
     const nombre = $('rNombre').value.trim();
     if (!nombre) return;
     await addDoc(collection(db, 'reservados'), { nombre, juego: $('rJuego').value, nombresExtra: rAlias.get(), orden: nextOrden(reservadosCtl.getCache()), createdAt: serverTimestamp() });
-    $('rNombre').value = ''; rAlias.reset();
+    recordarNombre(nombre); $('rNombre').value = ''; rAlias.reset();
   }
   $('rAddBtn').addEventListener('click', addReservado);
   $('rNombre').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addReservado(); } });
@@ -1176,7 +1230,7 @@
       const fechaInput = document.createElement('input');
       fechaInput.type = 'date';
       fechaInput.value = r.fecha || '';
-      const juegoInput = document.createElement('select'); juegoInput.innerHTML = juegoOptions; juegoInput.value = juegoDe(r);
+      const juegoInput = document.createElement('select'); juegoInput.innerHTML = juegoOptions; juegoInput.value = juegoDe(r); attachNameSuggest(nombreInput, () => juegoInput.value);
       const alBoxB = document.createElement('div'); alBoxB.className = 'alias-box'; const alB = aliasField(alBoxB, r.nombresExtra || []);
       form.append(nombreInput, juegoInput, alBoxB, pedidoInput, motivoInput, fechaInput);
       const actions = document.createElement('div');
@@ -1280,7 +1334,7 @@
     btn.disabled = true;
     try {
       await addDoc(collection(db, 'buscados'), { nombre, juego: $('bJuego').value, nombresExtra: bAlias.get(), pedidoPor, pedidoPorId: ped.id || null, motivo, fecha: fecha || null, orden: nextOrden(buscadosCache), createdAt: serverTimestamp() });
-      $('bNombre').value = ''; bAlias.reset(); $('bPedidoPor').value = ''; $('bMotivo').value = ''; $('bFecha').value = hoyISO();
+      recordarNombre(nombre); $('bNombre').value = ''; bAlias.reset(); $('bPedidoPor').value = ''; $('bMotivo').value = ''; $('bFecha').value = hoyISO();
     } catch (e) {
       statusLine.textContent = 'No se pudo añadir, inténtalo de nuevo.';
     } finally {

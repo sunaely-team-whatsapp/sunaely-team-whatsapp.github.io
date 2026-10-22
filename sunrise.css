@@ -105,3 +105,6 @@
     animation:letterRise .7s cubic-bezier(.2,.9,.3,1.1) forwards, letterShine 1.4s ease-out forwards;
     animation-delay:calc(2.7s + var(--i,0)*.05s), calc(3.4s + var(--i,0)*.07s); }
   @keyframes letterShine{ from{ background-position:100% 0; } to{ background-position:0 0; } }
+
+  /* Mientras dura el amanecer, el título no reacciona al cursor (el brillo de hover se veía sin letras) */
+  html:not(.intro-done) .page-index .title-wrap, html:not(.intro-done) .title-wrap{ pointer-events:none; }

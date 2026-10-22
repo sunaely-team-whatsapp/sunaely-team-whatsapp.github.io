@@ -75,4 +75,7 @@
       const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
     });
   }
+
+  // El título solo reacciona al cursor cuando termina la animación de entrada (~5,6 s)
+  setTimeout(() => document.documentElement.classList.add('intro-done'), prefersReducedMotion ? 0 : 6000);
 })();
