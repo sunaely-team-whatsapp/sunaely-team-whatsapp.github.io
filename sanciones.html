@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanciones — Sunaely Team</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=7">
+
+</head>
+<body>
+<div class="sky-bg" aria-hidden="true"><div class="sun-corner"></div></div>
+
+<div class="wrap">
+  <a class="back-link" href="index.html">← Volver al índice</a>
+  <header class="top">
+    <div>
+      <div class="title-wrap">
+        <h1>Sanciones</h1>
+      </div>
+      <p class="subtitle">Hasta 3 warns por incidencias, o directamente el motivo que haga falta para expulsar. Al llegar a 3, se libera todo lo que ocupaba, pero su ficha queda fichada para siempre.</p>
+    </div>
+    <button class="admin-toggle" id="adminToggleBtn">Acceso admin</button>
+  </header>
+
+  <p class="admin-only-note" id="loggedOutNote">Esta página es exclusiva para admins. Inicia sesión para verla.</p>
+
+  <div class="search-wrap" id="searchWrap" hidden>
+    <input type="text" id="searchInput" placeholder="Buscar por contacto o personaje..." autocomplete="off">
+  </div>
+
+  <section class="panel" id="sancionesPanel" hidden>
+    <h2>Miembros</h2>
+    <p class="panel-desc">Cada warn necesita un motivo. Puedes poner más de 1 warn de golpe si el motivo lo merece — al llegar a 3, se expulsa automáticamente.</p>
+    <div id="edadAviso" class="li-meta" hidden></div>
+    <ul class="simple-list" id="memberList"></ul>
+    <p class="empty-note" id="memberEmpty" hidden></p>
+  </section>
+
+  <footer class="status" id="statusLine"></footer>
+</div>
+
+<dialog id="loginDialog">
+  <div class="dialog-inner">
+    <h3>Acceso admin</h3>
+    <div class="dialog-field">
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username">
+    </div>
+    <div class="dialog-field">
+      <label for="loginPass">Contraseña</label>
+      <input id="loginPass" type="password" autocomplete="current-password">
+    </div>
+    <p class="dialog-error" id="loginError"></p>
+    <div class="dialog-actions">
+      <button class="btn-primary" id="loginSubmit" type="button">Entrar</button>
+      <button class="btn-ghost" id="loginCancel" type="button">Cancelar</button>
+    </div>
+  </div>
+</dialog>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, doc, updateDoc, deleteDoc, arrayUnion, increment,
+    onSnapshot, query, orderBy
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8kDJ_Yq3wBHAoxCJSsGn-GGh4g6r4mXk",
+    authDomain: "sunaely-teamm.firebaseapp.com",
+    projectId: "sunaely-teamm",
+    storageBucket: "sunaely-teamm.firebasestorage.app",
+    messagingSenderId: "487274825899",
+    appId: "1:487274825899:web:a12b4812a8c978d4410fee"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const $ = (id) => document.getElementById(id);
+  const WARN_LIMIT = 3;
+
+
+  function escapeHtml(str){
+    return String(str ?? '').replace(/[&<>"']/g, (m) => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[m]));
+  }
+  function normalize(str){
+    return String(str ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  function formatFecha(iso){
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // ---------- Admin login ----------
+  let isAdmin = false;
+  const adminToggleBtn = $('adminToggleBtn');
+  const loginDialog = $('loginDialog');
+  const loginEmail = $('loginEmail');
+  const loginPass = $('loginPass');
+  const loginError = $('loginError');
+  const statusLine = $('statusLine');
+  const loggedOutNote = $('loggedOutNote');
+  const searchWrap = $('searchWrap');
+  const sancionesPanel = $('sancionesPanel');
+
+  adminToggleBtn.addEventListener('click', () => {
+    if (isAdmin) {
+      signOut(auth);
+    } else {
+      loginError.textContent = '';
+      loginEmail.value = '';
+      loginPass.value = '';
+      loginDialog.showModal();
+    }
+  });
+  $('loginCancel').addEventListener('click', () => loginDialog.close());
+  $('loginSubmit').addEventListener('click', async () => {
+    loginError.textContent = '';
+    try {
+      await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPass.value);
+      loginDialog.close();
+    } catch (e) {
+      loginError.textContent = 'Email o contraseña incorrectos.';
+    }
+  });
+
+  // ---------- Datos (todo detrás de login, no hay vista pública) ----------
+  const memberList = $('memberList');
+  const memberEmpty = $('memberEmpty');
+  let ocupadosCache = [];
+  let miembrosCache = [];
+  let unsubOcupados = null;
+  let buscadosCache = [];
+  let unsubBuscados = null;
+  let unsubMiembros = null;
+  let searchTerm = '';
+
+  $('searchInput').addEventListener('input', (e) => {
+    searchTerm = normalize(e.target.value.trim());
+    render();
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    isAdmin = !!user;
+    adminToggleBtn.textContent = isAdmin ? 'Salir del modo admin' : 'Acceso admin';
+    adminToggleBtn.classList.toggle('is-admin', isAdmin);
+    loggedOutNote.hidden = isAdmin;
+    searchWrap.hidden = !isAdmin;
+    sancionesPanel.hidden = !isAdmin;
+
+    if (isAdmin && !unsubMiembros){
+      unsubMiembros = onSnapshot(collection(db, 'miembros'), (snap) => {
+        miembrosCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        render();
+      });
+      unsubOcupados = onSnapshot(query(collection(db, 'ocupados'), orderBy('createdAt', 'asc')), (snap) => {
+        ocupadosCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        render();
+      });
+      unsubBuscados = onSnapshot(collection(db, 'buscados'), (snap) => {
+        buscadosCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      });
+    } else if (!isAdmin && unsubMiembros){
+      unsubMiembros(); unsubMiembros = null;
+      unsubOcupados(); unsubOcupados = null;
+      if (unsubBuscados){ unsubBuscados(); unsubBuscados = null; }
+      miembrosCache = []; ocupadosCache = []; buscadosCache = [];
+    }
+    render();
+  });
+
+
+  // ---------- Edad (se entra con 15–18; a los 19 no pasa nada) ----------
+  function edadInfo(nac){
+    if (!nac) return null;
+    const [y, mo, d] = nac.split('-').map(Number);
+    const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+    let edad = hoy.getFullYear() - y;
+    if (hoy < new Date(hoy.getFullYear(), mo - 1, d)) edad--;
+    const dias = Math.ceil((new Date(y + 19, mo - 1, d) - hoy) / 864e5);
+    return { edad, dias };
+  }
+  function edadTxt(nac, ocupa = true){
+    // Sunaely: se entra con 15–18 años. Quien cumple 19 estando dentro se queda, así que no hay aviso de expulsión a los 19.
+    const i = edadInfo(nac);
+    if (!i && !ocupa) return { html: '', nivel: 'ok' };
+    if (!i) return { html: '<span style="color:var(--danger,#c0482f)">Falta fecha de nacimiento</span>', nivel: 'falta' };
+    if (i.edad < 15) return { html: `<b style="color:var(--danger,#c0482f)">${i.edad} años — menor de 15, toca expulsar</b>`, nivel: 'expulsar', motivo: 'Menor de 15 años' };
+    return { html: `${i.edad} años`, nivel: 'ok' };
+  }
+
+  function rolesDe(miembroId){
+    return ocupadosCache.filter(o => o.miembroId === miembroId).map(o => o.nombre);
+  }
+
+  // ---------- Aplicar un warn (y expulsar si llega al límite) ----------
+  async function aplicarWarn(m, motivo, cantidad){
+    const memberRef = doc(db, 'miembros', m.id);
+    await updateDoc(memberRef, {
+      warns: arrayUnion({ motivo, cantidad, fecha: new Date().toISOString() }),
+      warnsTotal: increment(cantidad)
+    });
+
+    const nuevoTotal = (typeof m.warnsTotal === 'number' ? m.warnsTotal : 0) + cantidad;
+    if (nuevoTotal >= WARN_LIMIT && !m.baneado){
+      const ocupadosDelMiembro = ocupadosCache.filter(o => o.miembroId === m.id);
+      // Solicitudes pendientes (Buscados) hechas por este miembro: se quitan también
+      const nombresPide = new Set([m.contacto, m.id].concat(ocupadosDelMiembro.flatMap(o => [o.origenBuscado].concat(o.origenesExtra || []).map(x => x && x.pedidoPor))).filter(Boolean).map(normalize));
+      for (const b of buscadosCache.filter(b => b.pedidoPorId === m.id || nombresPide.has(normalize(b.pedidoPor)))){
+        await deleteDoc(doc(db, 'buscados', b.id));
+      }
+      for (const o of ocupadosDelMiembro){
+        await updateDoc(memberRef, {
+          historialPersonajes: arrayUnion({ nombre: o.nombre, fecha: new Date().toISOString() })
+        });
+        await deleteDoc(doc(db, 'ocupados', o.id));
+      }
+      await updateDoc(memberRef, { baneado: true, fechaBan: new Date().toISOString() });
+      statusLine.textContent = `${m.contacto || m.id} ha llegado a ${nuevoTotal} warns y ha sido expulsado.`;
+    }
+  }
+
+  async function expulsarPorEdad(r, btn){
+    const nombre = r.roles.length ? r.roles.join(', ') : r.contacto;
+    const motivo = edadTxt(r.nacimiento).motivo || 'Menor de 15 años';
+    if (!confirm(`¿Expulsar a ${nombre} por «${motivo}»? Se le aplica sanción de nivel 3.`)) return;
+    btn.disabled = true;
+    try { await aplicarWarn(r, motivo, WARN_LIMIT); }
+    catch (e) { statusLine.textContent = 'No se pudo expulsar, inténtalo de nuevo.'; btn.disabled = false; }
+  }
+
+  function render(){
+    if (!isAdmin) return;
+    memberList.innerHTML = '';
+
+    const rows = miembrosCache.map(m => ({
+      id: m.id,
+      contacto: m.contacto || m.id,
+      warnsTotal: typeof m.warnsTotal === 'number' ? m.warnsTotal : 0,
+      warns: Array.isArray(m.warns) ? m.warns : [],
+      baneado: !!m.baneado,
+      nacimiento: m.nacimiento || '',
+      roles: rolesDe(m.id),
+      pasados: [...new Set((Array.isArray(m.historialPersonajes) ? m.historialPersonajes : []).map(h => h.nombre))]
+    }));
+
+    const filtered = searchTerm
+      ? rows.filter(r => normalize(r.contacto).includes(searchTerm) || r.roles.some(n => normalize(n).includes(searchTerm)))
+      : rows;
+
+    if (rows.length === 0){
+      memberEmpty.hidden = false;
+      memberEmpty.textContent = 'Todavía no hay ningún miembro registrado en Contactos.';
+    } else if (filtered.length === 0){
+      memberEmpty.hidden = false;
+      memberEmpty.textContent = 'Ningún resultado coincide con tu búsqueda.';
+    } else {
+      memberEmpty.hidden = true;
+    }
+
+    const aviso = $('edadAviso');
+    const activos = rows.filter(r => !r.baneado);
+    const toca = activos.filter(r => edadTxt(r.nacimiento).nivel === 'expulsar');
+    const pronto = activos.filter(r => edadTxt(r.nacimiento).nivel === 'pronto');
+    const falta = activos.filter(r => !r.nacimiento && r.roles.length).length;
+    const quien = (r) => r.roles.length ? r.roles.join(', ') : (r.pasados.length ? r.pasados.join(', ') : r.contacto);
+    aviso.innerHTML = '';
+    if (toca.length){
+      const h = document.createElement('div');
+      h.style.color = 'var(--danger,#e66)';
+      h.innerHTML = '<b>Toca expulsar por edad:</b>';
+      aviso.appendChild(h);
+      toca.forEach(r => {
+        const line = document.createElement('div');
+        line.style.cssText = 'display:flex;align-items:center;gap:10px;margin:4px 0';
+        const nm = document.createElement('span');
+        nm.innerHTML = `<b>${escapeHtml(quien(r))}</b> — ${escapeHtml(edadTxt(r.nacimiento).motivo)}`;
+        const b = document.createElement('button');
+        b.className = 'icon-btn';
+        b.textContent = 'Expulsar';
+        b.addEventListener('click', () => expulsarPorEdad(r, b));
+        line.append(nm, b);
+        aviso.appendChild(line);
+      });
+    }
+    if (pronto.length){
+      const d = document.createElement('div');
+      d.style.color = '#d9780b';
+      d.textContent = 'Cumplen 19 en 30 días o menos: ' + pronto.map(quien).join(' · ');
+      aviso.appendChild(d);
+    }
+    if (falta){
+      const d = document.createElement('div');
+      d.textContent = `${falta} sin fecha de nacimiento (se rellena en Contactos).`;
+      aviso.appendChild(d);
+    }
+    aviso.hidden = !aviso.childNodes.length;
+
+    filtered.forEach(r => {
+      const li = document.createElement('li');
+      li.className = 'sancion-row' + (r.baneado ? ' is-baneado' : '');
+
+      const left = document.createElement('div');
+      left.className = 'li-left';
+
+      const name = document.createElement('div');
+      name.className = 'li-name';
+      name.innerHTML = escapeHtml(r.contacto) + (r.baneado ? ' <span class="baneado-tag">EXPULSADO</span>' : '');
+      left.appendChild(name);
+
+      const meta = document.createElement('div');
+      meta.className = 'li-meta';
+      const rolesTxt = r.roles.length ? r.roles.join(', ') : (r.baneado && r.pasados.length ? r.pasados.join(', ') : 'Sin rol actual');
+      const etiqueta = (!r.roles.length && r.baneado && r.pasados.length) ? 'Ocupaba' : 'Ocupa';
+      meta.innerHTML = `${etiqueta}: <b>${escapeHtml(rolesTxt)}</b> — warns: ${r.warnsTotal}/${WARN_LIMIT}`;
+      left.appendChild(meta);
+
+      if (!r.baneado){
+        const ed = edadTxt(r.nacimiento, r.roles.length > 0);
+        const edRow = document.createElement('div');
+        edRow.className = 'li-meta';
+        edRow.innerHTML = ed.html;
+        if (ed.nivel === 'expulsar'){
+          const ageBtn = document.createElement('button');
+          ageBtn.className = 'icon-btn';
+          ageBtn.style.marginLeft = '10px';
+          ageBtn.textContent = 'Expulsar por edad';
+          ageBtn.addEventListener('click', () => expulsarPorEdad(r, ageBtn));
+          edRow.appendChild(ageBtn);
+        }
+        if (ed.html) left.appendChild(edRow);
+      }
+
+      if (r.warns.length){
+        const historial = document.createElement('div');
+        historial.className = 'li-meta warn-history';
+        historial.innerHTML = r.warns
+          .map(w => `${escapeHtml(formatFecha(w.fecha))} — ${escapeHtml(w.motivo)} (+${w.cantidad})`)
+          .join('<br>');
+        left.appendChild(historial);
+      }
+
+      if (!r.baneado){
+        const form = document.createElement('div');
+        form.className = 'warn-form';
+
+        const motivoInput = document.createElement('input');
+        motivoInput.type = 'text';
+        motivoInput.placeholder = 'Motivo del warn';
+        motivoInput.maxLength = 120;
+
+        const cantidadInput = document.createElement('input');
+        cantidadInput.type = 'number';
+        cantidadInput.min = '1';
+        cantidadInput.value = '1';
+        cantidadInput.className = 'warn-cantidad';
+
+        const applyBtn = document.createElement('button');
+        applyBtn.className = 'icon-btn';
+        applyBtn.textContent = 'Aplicar warn';
+        applyBtn.addEventListener('click', async () => {
+          const motivo = motivoInput.value.trim();
+          const cantidad = Math.max(1, parseInt(cantidadInput.value, 10) || 1);
+          if (!motivo) { motivoInput.focus(); return; }
+          applyBtn.disabled = true;
+          try {
+            await aplicarWarn(r, motivo, cantidad);
+            motivoInput.value = '';
+            cantidadInput.value = '1';
+          } catch (e) {
+            statusLine.textContent = 'No se pudo aplicar el warn, inténtalo de nuevo.';
+          } finally {
+            applyBtn.disabled = false;
+          }
+        });
+
+        form.append(motivoInput, cantidadInput, applyBtn);
+        left.appendChild(form);
+      }
+
+      li.appendChild(left);
+      memberList.appendChild(li);
+    });
+  }
+</script>
+</body>
+</html>
