@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registros de Sunaely Team · top 10 de mensajes por semana</title>
+<meta name="description" content="Ranking semanal de Sunaely Team: quién ha hablado más cada semana en nuestro roleplay de Hoyoverse, con el top 10 de mensajes.">
+<!-- seo:start -->
+<link rel="canonical" href="https://sunaely-team-whatsapp.github.io/registros.html">
+<link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/registros.html">
+<link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/registros.html">
+<meta name="theme-color" content="#ffb52e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sunaely Team">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Registros de Sunaely Team · top 10 de mensajes por semana">
+<meta property="og:description" content="Ranking semanal de Sunaely Team: quién ha hablado más cada semana en nuestro roleplay de Hoyoverse, con el top 10 de mensajes.">
+<meta property="og:url" content="https://sunaely-team-whatsapp.github.io/registros.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Registros de Sunaely Team · top 10 de mensajes por semana">
+<meta name="twitter:description" content="Ranking semanal de Sunaely Team: quién ha hablado más cada semana en nuestro roleplay de Hoyoverse, con el top 10 de mensajes.">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/registros.html#page","url":"https://sunaely-team-whatsapp.github.io/registros.html","name":"Registros de Sunaely Team · top 10 de mensajes por semana","description":"Ranking semanal de Sunaely Team: quién ha hablado más cada semana en nuestro roleplay de Hoyoverse, con el top 10 de mensajes.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-23T07:47:31+00:00"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Registros de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/registros.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
+<!-- seo:end -->
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="styles.css?v=7">
+<style>
+  select{background:rgba(255,255,255,.06);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font:inherit;max-width:100%}
+  select option{background:#fff8e6}
+  .month-nav{display:flex;gap:8px;align-items:center;margin:6px 0 14px}
+  .month-nav select{flex:1;min-width:0;text-transform:none}
+  .summary{color:var(--ink-soft);margin:0 0 12px}
+  .ch-a{color:#7fae72}.ch-aba{color:#d9780b}
+  .rank{width:28px;flex:none;text-align:center;color:var(--gold);font-family:'Cormorant',serif;font-size:1.3rem}
+  .bar{height:5px;border-radius:4px;background:rgba(255,255,255,.07);margin-top:6px;overflow:hidden}
+  .bar i{display:block;height:100%;min-width:3px;background:linear-gradient(90deg,var(--gold-dim),var(--gold))}
+  .imp-month{margin:16px 0 6px;color:var(--gold);font-family:'Cormorant',serif;font-size:1.3rem;text-transform:none}
+  .imp-row{display:grid;grid-template-columns:1fr 64px 1.4fr;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+  .imp-row.warn select{border-color:var(--danger)}
+  .imp-row b{text-align:right}
+  @media(max-width:560px){.imp-row{grid-template-columns:1fr 64px}.imp-row select{grid-column:1/-1}}
+  .dropzone{ position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:26px 16px; text-align:center;
+    border:1.5px dashed var(--gold-dim); border-radius:8px; background:rgba(255,255,255,0.03); cursor:pointer; transition:background .2s, border-color .2s, box-shadow .2s; }
+  .dropzone:hover, .dropzone.over, .dropzone:focus-within{ border-color:var(--gold); background:rgba(230,140,20,.08); }
+  .dropzone.over{ box-shadow:0 0 22px rgba(230,140,20,.25); }
+  .dropzone input{ position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+  .dz-icon{ font-size:1.7rem; line-height:1; }
+  .dz-title{ font-family:'Cormorant',serif; font-style:italic; font-weight:600; font-size:1.3rem; color:var(--gold); }
+  .dz-sub{ font-size:.92rem; color:var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="sky-bg" aria-hidden="true"><div class="sun-corner"></div></div>
+
+<div class="wrap">
+  <a class="back-link" href="index.html">← Volver al índice</a>
+  <header class="top">
+    <div>
+      <div class="title-wrap"><h1>Registros</h1></div>
+      <p class="subtitle">Quién ha hablado más cada semana bajo el sol. Elige una semana para ver su top 10. El registro se hace cada lunes y el mínimo son 60 mensajes por semana.</p>
+    </div>
+    <button class="admin-toggle" id="adminToggleBtn">Acceso admin</button>
+  </header>
+
+  <section class="panel">
+    <h2>Top 10 de la semana</h2>
+    <div class="month-nav">
+      <button class="icon-btn" id="olderBtn" type="button" title="Semana anterior">←</button>
+      <select id="mesSel" aria-label="Semana"></select>
+      <button class="icon-btn" id="newerBtn" type="button" title="Semana siguiente">→</button>
+    </div>
+    <p class="summary" id="summary"></p>
+    <ul class="simple-list" id="topList"></ul>
+    <p class="empty-note" id="emptyNote" hidden>Todavía no hay registros guardados.</p>
+    <div class="li-actions" style="margin-top:12px"><button class="icon-btn icon-btn-confirm" id="pngBtn" type="button" hidden>Descargar top 10 como imagen</button></div>
+  </section>
+
+  <section class="panel" id="fullPanel" hidden>
+    <h2>Lista completa</h2>
+    <p class="panel-desc">Solo admin: todas las personas de la semana, con su contacto real. <span class="ch-a">a.</span> = ocupa · <span class="ch-aba">aba.</span> = ocupaba.</p>
+    <ul class="simple-list" id="fullList"></ul>
+    <div class="li-actions" style="margin-top:12px"><button class="icon-btn icon-btn-confirm" id="pngFullBtn" type="button">Descargar lista completa como imagen</button> <button class="icon-btn" id="delMonthBtn" type="button">Borrar esta semana</button></div>
+  </section>
+
+  <section class="panel" id="importPanel" hidden>
+    <h2>Importar registro</h2>
+    <p class="panel-desc">Sube el chat exportado de WhatsApp (.txt) o el Excel con columnas <i>Semana (fecha del lunes, AAAA-MM-DD) · Nombre en el chat · Mensajes · Multimedia</i>. El chat se reparte en semanas de lunes a domingo. El archivo se lee en tu navegador; no se sube a ningún sitio. Cada nombre se asigna a un miembro de Contactos y la próxima vez se recordará solo.</p>
+    <label class="dropzone" id="drop" for="fileIn">
+      <input type="file" id="fileIn" accept=".txt,.xlsx,.xls,.csv">
+      <span class="dz-icon" aria-hidden="true">☀️</span>
+      <span class="dz-title" id="dzTitle">Arrastra aquí el archivo</span>
+      <span class="dz-sub" id="dzSub">o toca para elegirlo · .txt, .xlsx, .xls o .csv</span>
+    </label>
+    <div id="importOut"></div>
+  </section>
+
+  <footer class="status" id="statusLine"></footer>
+</div>
+
+<dialog id="loginDialog">
+  <div class="dialog-inner">
+    <h3>Acceso admin</h3>
+    <div class="dialog-field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="username"></div>
+    <div class="dialog-field"><label for="loginPass">Contraseña</label><input id="loginPass" type="password" autocomplete="current-password"></div>
+    <p class="dialog-error" id="loginError"></p>
+    <div class="dialog-actions">
+      <button class="btn-primary" id="loginSubmit" type="button">Entrar</button>
+      <button class="btn-ghost" id="loginCancel" type="button">Cancelar</button>
+    </div>
+  </div>
+</dialog>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, doc, setDoc, deleteDoc, updateDoc, arrayUnion, onSnapshot, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8kDJ_Yq3wBHAoxCJSsGn-GGh4g6r4mXk",
+    authDomain: "sunaely-teamm.firebaseapp.com",
+    projectId: "sunaely-teamm",
+    storageBucket: "sunaely-teamm.firebasestorage.app",
+    messagingSenderId: "487274825899",
+    appId: "1:487274825899:web:a12b4812a8c978d4410fee"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app), auth = getAuth(app);
+  const $ = (id) => document.getElementById(id);
+  const status = (t) => { $('statusLine').textContent = t; };
+
+
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const lunesDe = (y, m, d) => { const t = new Date(y, m - 1, d); t.setDate(t.getDate() - ((t.getDay() + 6) % 7)); return t; };   // lunes de esa semana
+  const iso = (t) => t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+  function idSemana(v){   // cualquier fecha (AAAA-MM-DD, DD/MM/AAAA o número de Excel) -> id de su semana (el lunes)
+    let y, m, d, r;
+    if (typeof v === 'number' && v > 20000){ const t = new Date(Math.round((v - 25569) * 864e5)); y = t.getUTCFullYear(); m = t.getUTCMonth() + 1; d = t.getUTCDate(); }
+    else { const q = String(v || '').trim();
+      if ((r = /^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(q))){ y = +r[1]; m = +r[2]; d = +r[3]; }
+      else if ((r = /^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})/.exec(q))){ y = +r[3]; m = +r[2]; d = +r[1]; }
+      else return ''; }
+    return iso(lunesDe(y, m, d));
+  }
+  const semL = (id) => {
+    const [y, m, d] = id.split('-').map(Number), a = new Date(y, m - 1, d), b = new Date(y, m - 1, d + 6), mm = (t) => MESES[t.getMonth()];
+    if (a.getFullYear() !== b.getFullYear()) return `semana del ${a.getDate()} de ${mm(a)} de ${a.getFullYear()} al ${b.getDate()} de ${mm(b)} de ${b.getFullYear()}`;
+    if (a.getMonth() !== b.getMonth()) return `semana del ${a.getDate()} de ${mm(a)} al ${b.getDate()} de ${mm(b)} de ${b.getFullYear()}`;
+    return `semana del ${a.getDate()} al ${b.getDate()} de ${mm(b)} de ${b.getFullYear()}`;
+  };
+  const mesLabel = (id) => { const t = semL(id); return t[0].toUpperCase() + t.slice(1); };
+  const MIN = 60;   // mensajes mínimos por semana
+  const fmt = (n) => n.toLocaleString('es-ES');
+  const pct = (n, t) => (t ? n / t * 100 : 0).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' %';
+  const maskContacto = (v) => String(v || '').split('').map(c => /[0-9]/.test(c) ? '•' : /[a-zA-ZÀ-ÿ]/.test(c) ? 'x' : c).join('');
+  const lbl = (m) => m.apodoInterno || m.contacto || m.id;
+  // Personajes que ocupa un miembro: el principal (el que lleva más tiempo) primero, los nuevos después
+  const tms = (o) => o.createdAt && o.createdAt.toMillis ? o.createdAt.toMillis() : Number.MAX_SAFE_INTEGER;
+  const ocupadosDe = (miembroId) => ocupados.filter(o => o.miembroId === miembroId)
+    .sort((a, b) => tms(a) - tms(b) || (a.orden ?? 1e9) - (b.orden ?? 1e9));
+  // Personajes de un miembro: a. = ocupa ahora, aba. = ocupaba
+  function charParts(m){
+    const cur = ocupadosDe(m.id).map(o => o.nombre);
+    const past = [...new Set((m.historialPersonajes || []).map(x => x.nombre))];
+    return [...cur.map(n => ['a.' + n, 'a']), ...past.map(n => ['aba.' + n, 'aba'])];
+  }
+  const lblFull = (m) => { const p = charParts(m).map(x => x[0]).join(' / '); return lbl(m) + (p ? ' - ' + p : ''); };
+  const charsHtml = (m) => charParts(m).map(([t, k]) => `<span class="ch-${k}">${esc(t)}</span>`).join(' / ');
+
+  // <PARSE>
+  const CORR = [];   // correcciones de nombres del chat: ['nombre en el chat', 'Personaje']
+  const simp = (s) => String(s ?? '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  function chatKey(raw){
+    const k = simp(raw).replace(/\s*\/\s*sunaely\s*$/, '').replace(/[^\p{L}\p{N}|]+/gu, ' ').trim();
+    const c = CORR.find(([s]) => k === s || (s.length > 5 && k.includes(s)));
+    return c ? simp(c[1]) : k;
+  }
+  const disp = (k) => k.replace(/(^|[\s|])(\p{L})/gu, (m, a, b) => a + b.toUpperCase());
+  function parseChat(text){
+    const re = /^(\d{1,2})\/(\d{1,2})\/(\d{2,4}),? \d{1,2}:\d{2}(?:\s?[ap]\.?\s?m\.?)? - (.*)$/i;
+    const L = []; let first13 = false, second13 = false;
+    for (const raw of text.replace(/\u202f/g, ' ').replace(/[\u200e\u200f]/g, '').split('\n')){
+      const m = re.exec(raw.replace(/\r$/, '')); if (!m) continue;
+      if (+m[1] > 12) first13 = true; if (+m[2] > 12) second13 = true;
+      L.push([+m[1], +m[2], +m[3], m[4]]);
+    }
+    const monthFirst = second13 && !first13;
+    const out = {};
+    for (const [a, b, y, rest] of L){
+      const i = rest.indexOf(': '); if (i < 1) continue;
+      const id = iso(lunesDe(y < 100 ? 2000 + y : y, monthFirst ? a : b, monthFirst ? b : a));
+      const r = ((out[id] ??= {})[chatKey(rest.slice(0, i))] ??= { n: 0, media: 0 });
+      r.n++;
+      if (/^<(media omitted|multimedia omitido)>$/i.test(rest.slice(i + 2).trim())) r.media++;
+    }
+    return out;
+  }
+  function parseSheet(buf){
+    const wb = XLSX.read(buf, { type: 'array' });
+    const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
+    const out = {};
+    rows.forEach(r => {
+      const g = (n) => { const k = Object.keys(r).find(x => simp(x).trim().startsWith(n)); return k ? r[k] : ''; };
+      const mes = idSemana(g('semana') || g('fecha') || g('mes')), nom = g('nombre'), n = +g('mensajes') || 0;
+      if (!mes || !nom || !n) return;
+      const e = ((out[mes] ??= {})[chatKey(nom)] ??= { n: 0, media: 0 });
+      e.n += n; e.media += +g('multimedia') || 0;
+    });
+    return out;
+  }
+  // </PARSE>
+
+  // ---------- Datos ----------
+  let isAdmin = false, registros = [], miembros = [], ocupados = [], current = null, pending = {};
+  let unsubM = null, unsubO = null;
+
+  // Los ocupados son públicos: se leen siempre para ordenar los personajes (el principal primero) también a los visitantes
+  onSnapshot(collection(db, 'ocupados'), (s) => { ocupados = s.docs.map(d => ({ id: d.id, ...d.data() })); render(); });
+  onSnapshot(collection(db, 'registros'), (snap) => {
+    registros = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.id.localeCompare(a.id));
+    if (!registros.some(r => r.id === current)) current = registros[0]?.id || null;
+    render();
+  }, () => status('No se pudo conectar con la base de datos.'));
+
+  // Personajes guardados en un mes ya importado: se reordenan con la antigüedad actual (el que lleva más tiempo, primero)
+  function ordenarPers(arr){
+    const pos = new Map();
+    [...ocupados].sort((a, b) => tms(a) - tms(b) || (a.orden ?? 1e9) - (b.orden ?? 1e9)).forEach((o, i) => { if (!pos.has(o.nombre)) pos.set(o.nombre, i); });
+    return [...arr].sort((a, b) => (pos.has(a) ? pos.get(a) : 1e9) - (pos.has(b) ? pos.get(b) : 1e9));
+  }
+  const pubLabel = (e) => e.miembroId ? (e.personajes?.length ? ordenarPers(e.personajes).join(' · ') : e.mask || 'Miembro') : 'Antiguo miembro';
+
+  const cumple = (e) => !isAdmin || !e.miembroId ? '' : e.mensajes >= MIN ? ` · <b style="color:#3f8f2f">✓ cumple los ${MIN}</b>` : ` · <b style="color:var(--danger,#c0482f)">✗ menos de ${MIN}</b>`;
+  function rowLi(e, rank, total, max){
+    const m = isAdmin && e.miembroId ? miembros.find(x => x.id === e.miembroId) : null;
+    const li = document.createElement('li');
+    li.style.cssText = 'display:flex;gap:10px;align-items:flex-start';
+    li.innerHTML = `<span class="rank">${rank}</span><div style="flex:1;min-width:0">
+      <div class="li-name">${m ? esc(lbl(m)) + (charParts(m).length ? ' - ' + charsHtml(m) : ` <span class="li-admin-only">· ${esc(pubLabel(e))}</span>`) : esc(pubLabel(e))}</div>
+      <div class="li-meta">tiene un <b>${pct(e.mensajes, total)}</b> de los mensajes totales de esta semana · ${fmt(e.mensajes)} mensajes (${fmt(e.multimedia || 0)} multimedia)${cumple(e)}</div>
+      <div class="bar" title="${pct(e.mensajes, total)} del total de la semana"><i style="width:${total ? e.mensajes / total * 100 : 0}%${e.mensajes ? '' : ';min-width:0'}"></i></div></div>`;
+    return li;
+  }
+
+  function render(){
+    const sel = $('mesSel');
+    sel.innerHTML = registros.map(r => `<option value="${r.id}">${mesLabel(r.id)}</option>`).join('');
+    if (current) sel.value = current;
+    const idx = registros.findIndex(r => r.id === current), r = registros[idx];
+    $('olderBtn').disabled = idx < 0 || idx >= registros.length - 1;
+    $('newerBtn').disabled = idx <= 0;
+    $('emptyNote').hidden = !!r;
+    $('pngBtn').hidden = !r;
+    $('topList').innerHTML = ''; $('fullList').innerHTML = '';
+    $('summary').textContent = '';
+    if (!r) return;
+    const sorted = [...r.entradas].sort((a, b) => b.mensajes - a.mensajes), max = sorted[0]?.mensajes || 0;
+    $('summary').textContent = `${fmt(r.total)} mensajes en la ${semL(r.id)} · ${sorted.length} participante${sorted.length === 1 ? '' : 's'} · ${fmt(r.totalMedia || 0)} multimedia`;
+    sorted.slice(0, 10).forEach((e, i) => $('topList').appendChild(rowLi(e, i + 1, r.total, max)));
+    if (isAdmin){
+      sorted.forEach((e, i) => $('fullList').appendChild(rowLi(e, i + 1, r.total, max)));
+      // Solo quienes ya estaban en el team ese mes (los que entraron después no aparecen)
+      const [yy, mm2, dd] = r.id.split('-').map(Number), finMes = new Date(yy, mm2 - 1, dd + 7).getTime();   // fin de esa semana
+      const faltan = miembros.filter(m => !r.entradas.some(e => e.miembroId === m.id) && !(m.createdAt && m.createdAt.toMillis && m.createdAt.toMillis() >= finMes));
+      faltan.forEach(m => $('fullList').appendChild(rowLi({ miembroId: m.id, mensajes: 0, mask: maskContacto(m.contacto || m.id) }, '–', r.total, max)));
+      const nOk = r.entradas.filter(e => e.miembroId && e.mensajes >= MIN).length, nTot = r.entradas.filter(e => e.miembroId).length + faltan.length;
+      $('summary').textContent += ` · ${nOk} de ${nTot} miembros llegan a ${MIN}`;
+    }
+  }
+
+  $('mesSel').addEventListener('change', (e) => { current = e.target.value; render(); });
+  $('olderBtn').addEventListener('click', () => { const i = registros.findIndex(r => r.id === current); if (registros[i + 1]) { current = registros[i + 1].id; render(); } });
+  $('newerBtn').addEventListener('click', () => { const i = registros.findIndex(r => r.id === current); if (registros[i - 1]) { current = registros[i - 1].id; render(); } });
+  $('delMonthBtn').addEventListener('click', async () => {
+    if (!current || !confirm('¿Borrar el registro de la ' + semL(current) + '?')) return;
+    try { await deleteDoc(doc(db, 'registros', current)); } catch (e) { status('No se pudo borrar.'); }
+  });
+
+  // ---------- Exportar top 10 como imagen (siempre con nombres públicos) ----------
+  async function exportPng(full){
+    const r = registros.find(x => x.id === current); if (!r) return;
+    try { await document.fonts.ready; } catch (e) {}
+    const rows = [...r.entradas].sort((a, b) => b.mensajes - a.mensajes).slice(0, full ? 999 : 10);
+    const W = 1080, H = 230 + rows.length * 92 + 60, S = 2;
+    const cv = document.createElement('canvas'); cv.width = W * S; cv.height = H * S;
+    const x = cv.getContext('2d'); x.scale(S, S);
+    const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#fff8e6'); g.addColorStop(1, '#ffe7a8');
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    const SERIF = "'Crimson Pro', Georgia, serif", DISP = "'Cormorant', Georgia, serif";
+    x.textBaseline = 'alphabetic';
+    x.fillStyle = '#d9780b'; x.font = `600 62px ${DISP}`; x.fillText('Sunaely Team', 70, 100);
+    x.fillStyle = '#3a2307'; x.font = `500 38px ${DISP}`;
+    x.fillText((full ? 'Lista completa · ' : 'Top 10 · ') + mesLabel(r.id), 70, 152);
+    x.fillStyle = '#7d5a2a'; x.font = `400 26px ${SERIF}`;
+    x.fillText(`${fmt(r.total)} mensajes en total · ${r.entradas.length} participante${r.entradas.length === 1 ? '' : 's'} · ${fmt(r.totalMedia || 0)} multimedia`, 70, 194);
+    rows.forEach((e, i) => {
+      const y = 250 + i * 92;
+      x.fillStyle = '#d9780b'; x.font = `600 40px ${DISP}`; x.textAlign = 'center'; x.fillText(String(i + 1), 90, y + 34);
+      x.textAlign = 'left'; x.fillStyle = '#3a2307'; x.font = `600 32px ${SERIF}`;
+      const mm = full && isAdmin && e.miembroId ? miembros.find(z => z.id === e.miembroId) : null;
+      const W0 = '#3a2307', G0 = '#7d5a2a', parts = [];
+      if (mm){
+        parts.push([lbl(mm), W0]);
+        const cp = charParts(mm);
+        if (cp.length){ parts.push([' - ', G0]); cp.forEach(([t, k], n) => { if (n) parts.push([' / ', G0]); parts.push([t, k === 'a' ? '#7fae72' : '#d9780b']); }); }
+        else parts.push([' · ' + pubLabel(e), G0]);
+      } else parts.push([pubLabel(e), W0]);
+      let px = 140; const maxW = 600;
+      for (const [t, col] of parts){
+        let s = t; x.fillStyle = col;
+        if (px - 140 + x.measureText(s).width > maxW){
+          while (s.length > 1 && px - 140 + x.measureText(s + '…').width > maxW) s = s.slice(0, -1);
+          x.fillText(s + '…', px, y + 30); break;
+        }
+        x.fillText(s, px, y + 30); px += x.measureText(s).width;
+      }
+      x.textAlign = 'right'; x.fillStyle = '#d9780b'; x.font = `600 32px ${SERIF}`;
+      x.fillText(pct(e.mensajes, r.total), W - 70, y + 30);
+      x.fillStyle = '#7d5a2a'; x.font = `400 22px ${SERIF}`;
+      x.fillText(fmt(e.mensajes) + ' mensajes · ' + fmt(e.multimedia || 0) + ' multimedia', W - 70, y + 58);
+      x.textAlign = 'left';
+      const bw = 600; x.fillStyle = 'rgba(120,70,10,0.12)'; x.fillRect(140, y + 46, bw, 8);
+      const gr = x.createLinearGradient(140, 0, 140 + bw, 0); gr.addColorStop(0, '#b9873a'); gr.addColorStop(1, '#d9780b');
+      x.fillStyle = gr; x.fillRect(140, y + 46, Math.max(3, bw * e.mensajes / r.total), 8);
+    });
+    cv.toBlob((blob) => {
+      if (!blob) { status('No se pudo crear la imagen.'); return; }
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = (full ? 'completo-' : 'top10-') + r.id + '.png'; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    }, 'image/png');
+  }
+  $('pngBtn').addEventListener('click', () => exportPng(false));
+  $('pngFullBtn').addEventListener('click', () => exportPng(true));
+
+  // ---------- Importar ----------
+  function autoMatch(k){
+    const al = miembros.find(m => (m.aliasesChat || []).includes(k)); if (al) return al.id;
+    const t = k.split('|').map(s => s.trim());
+    const o = ocupados.find(o => o.miembroId && t.includes(chatKey(o.nombre)));
+    if (o) return o.miembroId;
+    const h = miembros.find(m => (m.historialPersonajes || []).some(x => t.includes(chatKey(x.nombre))));
+    return h ? h.id : null;
+  }
+
+  const drop = $('drop');
+  ['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'dragend'].forEach(t => drop.addEventListener(t, () => drop.classList.remove('over')));
+  drop.addEventListener('drop', (e) => {
+    e.preventDefault(); drop.classList.remove('over');
+    const f = e.dataTransfer.files[0];
+    if (f) leerArchivo(f);
+  });
+  $('fileIn').addEventListener('change', (ev) => { const f = ev.target.files[0]; if (f) leerArchivo(f); });
+  async function leerArchivo(f){
+    if (!/\.(txt|xlsx|xls|csv)$/i.test(f.name)){ status('Ese tipo de archivo no vale: usa .txt, .xlsx, .xls o .csv.'); return; }
+    $('dzTitle').textContent = f.name; $('dzSub').textContent = 'Toca o arrastra otro para cambiarlo';
+    try {
+      pending = /\.txt$/i.test(f.name) ? parseChat(await f.text()) : parseSheet(await f.arrayBuffer());
+      renderImport();
+    } catch (e) { status('No se pudo leer el archivo.'); }
+    $('fileIn').value = '';
+  }
+
+  function renderImport(){
+    const box = $('importOut'); box.innerHTML = '';
+    const ids = Object.keys(pending).sort();
+    if (!ids.length){ box.innerHTML = '<p class="empty-note">No encontré mensajes en ese archivo.</p>'; return; }
+    const opts = [...miembros].sort((a, b) => lbl(a).localeCompare(lbl(b))).map(m => `<option value="${esc(m.id)}">${esc(lblFull(m))}</option>`).join('');
+    ids.forEach(id => {
+      const rows = Object.entries(pending[id]).sort((a, b) => b[1].n - a[1].n);
+      const sec = document.createElement('div');
+      sec.innerHTML = `<div class="imp-month">${mesLabel(id)} · ${fmt(rows.reduce((s, [, v]) => s + v.n, 0))} mensajes</div>` +
+        rows.map(([k, v]) => `<div class="imp-row" data-k="${esc(k)}"><span>${esc(disp(k))}</span><b>${fmt(v.n)}</b>
+          <select><option value="">— Elegir miembro —</option><option value="-">Antiguo miembro</option>${opts}</select></div>`).join('') +
+        `<button class="submit-btn" type="button" style="margin-top:12px">Guardar ${mesLabel(id)}</button>`;
+      sec.querySelectorAll('.imp-row').forEach(r => {
+        const s = r.querySelector('select'), a = autoMatch(r.dataset.k);
+        if (a) s.value = a;
+        r.classList.toggle('warn', !s.value);
+        s.addEventListener('change', () => r.classList.toggle('warn', !s.value));
+      });
+      sec.querySelector('.submit-btn').addEventListener('click', () => saveMonth(id, sec));
+      box.appendChild(sec);
+    });
+  }
+
+  async function saveMonth(id, sec){
+    const rows = [...sec.querySelectorAll('.imp-row')];
+    if (rows.some(r => !r.querySelector('select').value)){ status('Faltan personas por asignar (marcadas en rojo).'); return; }
+    if (registros.some(r => r.id === id) && !confirm('Ya existe la ' + semL(id) + '. ¿Sustituirlo?')) return;
+    const agg = {}, ex = [];
+    rows.forEach(r => {
+      const v = pending[id][r.dataset.k], mid = r.querySelector('select').value;
+      if (mid === '-'){ ex.push({ miembroId: null, mensajes: v.n, multimedia: v.media }); return; }
+      const e = (agg[mid] ??= { miembroId: mid, mensajes: 0, multimedia: 0 });
+      e.mensajes += v.n; e.multimedia += v.media;
+    });
+    const entradas = [...Object.values(agg).map(e => {
+      const m = miembros.find(x => x.id === e.miembroId);
+      e.mask = maskContacto(m?.contacto || e.miembroId);
+      e.personajes = ocupadosDe(e.miembroId).map(o => o.nombre);
+      return e;
+    }), ...ex];
+    const [y, mo] = id.split('-');
+    try {
+      await setDoc(doc(db, 'registros', id), {
+        lunes: id, anio: +y, mes: +mo, entradas,
+        total: entradas.reduce((s, e) => s + e.mensajes, 0),
+        totalMedia: entradas.reduce((s, e) => s + e.multimedia, 0),
+        importadoEn: serverTimestamp()
+      });
+      await Promise.all(rows.filter(r => !['', '-'].includes(r.querySelector('select').value))
+        .map(r => updateDoc(doc(db, 'miembros', r.querySelector('select').value), { aliasesChat: arrayUnion(r.dataset.k) })));
+      current = id; sec.remove(); status(mesLabel(id) + ' guardado.'); render();
+    } catch (e) { status('No se pudo guardar (' + (e.code || 'error') + '). ¿Has publicado las reglas de Firestore?'); }
+  }
+
+  // ---------- Admin ----------
+  $('adminToggleBtn').addEventListener('click', () => {
+    if (isAdmin) signOut(auth);
+    else { $('loginError').textContent = ''; $('loginEmail').value = ''; $('loginPass').value = ''; $('loginDialog').showModal(); }
+  });
+  $('loginCancel').addEventListener('click', () => $('loginDialog').close());
+  $('loginSubmit').addEventListener('click', async () => {
+    try { await signInWithEmailAndPassword(auth, $('loginEmail').value.trim(), $('loginPass').value); $('loginDialog').close(); }
+    catch (e) { $('loginError').textContent = 'Email o contraseña incorrectos.'; }
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    isAdmin = !!user;
+    $('adminToggleBtn').textContent = isAdmin ? 'Salir del modo admin' : 'Acceso admin';
+    $('adminToggleBtn').classList.toggle('is-admin', isAdmin);
+    $('fullPanel').hidden = $('importPanel').hidden = !isAdmin;
+    if (isAdmin && !unsubM){
+      unsubM = onSnapshot(collection(db, 'miembros'), (s) => { miembros = s.docs.map(d => ({ id: d.id, ...d.data() })); render(); });
+    } else if (!isAdmin && unsubM){
+      unsubM(); unsubM = null; miembros = []; $('importOut').innerHTML = '';
+    }
+    render();
+  });
+</script>
+</body>
+</html>

@@ -193,14 +193,7 @@
     const dias = Math.ceil((new Date(y + 19, mo - 1, d) - hoy) / 864e5);
     return { edad, dias };
   }
-  function edadTxt(nac, ocupa = true){
-    // Sunaely: se entra con 15–18 años. Quien cumple 19 estando dentro se queda, así que no hay aviso de expulsión a los 19.
-    const i = edadInfo(nac);
-    if (!i && !ocupa) return { html: '', nivel: 'ok' };
-    if (!i) return { html: '<span style="color:var(--danger,#c0482f)">Falta fecha de nacimiento</span>', nivel: 'falta' };
-    if (i.edad < 15) return { html: `<b style="color:var(--danger,#c0482f)">${i.edad} años — menor de 15, toca expulsar</b>`, nivel: 'expulsar', motivo: 'Menor de 15 años' };
-    return { html: `${i.edad} años`, nivel: 'ok' };
-  }
+  function edadTxt(){ return { html: '', nivel: 'ok' }; } // Sunaely ya no controla la edad
 
   function rolesDe(miembroId){
     return ocupadosCache.filter(o => o.miembroId === miembroId).map(o => o.nombre);

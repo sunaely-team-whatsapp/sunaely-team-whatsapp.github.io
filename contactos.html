@@ -122,51 +122,7 @@
   }
 
 
-  // ---------- Edad (se entra con 15–18; a los 19 no pasa nada) ----------
-  function edadInfo(nac){
-    if (!nac) return null;
-    const [y, mo, d] = nac.split('-').map(Number);
-    const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
-    let edad = hoy.getFullYear() - y;
-    if (hoy < new Date(hoy.getFullYear(), mo - 1, d)) edad--;
-    const dias = Math.ceil((new Date(y + 19, mo - 1, d) - hoy) / 864e5);
-    return { edad, dias };
-  }
-  function edadTxt(nac, ocupa = true){
-    // Sunaely: se entra con 15–18 años. Quien cumple 19 estando dentro se queda, así que no hay aviso de expulsión a los 19.
-    const i = edadInfo(nac);
-    if (!i && !ocupa) return { html: '', nivel: 'ok' };
-    if (!i) return { html: '<span style="color:var(--danger,#c0482f)">Falta fecha de nacimiento</span>', nivel: 'falta' };
-    if (i.edad < 15) return { html: `<b style="color:var(--danger,#c0482f)">${i.edad} años — menor de 15, no cumple el mínimo</b>`, nivel: 'expulsar', motivo: 'Menor de 15' };
-    return { html: `${i.edad} años`, nivel: 'ok' };
-  }
 
-  // Fecha de nacimiento como dd / mm / 20aa (solo se teclean 2 cifras del año)
-  function makeNacField(iso, onCommit){
-    const w = document.createElement('span');
-    w.style.cssText = 'display:inline-flex;align-items:center;gap:2px;margin-right:8px';
-    const mk = (ph) => { const i = document.createElement('input'); i.type = 'text'; i.inputMode = 'numeric'; i.maxLength = 2; i.placeholder = ph; i.autocomplete = 'off'; i.style.cssText = 'width:2.6em;padding:3px 4px;font-size:0.88rem;text-align:center'; return i; };
-    const sep = (t) => { const e = document.createElement('span'); e.textContent = t; return e; };
-    const dd = mk('dd'), mm = mk('mm'), yy = mk('aa');
-    w.append(dd, sep('/'), mm, sep('/20'), yy);
-    if (iso && iso.startsWith('20')){ const [y, m, d] = iso.split('-'); dd.value = d; mm.value = m; yy.value = y.slice(2); }
-    w.getISO = () => {
-      if (dd.value.length !== 2 || mm.value.length !== 2 || yy.value.length !== 2) return '';
-      const y = 2000 + Number(yy.value), m = Number(mm.value), d = Number(dd.value);
-      const dt = new Date(y, m - 1, d);
-      if (dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return '';
-      return `${y}-${mm.value}-${dd.value}`;
-    };
-    const els = [dd, mm, yy];
-    els.forEach((el, i) => el.addEventListener('input', () => {
-      el.value = el.value.replace(/\D/g, '');
-      if (el.value.length === 2 && els[i + 1]) els[i + 1].focus();
-      const full = els.every(x => x.value.length === 2), v = w.getISO();
-      els.forEach(x => x.style.borderColor = (full && !v) ? 'var(--danger,#e66)' : '');
-      if (v && onCommit) onCommit(v);
-    }));
-    return w;
-  }
 
   function orderComparator(a, b){
     const av = typeof a.orden === 'number' ? a.orden : Infinity;
@@ -493,14 +449,6 @@
       meta.innerHTML = metaHtml;
       textWrap.appendChild(meta);
 
-      const nacRow = document.createElement('div');
-      nacRow.className = 'li-meta';
-      const nacTxt = document.createElement('span');
-      nacTxt.innerHTML = edadTxt(r.nacimiento, r.roles.length > 0).html;
-      const nacInput = makeNacField(r.nacimiento, (v) => { if (v !== r.nacimiento) updateDoc(doc(db, 'miembros', r.id), { nacimiento: v }); });
-      nacRow.append('Nació: ', nacInput, nacTxt);
-      textWrap.appendChild(nacRow);
-
       const steppers = document.createElement('div');
       steppers.className = 'stepper-row';
       steppers.appendChild(makeStepper('Cambios', r.cambiosDisponibles, (val) =>
@@ -545,8 +493,6 @@
       const input = document.createElement('input');
       input.type = 'text';
       input.placeholder = 'Teléfono o usuario de WhatsApp';
-      const nacNuevo = makeNacField('');
-      nacNuevo.title = 'Fecha de nacimiento (obligatoria si es miembro nuevo)';
 
       const link = async () => {
         const val = input.value.trim();
@@ -565,17 +511,11 @@
           }
         }
         if (!memberId){
-          const nacISO = nacNuevo.getISO();
-          if (!nacISO){ nacNuevo.querySelector('input').focus(); statusLine.textContent = 'Para crear un miembro nuevo hace falta su fecha de nacimiento.'; return; }
-          const ed = edadInfo(nacISO);
-          if (ed && ed.edad < 15){ statusLine.textContent = 'Tiene ' + ed.edad + ' años: el mínimo para entrar en Sunaely es 15.'; return; }
-          if (ed && ed.edad > 18 && !confirm('Tiene ' + ed.edad + ' años. En Sunaely se entra con 15–18 (quien cumple 19 dentro se queda). ¿Vincular de todas formas?')) return;
           const maxNum = Math.max(0, ...miembrosCache.map(m => parseInt(String(m.apodoInterno || '').replace(/\D/g, ''), 10) || 0));
           memberId = nuevoId();
           await setDoc(doc(db, 'miembros', memberId), {
             contacto: val,
             contactoKey: key,
-            nacimiento: nacISO,
             apodoInterno: 'Miembro-' + String(maxNum + 1).padStart(3, '0'),
             cambiosDisponibles: 1,
             salidasDisponibles: 3,
@@ -595,7 +535,6 @@
       linkBtn.addEventListener('click', link);
 
       actions.appendChild(input);
-      actions.appendChild(nacNuevo);
       actions.appendChild(linkBtn);
       li.appendChild(actions);
       unlinkedList.appendChild(li);
