@@ -1079,17 +1079,73 @@
     return [...map.values()].sort((a, b) => orderComparator(a[0], b[0]));
   }
 
+  // ---------- Imágenes: 3 columnas, una por juego ----------
+  const FUENTES = () => Promise.all([document.fonts.load("600 32px 'Crimson Pro'"), document.fonts.load("400 23px 'Crimson Pro'"), document.fonts.load("italic 600 64px 'Cormorant'")]).catch(() => {});
+  const SERIF = "'Crimson Pro', Georgia, serif", COR = "'Cormorant', Georgia, serif";
+  function nuevoLienzo(W, H, titulo){
+    const k = Math.max(0.6, Math.min(2, Math.sqrt(16e6 / (W * H))));
+    const cv = document.createElement('canvas'); cv.width = Math.round(W * k); cv.height = Math.round(H * k);
+    const c = cv.getContext('2d'); c.scale(k, k);
+    const bg = c.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#fff3d1'); bg.addColorStop(1, '#ffe7a8');
+    c.fillStyle = bg; c.fillRect(0, 0, W, H);
+    const glow = c.createRadialGradient(W * .85, 0, 0, W * .85, 0, Math.max(W, H) * .5);
+    glow.addColorStop(0, 'rgba(230,140,20,0.2)'); glow.addColorStop(1, 'rgba(230,140,20,0)');
+    c.fillStyle = glow; c.fillRect(0, 0, W, H);
+    let seed = 777; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < Math.round(W * H / 9000); i++){ c.fillStyle = `rgba(255,170,40,${(0.2 + rnd() * 0.7).toFixed(2)})`; c.beginPath(); c.arc(rnd() * W, rnd() * H, 0.5 + rnd(), 0, 7); c.fill(); }
+    c.textBaseline = 'alphabetic'; c.textAlign = 'left';
+    c.fillStyle = '#3a2307'; c.font = `italic 600 66px ${COR}`; c.fillText(titulo, 56, 92);
+    c.fillStyle = '#b9873a'; c.font = `italic 22px ${COR}`; c.fillText('Sunaely Team ☀️', 58, 128);
+    const rr = (x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
+    const cabecera = (j, x0, w, y) => {   // nombre del juego con su línea
+      c.textAlign = 'left'; c.fillStyle = '#d9780b'; c.font = `italic 600 34px ${COR}`; c.fillText(j.nombre, x0 + 4, y + 30);
+      c.strokeStyle = 'rgba(190,115,15,0.35)'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(x0, y + 44); c.lineTo(x0 + w, y + 44); c.stroke();
+    };
+    const fin = (nombre) => {
+      c.textAlign = 'center'; c.fillStyle = '#b9873a'; c.font = `italic 18px ${COR}`;
+      c.fillText('Actualizado el ' + new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }), W / 2, H - 28);
+      cv.toBlob((blob) => {
+        if (!blob){ statusLine.textContent = 'No se pudo generar la imagen.'; return; }
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre;
+        document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      }, 'image/png');
+    };
+    return { c, rr, cabecera, fin };
+  }
+
+  // ---------- Ocupados / reservados en imagen ----------
+  async function exportListImage(kind){
+    const titulo = kind === 'ocupados' ? 'Personajes ocupados' : 'Personajes reservados';
+    await FUENTES();
+    const porJuego = JUEGOS.map(j => (allCaches[kind] || []).filter(x => x.nombre && juegoDe(x) === j.id).sort(orderComparator).map(x => x.nombre));
+    const W = 1620, pad = 56, IP = 26, GC = 28, BH = 56, GAP = 12, HD = 64;
+    const colW = (W - pad * 2 - IP * 2 - GC * 2) / 3, rows = Math.max(1, ...porJuego.map(a => a.length));
+    const head = 170, foot = 70, cardH = IP * 2 + HD + rows * BH + (rows - 1) * GAP, H = head + cardH + foot;
+    const { c, rr, cabecera, fin } = nuevoLienzo(W, H, titulo);
+    rr(pad, head, W - pad * 2, cardH, 8); c.fillStyle = 'rgba(255,251,238,0.88)'; c.fill(); c.strokeStyle = 'rgba(190,115,15,0.2)'; c.lineWidth = 1.2; c.stroke();
+    JUEGOS.forEach((j, g) => {
+      const x0 = pad + IP + g * (colW + GC);
+      cabecera(j, x0, colW, head + IP);
+      if (!porJuego[g].length){ c.fillStyle = '#7d5a2a'; c.font = `italic 24px ${COR}`; c.fillText('Nadie por ahora.', x0 + 6, head + IP + HD + 34); }
+      porJuego[g].forEach((nm, i) => {
+        const y = head + IP + HD + i * (BH + GAP);
+        rr(x0, y, colW, BH, 6); c.fillStyle = 'rgba(255,255,255,.6)'; c.fill(); c.strokeStyle = 'rgba(190,115,15,0.22)'; c.lineWidth = 1.2; c.stroke();
+        c.textAlign = 'left'; c.fillStyle = '#b9873a'; c.font = `24px ${SERIF}`; c.fillText('✦', x0 + 20, y + 37);
+        c.fillStyle = '#3a2307'; c.font = `600 29px ${SERIF}`; c.fillText(nm, x0 + 62, y + 38, colW - 80);
+      });
+    });
+    fin(kind + '-sunaely.png');
+  }
+
   // ---------- Buscados en imagen (solo admin, sin la fecha admin-only) ----------
   async function exportBuscadosImage(){
     const groups = groupBuscados();
     if (!groups.length){ statusLine.textContent = 'No hay buscados que exportar.'; return; }
-    try { await Promise.all([document.fonts.load("600 30px 'Crimson Pro'"), document.fonts.load("400 22px 'Crimson Pro'"), document.fonts.load("italic 600 64px 'Cormorant'")]); } catch (e) {}
-    const W = 1080, pad = 56, cardX = pad, cardW = W - pad * 2, inX = cardX + 70, inW = cardW - 70 - 28;
-    const SERIF = "'Crimson Pro', Georgia, serif", COR = "'Cormorant', Georgia, serif";
+    await FUENTES();
+    const W = 1620, pad = 56, GC = 28, colW = (W - pad * 2 - GC * 2) / 3, inX = 70, inW = colW - 70 - 28;
     const mc = document.createElement('canvas').getContext('2d');
     const font = (b) => `${b ? 600 : 400} 23px ${SERIF}`;
-    // Ajuste de línea con partes en negrita y normales
-    const wrap = (r) => {
+    const wrap = (r) => {   // ajuste de línea con partes en negrita y normales
       const toks = [];
       [['Lo pide ', false], [r.pedidoPor, true], [' — ' + r.motivo, false]].forEach(([t, b]) => t.split(/(\s+)/).forEach(w => { if (w) toks.push({ w, b }); }));
       const lines = [[]]; let x = 0;
@@ -1102,110 +1158,41 @@
       });
       return lines;
     };
-    const LH = 31;
-    const cards = groups.map(items => {
+    const LH = 31, HD = 64, head = 170, foot = 70;
+    const cols = JUEGOS.map(j => groups.filter(items => juegoDe(items[0]) === j.id).map(items => {
       const reqs = items.map(r => ({ lines: wrap(r) }));
-      const h = 24 + 44 + reqs.reduce((a, q) => a + q.lines.length * LH + 18, 0) + 6;
-      return { items, reqs, h };
-    });
-    const head = 170, foot = 70;
-    const H = head + cards.reduce((a, c) => a + c.h + 18, 0) + foot;
-    const k = Math.max(0.6, Math.min(2, Math.sqrt(16e6 / (W * H))));
-    const cv = document.createElement('canvas');
-    cv.width = Math.round(W * k); cv.height = Math.round(H * k);
-    const c = cv.getContext('2d'); c.scale(k, k);
-    const bg = c.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#fff3d1'); bg.addColorStop(1, '#ffe7a8');
-    c.fillStyle = bg; c.fillRect(0, 0, W, H);
-    const glow = c.createRadialGradient(W * .85, 0, 0, W * .85, 0, Math.max(W, H) * .5);
-    glow.addColorStop(0, 'rgba(230,140,20,0.2)'); glow.addColorStop(1, 'rgba(230,140,20,0)');
-    c.fillStyle = glow; c.fillRect(0, 0, W, H);
-    let seed = 777; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-    for (let i = 0; i < Math.round(W * H / 9000); i++){
-      c.fillStyle = `rgba(255,170,40,${(0.2 + rnd() * 0.7).toFixed(2)})`;
-      c.beginPath(); c.arc(rnd() * W, rnd() * H, 0.5 + rnd(), 0, 7); c.fill();
-    }
-    c.textBaseline = 'alphabetic';
-    c.fillStyle = '#3a2307'; c.font = `italic 600 66px ${COR}`; c.fillText('Se buscan', pad, 92);
-    c.fillStyle = '#b9873a'; c.font = `italic 22px ${COR}`; c.fillText('Sunaely Team ☀️', pad + 2, 128);
-    const rr = (x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
-    let y = head;
-    cards.forEach(cd => {
-      rr(cardX, y, cardW, cd.h, 8); c.fillStyle = 'rgba(255,251,238,0.88)'; c.fill();
-      c.strokeStyle = 'rgba(190,115,15,0.2)'; c.lineWidth = 1.2; c.stroke();
-      c.fillStyle = '#b9873a'; c.font = `26px ${SERIF}`; c.fillText('✦', cardX + 24, y + 52);
-      c.fillStyle = '#3a2307'; c.font = `600 34px ${SERIF}`; c.fillText(cd.items[0].nombre, inX - 8, y + 54);
-      if (cd.items.length > 1){
-        const nw = c.measureText(cd.items[0].nombre).width;
-        const txt = `${cd.items.length} personas lo piden`;
-        c.font = `700 17px ${SERIF}`;
-        const bw = c.measureText(txt).width + 22, bx = inX - 8 + nw + 16, by = y + 30;
-        rr(bx, by, bw, 28, 14); c.strokeStyle = '#b9873a'; c.lineWidth = 1.2; c.stroke();
-        c.fillStyle = '#d9780b'; c.fillText(txt, bx + 11, by + 20);
-      }
-      let ty = y + 24 + 44;
-      cd.reqs.forEach((q, qi) => {
-        if (qi > 0){ c.setLineDash([3, 5]); c.strokeStyle = 'rgba(190,115,15,0.18)'; c.lineWidth = 1; c.beginPath(); c.moveTo(inX - 8, ty - 8); c.lineTo(cardX + cardW - 24, ty - 8); c.stroke(); c.setLineDash([]); }
-        q.lines.forEach(line => {
-          let x = inX; ty += LH - 4;
-          line.forEach(tk => { c.font = font(tk.b); c.fillStyle = tk.b ? '#e6a23c' : '#7d5a2a'; c.fillText(tk.w, x, ty); x += tk.wd; });
-          ty += 4;
+      return { items, reqs, h: 24 + 44 + reqs.reduce((a, q) => a + q.lines.length * LH + 18, 0) + 6 };
+    }));
+    const colH = cols.map(cs => cs.reduce((a, cd) => a + cd.h + 18, 0) || 60);
+    const H = head + HD + Math.max(...colH) + foot;
+    const { c, rr, cabecera, fin } = nuevoLienzo(W, H, 'Se buscan');
+    JUEGOS.forEach((j, g) => {
+      const x0 = pad + g * (colW + GC); let y = head + HD;
+      cabecera(j, x0, colW, head);
+      if (!cols[g].length){ c.fillStyle = '#7d5a2a'; c.font = `italic 24px ${COR}`; c.fillText('Nadie busca nada por ahora.', x0 + 6, y + 30); }
+      cols[g].forEach(cd => {
+        rr(x0, y, colW, cd.h, 8); c.fillStyle = 'rgba(255,251,238,0.88)'; c.fill(); c.strokeStyle = 'rgba(190,115,15,0.2)'; c.lineWidth = 1.2; c.stroke();
+        c.textAlign = 'left'; c.fillStyle = '#b9873a'; c.font = `26px ${SERIF}`; c.fillText('✦', x0 + 24, y + 52);
+        c.fillStyle = '#3a2307'; c.font = `600 34px ${SERIF}`; c.fillText(cd.items[0].nombre, x0 + inX - 8, y + 54, colW - 90);
+        if (cd.items.length > 1){
+          const txt = `${cd.items.length} lo piden`; c.font = `700 17px ${SERIF}`;
+          const bw = c.measureText(txt).width + 22, bx = x0 + colW - bw - 14, by = y + 14;
+          rr(bx, by, bw, 26, 13); c.strokeStyle = '#b9873a'; c.lineWidth = 1.2; c.stroke(); c.fillStyle = '#d9780b'; c.fillText(txt, bx + 11, by + 18);
+        }
+        let ty = y + 24 + 44;
+        cd.reqs.forEach((q, qi) => {
+          if (qi > 0){ c.setLineDash([3, 5]); c.strokeStyle = 'rgba(190,115,15,0.18)'; c.lineWidth = 1; c.beginPath(); c.moveTo(x0 + inX - 8, ty - 8); c.lineTo(x0 + colW - 24, ty - 8); c.stroke(); c.setLineDash([]); }
+          q.lines.forEach(line => {
+            let x = x0 + inX; ty += LH - 4;
+            line.forEach(tk => { c.font = font(tk.b); c.fillStyle = tk.b ? '#e6a23c' : '#7d5a2a'; c.fillText(tk.w, x, ty); x += tk.wd; });
+            ty += 4;
+          });
+          ty += 18;
         });
-        ty += 18;
+        y += cd.h + 18;
       });
-      y += cd.h + 18;
     });
-    c.fillStyle = '#b9873a'; c.font = `italic 18px ${COR}`; c.textAlign = 'center';
-    c.fillText('Actualizado el ' + new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }), W / 2, H - 28);
-    cv.toBlob((blob) => {
-      if (!blob){ statusLine.textContent = 'No se pudo generar la imagen.'; return; }
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob); a.download = 'buscados-sunaely.png';
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    }, 'image/png');
-  }
-  // ---------- Ocupados / reservados en imagen ----------
-  async function exportListImage(kind){
-    const items = (allCaches[kind] || []).map(x => x.nombre).filter(Boolean);
-    const title = kind === 'ocupados' ? 'Personajes ocupados' : 'Personajes reservados';
-    try { await Promise.all([document.fonts.load("600 32px 'Crimson Pro'"), document.fonts.load("italic 600 64px 'Cormorant'")]); } catch (e) {}
-    const W = 1080, pad = 56, cols = 2, rows = Math.max(1, Math.ceil(items.length / cols)), BH = 56, GAP = 12, IP = 24;
-    const SERIF = "'Crimson Pro', Georgia, serif", COR = "'Cormorant', Georgia, serif";
-    const head = 170, foot = 70, cardH = IP * 2 + rows * BH + (rows - 1) * GAP, H = head + cardH + foot;
-    const k = Math.max(0.6, Math.min(2, Math.sqrt(16e6 / (W * H))));
-    const cv = document.createElement('canvas'); cv.width = Math.round(W * k); cv.height = Math.round(H * k);
-    const c = cv.getContext('2d'); c.scale(k, k);
-    const bg = c.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#fff3d1'); bg.addColorStop(1, '#ffe7a8');
-    c.fillStyle = bg; c.fillRect(0, 0, W, H);
-    const glow = c.createRadialGradient(W * .85, 0, 0, W * .85, 0, Math.max(W, H) * .5);
-    glow.addColorStop(0, 'rgba(230,140,20,0.2)'); glow.addColorStop(1, 'rgba(230,140,20,0)');
-    c.fillStyle = glow; c.fillRect(0, 0, W, H);
-    let seed = 777; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-    for (let i = 0; i < Math.round(W * H / 9000); i++){ c.fillStyle = `rgba(255,170,40,${(0.2 + rnd() * 0.7).toFixed(2)})`; c.beginPath(); c.arc(rnd() * W, rnd() * H, 0.5 + rnd(), 0, 7); c.fill(); }
-    c.textBaseline = 'alphabetic';
-    c.fillStyle = '#3a2307'; c.font = `italic 600 66px ${COR}`; c.fillText(title, pad, 92);
-    c.fillStyle = '#b9873a'; c.font = `italic 22px ${COR}`; c.fillText('Sunaely Team ☀️', pad + 2, 128);
-    const rr = (x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
-    rr(pad, head, W - pad * 2, cardH, 8); c.fillStyle = 'rgba(255,251,238,0.88)'; c.fill(); c.strokeStyle = 'rgba(190,115,15,0.2)'; c.lineWidth = 1.2; c.stroke();
-    if (!items.length){ c.fillStyle = '#7d5a2a'; c.font = `italic 26px ${COR}`; c.fillText('Nadie por ahora.', pad + 34, head + 62); }
-    const bw = (W - pad * 2 - IP * 2 - GAP) / 2;
-    // una caja por personaje, igual que en la web (se rellena de izquierda a derecha)
-    items.forEach((nm, i) => {
-      const col = i % 2, row = Math.floor(i / 2);
-      const x = pad + IP + col * (bw + GAP), y = head + IP + row * (BH + GAP);
-      rr(x, y, bw, BH, 6); c.fillStyle = 'rgba(255,255,255,.6)'; c.fill();
-      c.strokeStyle = 'rgba(190,115,15,0.22)'; c.lineWidth = 1.2; c.stroke();
-      c.textAlign = 'left';
-      c.fillStyle = '#b9873a'; c.font = `24px ${SERIF}`; c.fillText('✦', x + 20, y + 37);
-      c.fillStyle = '#3a2307'; c.font = `600 29px ${SERIF}`; c.fillText(nm, x + 62, y + 38, bw - 80);
-    });
-    c.fillStyle = '#b9873a'; c.font = `italic 18px ${COR}`; c.textAlign = 'center';
-    c.fillText('Actualizado el ' + new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }), W / 2, H - 28);
-    cv.toBlob((blob) => {
-      if (!blob){ statusLine.textContent = 'No se pudo generar la imagen.'; return; }
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = kind + '-sunaely.png';
-      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    }, 'image/png');
+    fin('buscados-sunaely.png');
   }
   // desplegable «Exportar en imagen»
   const imgBtn = $('exportImgBtn'), imgList = $('imgMenuList');
