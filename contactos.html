@@ -380,21 +380,34 @@
   }
 
   // Cambiar el teléfono/usuario de un miembro sin tocar su identificador interno
-  async function cambiarContacto(id){
-    const m = miembrosCache.find(x => x.id === id); if (!m) return;
-    const val = (prompt('Nuevo teléfono o usuario de WhatsApp para ' + (m.contacto || m.id) + ':', m.contacto || '') || '').trim();
-    if (!val || val === m.contacto) return;
-    const key = memberIdFrom(val);
-    if (!key) return;
+  async function cambiarContacto(id, valor){   // devuelve '' si va bien, o el motivo del fallo
+    const m = miembrosCache.find(x => x.id === id); if (!m) return 'No se encontró el miembro.';
+    const val = String(valor || '').trim();
+    if (!val || val === m.contacto) return '';
+    const key = memberIdFrom(val); if (!key) return 'Contacto no válido.';
     const otro = miembrosCache.find(x => x.id !== id && (x.contactoKey === key || x.id === key || (x.contactosAnteriores || []).includes(key)));
-    if (otro){ statusLine.textContent = 'Ese contacto ya pertenece a otro miembro (' + (otro.apodoInterno || otro.id) + ').'; return; }
+    if (otro) return 'Ese contacto ya pertenece a otro miembro (' + (otro.apodoInterno || otro.id) + ').';
     try {
       const viejoKey = m.contactoKey || memberIdFrom(m.contacto || m.id);
       await updateDoc(doc(db, 'miembros', id), { contacto: val, contactoKey: key, contactosAnteriores: arrayUnion(viejoKey) });
-      await Promise.all(ocupadosCache.filter(o => o.miembroId === id)
-        .map(o => updateDoc(doc(db, 'ocupados', o.id), { contactoMask: maskContacto(val) })));
-      statusLine.textContent = 'Contacto actualizado.';
-    } catch (e) { statusLine.textContent = 'No se pudo cambiar el contacto: ' + (e.code || e.message); }
+      await Promise.all(ocupadosCache.filter(o => o.miembroId === id).map(o => updateDoc(doc(db, 'ocupados', o.id), { contactoMask: maskContacto(val) })));
+      statusLine.textContent = 'Contacto actualizado.'; return '';
+    } catch (e) { return 'No se pudo cambiar el contacto: ' + (e.code || e.message); }
+  }
+  // Edición en la propia fila (como el «Cambiar» de la lista), sin ventana emergente
+  function editarContactoEnLinea(li, r){
+    const m = miembrosCache.find(x => x.id === r.id); if (!m) return;
+    li.innerHTML = '';
+    const form = document.createElement('div'); form.className = 'li-edit-form li-edit-form-wide';
+    const inp = document.createElement('input'); inp.type = 'text'; inp.value = m.contacto || ''; inp.placeholder = 'Teléfono o usuario de WhatsApp'; inp.setAttribute('autocomplete', 'off');
+    const err = document.createElement('p'); err.style.cssText = 'flex-basis:100%;margin:4px 0 0;color:var(--danger,#c0482f);font-style:italic;font-size:.95rem';
+    form.append(inp, err);
+    const acts = document.createElement('div'); acts.className = 'li-actions';
+    const mk = (t, c, f) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'icon-btn ' + c; b.textContent = t; b.addEventListener('click', f); return b; };
+    const guardar = async () => { const e = await cambiarContacto(r.id, inp.value); if (e){ err.textContent = e; return; } render(); };
+    acts.append(mk('Guardar', 'icon-btn-edit', guardar), mk('Cancelar', '', () => render()));
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') guardar(); else if (e.key === 'Escape') render(); });
+    li.append(form, acts); inp.focus(); inp.select();
   }
 
   function renderAdmin(roles){
@@ -405,8 +418,7 @@
       contacto: m.contacto || m.id,
       apodoInterno: m.apodoInterno || '',
       nacimiento: m.nacimiento || '',
-      cambiosDisponibles: typeof m.cambiosDisponibles === 'number' ? m.cambiosDisponibles : 1,
-      salidasDisponibles: typeof m.salidasDisponibles === 'number' ? m.salidasDisponibles : 3,
+      cambiosDisponibles: typeof m.cambiosDisponibles === 'number' ? m.cambiosDisponibles : 3,
       roles: roles[m.id] || [],
       historialPersonajes: Array.isArray(m.historialPersonajes) ? m.historialPersonajes : []
     }));
@@ -443,9 +455,8 @@
       meta.className = 'li-meta';
       const rolesTxt = r.roles.length ? r.roles.join(', ') : 'Sin rol actual';
       const pastNames = [...new Set(r.historialPersonajes.map(h => h.nombre))].filter(n => !r.roles.includes(n));
-      let metaHtml = `Ocupa: <b>${escapeHtml(rolesTxt)}</b>`;
+      let metaHtml = `<b>${escapeHtml(r.apodoInterno)}</b> · Ocupa: <b>${escapeHtml(rolesTxt)}</b>`;
       if (pastNames.length) metaHtml += ` — Ocupaba: ${escapeHtml(pastNames.join(', '))}`;
-      metaHtml += ` — ${escapeHtml(r.apodoInterno)}`;
       meta.innerHTML = metaHtml;
       textWrap.appendChild(meta);
 
@@ -453,9 +464,6 @@
       steppers.className = 'stepper-row';
       steppers.appendChild(makeStepper('Cambios', r.cambiosDisponibles, (val) =>
         updateDoc(doc(db, 'miembros', r.id), { cambiosDisponibles: val })
-      ));
-      steppers.appendChild(makeStepper('Salidas', r.salidasDisponibles, (val) =>
-        updateDoc(doc(db, 'miembros', r.id), { salidasDisponibles: val })
       ));
       textWrap.appendChild(steppers);
 
@@ -465,9 +473,9 @@
       const actions = document.createElement('div');
       actions.className = 'li-actions';
       const chBtn = document.createElement('button');
-      chBtn.className = 'icon-btn';
+      chBtn.className = 'icon-btn icon-btn-edit';
       chBtn.textContent = 'Cambiar contacto';
-      chBtn.addEventListener('click', () => cambiarContacto(r.id));
+      chBtn.addEventListener('click', () => editarContactoEnLinea(li, r));
       actions.appendChild(chBtn);
       li.appendChild(actions);
 
@@ -517,8 +525,7 @@
             contacto: val,
             contactoKey: key,
             apodoInterno: 'Miembro-' + String(maxNum + 1).padStart(3, '0'),
-            cambiosDisponibles: 1,
-            salidasDisponibles: 3,
+            cambiosDisponibles: 3,
             activo: true,
             historial: [],
             orden: nextOrden(miembrosCache),

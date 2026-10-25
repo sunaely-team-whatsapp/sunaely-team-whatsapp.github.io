@@ -547,3 +547,12 @@
 @keyframes sunBreathe{ 0%,100%{ opacity:1; } 50%{ opacity:.82; } }
 @media (max-width:600px){ .sun-corner{ top:4px; right:6px; width:62px; height:62px; } }
 @media (prefers-reduced-motion: reduce){ .sun-corner{ animation:none; } }
+
+/* ---- Botones con aspecto de botón (registros y otras páginas) ---- */
+.btn-sol{ display:inline-flex; align-items:center; gap:8px; padding:9px 18px; border:1px solid var(--gold); border-radius:999px; background:linear-gradient(180deg,#ffd75e,#ffb02e); color:#3a2307; font-family:inherit; font-size:.95rem; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(230,140,20,.28); transition:transform .15s, box-shadow .15s, background .15s; }
+.btn-sol:hover{ transform:translateY(-1px); box-shadow:0 4px 14px rgba(230,140,20,.4); }
+.btn-sol:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.btn-sol[hidden]{ display:none; }
+.btn-sol.peligro{ background:var(--paper-alt); color:var(--danger); border-color:rgba(192,72,47,.55); box-shadow:none; }
+.btn-sol.peligro:hover{ background:rgba(192,72,47,.1); }
+.btn-sol svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }

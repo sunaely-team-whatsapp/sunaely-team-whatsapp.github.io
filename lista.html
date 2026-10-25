@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/lista.html">
-<meta name="theme-color" content="#1d1030">
+<meta name="theme-color" content="#ffb52e">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sunaely Team">
 <meta property="og:locale" content="es_ES">
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Personajes de Sunaely Team · ocupados, buscados y reservados">
 <meta name="twitter:description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-25T16:56:06+01:00"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-23T07:47:31+00:00"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
 <!-- seo:end -->
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,6 +96,15 @@
   .alias-box{ display:flex; flex-direction:column; gap:6px; } .li-edit-form .alias-box{ flex:1 1 100%; }
   .li-alias{ margin-left:8px; font-size:.9rem; font-style:italic; color:var(--ink-soft); }
   .form-warn{ margin:8px 0 0; color:var(--danger,#c0482f); font-size:.95rem; font-style:italic; } .form-warn:empty{ display:none; }
+  .admin-circle{ width:46px; height:46px; padding:0; border-radius:50%; display:inline-grid; place-items:center; }
+  .admin-circle svg,.tool-btn svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .admin-circle.is-admin{ background:linear-gradient(180deg,#ffd75e,#ffb02e); color:#3a2307; border-color:var(--gold); box-shadow:0 2px 10px rgba(230,140,20,.35); }
+  .lista-tools{ display:flex; align-items:center; gap:10px; margin:0 0 16px; } .lista-tools[hidden]{ display:none; }
+  .tool-btn{ width:46px; height:46px; border-radius:12px; border:1px solid var(--border); background:var(--paper-alt); color:var(--gold); display:inline-grid; place-items:center; cursor:pointer; transition:background .15s,border-color .15s,transform .15s; }
+  .tool-btn:hover{ border-color:var(--gold); background:rgba(255,190,60,.25); transform:translateY(-1px); }
+  .tool-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .tool-msg{ font-style:italic; color:var(--ink-soft); font-size:.95rem; }
+  .juego-tab:has(.tab-logo){ padding:6px 16px; display:inline-flex; align-items:center; } .tab-logo{ height:28px; width:auto; display:block; }
   .panel[hidden]{ display:none !important; }
   .view-toggles{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 18px; }
   .vt-label{ color:var(--ink-soft); font-style:italic; margin-right:2px; }
@@ -151,18 +160,22 @@
       <p class="subtitle">Quién lleva cada personaje ahora mismo, cuáles andamos buscando y cuáles están reservados bajo el sol. <button class="rules-btn" id="rulesBtn" type="button" aria-haspopup="dialog" aria-label="Reglas del team" title="Reglas del team"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/></svg></button></p>
     </div>
     <div class="admin-actions">
-      <div class="imgmenu" id="imgMenu" hidden>
-        <button class="admin-toggle" id="exportImgBtn" type="button" aria-haspopup="true" aria-expanded="false">Exportar en imagen ▾</button>
-        <div class="imgmenu-list" id="imgMenuList" hidden>
-          <button type="button" data-k="ocupados">Ocupados</button>
-          <button type="button" data-k="buscados">Buscados</button>
-          <button type="button" data-k="reservados">Reservados</button>
-        </div>
-      </div>
-      <button class="admin-toggle" id="exportBtn" hidden>Copiar texto para el lobby</button>
-      <button class="admin-toggle" id="adminToggleBtn">Acceso admin</button>
+      <button class="admin-toggle admin-circle" id="adminToggleBtn" type="button" title="Acceso admin" aria-label="Acceso admin"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button>
     </div>
   </header>
+
+  <div class="lista-tools" id="listaTools" hidden>
+    <div class="imgmenu" id="imgMenu">
+      <button class="tool-btn" id="exportImgBtn" type="button" title="Descargar como imagen" aria-label="Descargar como imagen" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg></button>
+      <div class="imgmenu-list" id="imgMenuList" hidden>
+        <button type="button" data-k="ocupados">Ocupados</button>
+        <button type="button" data-k="buscados">Buscados</button>
+        <button type="button" data-k="reservados">Reservados</button>
+      </div>
+    </div>
+    <button class="tool-btn" id="exportBtn" type="button" title="Copiar texto para el lobby" aria-label="Copiar texto para el lobby"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4v-.5A1.5 1.5 0 0 1 10.5 2h3A1.5 1.5 0 0 1 15 3.5V4M8.5 12h7M8.5 16h5"/></svg></button>
+    <span class="tool-msg" id="toolMsg" role="status"></span>
+  </div>
 
   <nav class="juego-tabs" id="juegoTabs" aria-label="Filtrar por juego"></nav>
 
@@ -473,7 +486,8 @@
 
   const onAuth = (user) => {
     isAdmin = !!user;
-    adminToggleBtn.textContent = isAdmin ? 'Salir del modo admin' : 'Acceso admin';
+    { const t = isAdmin ? 'Salir del modo admin' : 'Acceso admin'; adminToggleBtn.title = t; adminToggleBtn.setAttribute('aria-label', t); }
+    $('listaTools').hidden = !isAdmin;
     adminToggleBtn.classList.toggle('is-admin', isAdmin);
     document.body.classList.toggle('is-admin', isAdmin);
     $('ocupadoAdminForm').hidden = !isAdmin;
@@ -617,7 +631,10 @@
   const tabsEl = $('juegoTabs');
   [{ id: 'todo', tab: 'Todo' }, ...JUEGOS].forEach(j => {
     const b = document.createElement('button');
-    b.type = 'button'; b.className = 'juego-tab'; b.dataset.j = j.id; b.textContent = j.tab; b.setAttribute('role', 'tab');
+    b.type = 'button'; b.className = 'juego-tab'; b.dataset.j = j.id; b.title = j.tab; b.setAttribute('aria-label', j.tab);
+    const im = new Image(); im.className = 'tab-logo'; im.alt = j.tab; im.src = 'logos/' + j.id + '.png';
+    im.onerror = () => { im.remove(); b.textContent = j.tab; };   // sin logo subido: se queda el texto
+    b.appendChild(im); b.setAttribute('role', 'tab');
     b.addEventListener('click', () => {
       juegoFiltro = j.id;
       history.replaceState(null, '', j.id === 'todo' ? location.pathname + location.search : '#' + j.id);
@@ -1531,16 +1548,12 @@ Agradecemos mucho su comprensión.`;
   const LIMITE_DESC = 2048;   // máximo de caracteres de la descripción de un grupo de WhatsApp (compruébalo si cambia)
 
   $('exportBtn').addEventListener('click', async () => {
-    const btn = $('exportBtn');
-    const original = btn.textContent;
+    const aviso = (t) => { const s = $('toolMsg'); s.textContent = t; clearTimeout(s._t); s._t = setTimeout(() => { s.textContent = ''; }, 3500); };
     try {
       const texto = generateWhatsAppText(), n = [...texto].length;
       await navigator.clipboard.writeText(texto);
-      btn.textContent = n > LIMITE_DESC ? `Copiado, pero se pasa: ${n}/${LIMITE_DESC}` : `¡Copiado! · ${n} caracteres`;
-    } catch (e) {
-      btn.textContent = 'No se pudo copiar';
-    }
-    setTimeout(() => { btn.textContent = original; }, 3500);
+      aviso(n > LIMITE_DESC ? `Copiado, pero se pasa: ${n}/${LIMITE_DESC} caracteres` : `¡Copiado! · ${n} caracteres`);
+    } catch (e) { aviso('No se pudo copiar'); }
   });
 
   // ---------- Secciones visibles (todas se ven por defecto) ----------
