@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/lista.html">
-<meta name="theme-color" content="#1d1030">
+<meta name="theme-color" content="#ffb52e">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sunaely Team">
 <meta property="og:locale" content="es_ES">
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Personajes de Sunaely Team · ocupados, buscados y reservados">
 <meta name="twitter:description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-24T05:41:28Z"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-23T07:47:31+00:00"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
 <!-- seo:end -->
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,6 +95,7 @@
   .dd-list li.sel::before{ content:'✦'; position:absolute; left:10px; color:var(--gold); }
   .alias-box{ display:flex; flex-direction:column; gap:6px; } .li-edit-form .alias-box{ flex:1 1 100%; }
   .li-alias{ margin-left:8px; font-size:.9rem; font-style:italic; color:var(--ink-soft); }
+  .form-warn{ margin:8px 0 0; color:var(--danger,#c0482f); font-size:.95rem; font-style:italic; } .form-warn:empty{ display:none; }
   .panel[hidden]{ display:none !important; }
   .view-toggles{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 18px; }
   .vt-label{ color:var(--ink-soft); font-style:italic; margin-right:2px; }
@@ -847,6 +848,7 @@
           acts.appendChild(makeActionBtn('Guardar', async () => {
             const nombre = inp.value.trim();
             if (!nombre) return;
+            const dup = buscarDuplicado(nombre, al.get(), jsel.value, item.id); if (dup){ aviso(acts, textoDup(dup)); return; } aviso(acts, '');
             if (nombre !== item.nombre || jsel.value !== juegoDe(item) || JSON.stringify(al.get()) !== JSON.stringify(item.nombresExtra || [])){
               if (item.miembroId && nombre !== item.nombre){
                 await updateDoc(doc(db, 'miembros', item.miembroId), {
@@ -911,6 +913,7 @@
 
   // Un reservado se ha unido al team: sale de reservados y entra directamente en ocupados
   async function moveReservadoToOcupados(reservado){
+    { const dup = buscarDuplicado(reservado.nombre, reservado.nombresExtra, juegoDe(reservado), reservado.id); if (dup){ statusLine.textContent = textoDup(dup); return; } }
     const dup = ocupadosCtl.getCache().some(o => normalize(o.nombre) === normalize(reservado.nombre));
     if (dup && !confirm(`Ya hay un ocupado llamado «${reservado.nombre}». ¿Añadirlo igualmente?`)) return;
     await addDoc(collection(db, 'ocupados'), {
@@ -927,6 +930,7 @@
   // Un buscado se ha encontrado: pasa a ocupados y se cierran TODAS las peticiones de ese personaje
   // (quien lo pidió primero queda como origen; el resto se guarda por si el personaje se libera más adelante)
   async function moveToOcupados(buscado){
+    { const dup = buscarDuplicado(buscado.nombre, buscado.nombresExtra, juegoDe(buscado)); if (dup){ statusLine.textContent = textoDup(dup); return; } }
     const tms = (x) => x.createdAt && x.createdAt.toMillis ? x.createdAt.toMillis() : Number.MAX_SAFE_INTEGER;
     const todas = buscadosCache.filter(x => normalize(x.nombre) === normalize(buscado.nombre)).sort((a, b) => tms(a) - tms(b));
     if (!todas.some(x => x.id === buscado.id)) todas.unshift(buscado);
@@ -973,9 +977,29 @@
     await deleteDoc(doc(db, 'ocupados', ocupado.id));
   }
 
+  // ---------- Personaje existente: mismo juego y mismo nombre (principal o adicional) en ocupados o reservados ----------
+  const kn = (s) => kk(s).replace(/[^a-z0-9]/g, '');
+  function buscarDuplicado(nombre, extras, juego, ignorarId){
+    const nuevos = new Set([nombre, ...(extras || [])].map(kn).filter(Boolean));
+    for (const [lista, arr] of [['ocupados', allCaches.ocupados], ['reservados', allCaches.reservados]])
+      for (const x of (arr || [])){
+        if (x.id === ignorarId || juegoDe(x) !== juego) continue;
+        const hit = [x.nombre, ...(x.nombresExtra || [])].find(n => nuevos.has(kn(n)));
+        if (hit) return { x, lista, hit };
+      }
+    return null;
+  }
+  const textoDup = (d) => `Personaje existente: «${d.x.nombre}» ya está en ${d.lista}${kn(d.hit) !== kn(d.x.nombre) ? ` (también se llama ${d.hit})` : ''}.`;
+  function aviso(anchor, texto){
+    let p = anchor.nextElementSibling;
+    if (!p || !p.classList.contains('form-warn')){ p = document.createElement('p'); p.className = 'form-warn'; p.setAttribute('role', 'alert'); anchor.after(p); }
+    p.textContent = texto; clearTimeout(p._t); p._t = setTimeout(() => { p.textContent = ''; }, 5000);
+  }
+
   async function addOcupado(){
     const nombre = $('ocNombre').value.trim();
     if (!nombre) return;
+    const dup = buscarDuplicado(nombre, ocAlias.get(), $('ocJuego').value); if (dup){ aviso($('ocAddBtn'), textoDup(dup)); return; } aviso($('ocAddBtn'), '');
     await addDoc(collection(db, 'ocupados'), { nombre, juego: $('ocJuego').value, nombresExtra: ocAlias.get(), orden: nextOrden(ocupadosCtl.getCache()), createdAt: serverTimestamp() });
     recordarNombre(nombre); $('ocNombre').value = ''; ocAlias.reset();
   }
@@ -985,6 +1009,7 @@
   async function addReservado(){
     const nombre = $('rNombre').value.trim();
     if (!nombre) return;
+    const dup = buscarDuplicado(nombre, rAlias.get(), $('rJuego').value); if (dup){ aviso($('rAddBtn'), textoDup(dup)); return; } aviso($('rAddBtn'), '');
     await addDoc(collection(db, 'reservados'), { nombre, juego: $('rJuego').value, nombresExtra: rAlias.get(), orden: nextOrden(reservadosCtl.getCache()), createdAt: serverTimestamp() });
     recordarNombre(nombre); $('rNombre').value = ''; rAlias.reset();
   }
@@ -1497,21 +1522,38 @@
       items.forEach(r => { const p = (r.pedidoPor || '').trim(); if (p && !quien.some(x => k(x) === k(p))) quien.push(p); });
       return { n: items[0].nombre, t: items[0].nombre + (quien.length ? ' (' + quien.join(', ') + ')' : ''), juego: juegoDe(items[0]) };
     });
-    const partes = [bloque(TIT.ocupados, ocup), SEP, bloque(TIT.buscados, busc)];
+    // Cabecera con las reglas del lobby: así se reemplaza la descripción entera de una vez (edítala aquí si cambian)
+    const REGLAS = `𝙏𝙚𝙖𝙢 𝙝𝙤𝙮𝙤𝙫𝙚𝙧𝙨𝙚
+
+✘ 𝐑𝐞𝐠𝐥𝐚 𝐈
+• 📝 Rellenar la ficha en un 𝙥𝙡𝙖𝙯𝙤 𝙢𝙖́𝙭𝙞𝙢𝙤 𝙙𝙚 24 𝙝𝙤𝙧𝙖𝙨.
+• ⚠️ De no hacerlo, 𝙨𝙚𝙫𝙚𝙧𝙖́𝙨 𝙚𝙡𝙞𝙢𝙞𝙣𝙖𝙙𝙭.
+
+✘ 𝐑𝐞𝐠𝐥𝐚 𝐈𝐈
+• 🎂 Límite de edad: 𝙨𝙚𝙘𝙧𝙚𝙩𝙤.
+• ⚠️ En caso de 𝙣𝙤 𝙘𝙪𝙢𝙥𝙡𝙞𝙧 𝙚𝙡 𝙡𝙞́𝙢𝙞𝙩𝙚 𝙙𝙚 𝙚𝙙𝙖𝙙, la situación 𝙨𝙚𝙧𝙖́ 𝙚𝙫𝙖𝙡𝙪𝙖𝙙𝙖 𝙥𝙤𝙧 𝙡𝙤𝙨 𝙖𝙙𝙢𝙞𝙣𝙞𝙨𝙩𝙧𝙖𝙙𝙤𝙧𝙚𝙨 y se tomarán las 𝙢𝙚𝙙𝙞𝙙𝙖𝙨 𝙘𝙤𝙧𝙧𝙚𝙨𝙥𝙤𝙣𝙙𝙞𝙚𝙣𝙩𝙚𝙨.
+
+✘ 𝐑𝐞𝐠𝐥𝐚 𝐈𝐈𝐈
+•⏳ Pedimos 𝙥𝙖𝙘𝙞𝙚𝙣𝙘𝙞𝙖 𝙮 𝙧𝙚𝙨𝙥𝙚𝙩𝙤, ya que todos tenemos vidas fuera del teléfono. Asimismo, por temas de confidencialidad, 𝙖𝙩𝙚𝙣𝙙𝙚𝙢𝙤𝙨 𝙮 𝙖𝙘𝙚𝙥𝙩𝙖𝙢𝙤𝙨 𝙖 𝙪𝙣𝙖 𝙥𝙚𝙧𝙨𝙤𝙣𝙖 𝙖 𝙡𝙖 𝙫𝙚𝙯.
+Agradecemos mucho su comprensión.`;
+    const INTRO = ['↝ ᖇᴇɢʟᴀs ʟᴏʙʙʏ', SEP, REGLAS, 'Lista de ocupados y buscados más abajo:', SEP].join('\n\n');
+    const partes = [INTRO, bloque(TIT.ocupados, ocup), SEP, bloque(TIT.buscados, busc)];
     if (res.length) partes.push(SEP, bloque(TIT.reservados, res));
     return partes.join('\n\n');
   }
+  const LIMITE_DESC = 2048;   // máximo de caracteres de la descripción de un grupo de WhatsApp (compruébalo si cambia)
 
   $('exportBtn').addEventListener('click', async () => {
     const btn = $('exportBtn');
     const original = btn.textContent;
     try {
-      await navigator.clipboard.writeText(generateWhatsAppText());
-      btn.textContent = '¡Copiado!';
+      const texto = generateWhatsAppText(), n = [...texto].length;
+      await navigator.clipboard.writeText(texto);
+      btn.textContent = n > LIMITE_DESC ? `Copiado, pero se pasa: ${n}/${LIMITE_DESC}` : `¡Copiado! · ${n} caracteres`;
     } catch (e) {
       btn.textContent = 'No se pudo copiar';
     }
-    setTimeout(() => { btn.textContent = original; }, 2000);
+    setTimeout(() => { btn.textContent = original; }, 3500);
   });
 
   // ---------- Secciones visibles (todas se ven por defecto) ----------
