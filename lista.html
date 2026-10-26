@@ -61,7 +61,7 @@
   header.top{ flex-wrap:wrap; gap:12px; }
   .admin-actions{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
   .imgmenu{ position:relative; }
-  .imgmenu-list{ position:absolute; top:calc(100% + 4px); left:0; min-width:100%; z-index:30; padding:5px; overflow:hidden; background:linear-gradient(180deg,#fffaf0,#ffefc4); border:1px solid rgba(230,140,20,.45); border-radius:9px; box-shadow:0 14px 34px rgba(120,70,10,.28); animation:ddIn .14s ease-out; }
+  .imgmenu-list{ position:absolute; top:calc(100% + 6px); left:0; min-width:100%; z-index:30; padding:5px; overflow:hidden; background:linear-gradient(180deg,#fffaf0,#ffefc4); border:1px solid rgba(230,140,20,.45); border-radius:9px; box-shadow:0 14px 34px rgba(120,70,10,.28); animation:ddIn .14s ease-out; }
   .imgmenu-list[hidden]{ display:none; }
   .imgmenu-list button{ position:relative; display:block; width:100%; text-align:left; background:none; border:none; border-radius:6px; color:var(--ink); font-family:'Crimson Pro',serif; font-size:1rem; padding:8px 14px 8px 30px; cursor:pointer; white-space:nowrap; transition:background .12s; }
   .imgmenu-list button::before{ content:'✦'; position:absolute; left:10px; color:var(--gold); opacity:0; transform:scale(.6); transition:opacity .12s, transform .12s; }
@@ -97,15 +97,15 @@
   .li-alias{ margin-left:8px; font-size:.9rem; font-style:italic; color:var(--ink-soft); }
   .form-warn{ margin:8px 0 0; color:var(--danger,#c0482f); font-size:.95rem; font-style:italic; } .form-warn:empty{ display:none; }
   .admin-circle{ width:46px; height:46px; padding:0; border-radius:50%; display:inline-grid; place-items:center; }
-  .admin-circle svg,.tool-btn svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .admin-circle svg{ width:22px; height:22px; } .tool-btn svg{ width:16px; height:16px; }
+  .admin-circle svg,.tool-btn svg{ fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .admin-circle.is-admin{ background:linear-gradient(180deg,#ffd75e,#ffb02e); color:#3a2307; border-color:var(--gold); box-shadow:0 2px 10px rgba(230,140,20,.35); }
-  .lista-tools{ display:flex; align-items:center; gap:10px; margin:0 0 16px; } .lista-tools[hidden]{ display:none; }
-  .tool-btn{ width:46px; height:46px; border-radius:12px; border:1px solid var(--border); background:var(--paper-alt); color:var(--gold); display:inline-grid; place-items:center; cursor:pointer; transition:background .15s,border-color .15s,transform .15s; }
+  .lista-tools{ display:inline-flex; align-items:center; gap:8px; margin-left:8px; vertical-align:middle; } .lista-tools[hidden]{ display:none; }
+  .tool-btn{ width:30px; height:30px; padding:0; border-radius:50%; border:1px solid var(--border); background:var(--paper-alt); color:var(--gold); display:inline-grid; place-items:center; cursor:pointer; transition:background .15s,border-color .15s,transform .15s; }
   .tool-btn:hover{ border-color:var(--gold); background:rgba(255,190,60,.25); transform:translateY(-1px); }
   .tool-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
   .tool-msg{ font-style:italic; color:var(--ink-soft); font-size:.95rem; }
   .juego-tab:has(.tab-logo){ padding:5px 8px; display:inline-flex; align-items:center; } .tab-logo{ width:36px; height:36px; border-radius:50%; object-fit:cover; display:block; }
-  .lista-tools:not([hidden]){ margin-top:-24px; }
   .panel[hidden]{ display:none !important; }
   .view-toggles{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 18px; }
   .vt-label{ color:var(--ink-soft); font-style:italic; margin-right:2px; }
@@ -158,25 +158,13 @@
       <div class="title-wrap">
         <h1>Sunaely Team</h1>
       </div>
-      <p class="subtitle">Quién lleva cada personaje ahora mismo, cuáles andamos buscando y cuáles están reservados bajo el sol. <button class="rules-btn" id="rulesBtn" type="button" aria-haspopup="dialog" aria-label="Reglas del team" title="Reglas del team"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/></svg></button></p>
+      <p class="subtitle">Quién lleva cada personaje ahora mismo, cuáles andamos buscando y cuáles están reservados bajo el sol. <button class="rules-btn" id="rulesBtn" type="button" aria-haspopup="dialog" aria-label="Reglas del team" title="Reglas del team"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r=".6" fill="currentColor"/></svg></button> <span class="lista-tools" id="listaTools" hidden> <span class="imgmenu" id="imgMenu"> <button class="tool-btn" id="exportImgBtn" type="button" title="Descargar como imagen" aria-label="Descargar como imagen" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg></button> <span class="imgmenu-list" id="imgMenuList" hidden> <button type="button" data-k="ocupados">Ocupados</button> <button type="button" data-k="buscados">Buscados</button> <button type="button" data-k="reservados">Reservados</button> </span> </span> <button class="tool-btn" id="exportBtn" type="button" title="Copiar texto para el lobby" aria-label="Copiar texto para el lobby"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4v-.5A1.5 1.5 0 0 1 10.5 2h3A1.5 1.5 0 0 1 15 3.5V4M8.5 12h7M8.5 16h5"/></svg></button> <span class="tool-msg" id="toolMsg" role="status"></span> </span></p>
     </div>
     <div class="admin-actions">
       <button class="admin-toggle admin-circle" id="adminToggleBtn" type="button" title="Acceso admin" aria-label="Acceso admin"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button>
     </div>
   </header>
 
-  <div class="lista-tools" id="listaTools" hidden>
-    <div class="imgmenu" id="imgMenu">
-      <button class="tool-btn" id="exportImgBtn" type="button" title="Descargar como imagen" aria-label="Descargar como imagen" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg></button>
-      <div class="imgmenu-list" id="imgMenuList" hidden>
-        <button type="button" data-k="ocupados">Ocupados</button>
-        <button type="button" data-k="buscados">Buscados</button>
-        <button type="button" data-k="reservados">Reservados</button>
-      </div>
-    </div>
-    <button class="tool-btn" id="exportBtn" type="button" title="Copiar texto para el lobby" aria-label="Copiar texto para el lobby"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4v-.5A1.5 1.5 0 0 1 10.5 2h3A1.5 1.5 0 0 1 15 3.5V4M8.5 12h7M8.5 16h5"/></svg></button>
-    <span class="tool-msg" id="toolMsg" role="status"></span>
-  </div>
 
   <nav class="juego-tabs" id="juegoTabs" aria-label="Filtrar por juego"></nav>
 
