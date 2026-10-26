@@ -10,7 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="styles.css?v=8">
+<script src="ui.js?v=1" defer></script>
 <style>
   /* Formulario de vincular: en móvil se parte en filas en vez de salirse de la pantalla */
   #unlinkedList li{ flex-wrap:wrap; gap:8px; }
@@ -423,6 +424,19 @@
       historialPersonajes: Array.isArray(m.historialPersonajes) ? m.historialPersonajes : []
     }));
 
+    const con1 = rows.filter(r => r.cambiosDisponibles === 1);
+    if (con1.length){   // aviso: miembros creados con 1 cambio en vez de 3
+      const av = document.createElement('li'); av.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;margin-bottom:10px;border:1px dashed rgba(217,120,11,.55);border-radius:8px;background:rgba(255,200,90,.18);list-style:none';
+      const t = document.createElement('span'); t.textContent = `${con1.length} miembro${con1.length === 1 ? '' : 's'} ${con1.length === 1 ? 'tiene' : 'tienen'} solo 1 cambio (lo normal son 3).`;
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn-sol'; b.textContent = 'Poner 3 cambios';
+      b.addEventListener('click', async () => {
+        if (!(await sunConfirm(`¿Poner 3 cambios a ${con1.length} miembro${con1.length === 1 ? '' : 's'} que ahora ${con1.length === 1 ? 'tiene' : 'tienen'} 1? Si alguno ya había gastado cambios de verdad, también se le restablecerán.`, { ok: 'Poner 3' }))) return;
+        b.disabled = true;
+        try { await Promise.all(con1.map(r => updateDoc(doc(db, 'miembros', r.id), { cambiosDisponibles: 3 }))); statusLine.textContent = 'Cambios restablecidos a 3.'; }
+        catch (e) { statusLine.textContent = 'No se pudieron restablecer los cambios.'; b.disabled = false; }
+      });
+      av.append(t, b); memberList.appendChild(av);
+    }
     const filtered = searchTerm
       ? rows.filter(r => r.roles.some(n => normalize(n).includes(searchTerm)) || normalize(r.contacto).includes(searchTerm) || normalize(r.apodoInterno).includes(searchTerm) || r.historialPersonajes.some(h => normalize(h.nombre).includes(searchTerm)))
       : rows;

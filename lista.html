@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="es" href="https://sunaely-team-whatsapp.github.io/lista.html">
 <link rel="alternate" hreflang="x-default" href="https://sunaely-team-whatsapp.github.io/lista.html">
-<meta name="theme-color" content="#1d1030">
+<meta name="theme-color" content="#ffb52e">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sunaely Team">
 <meta property="og:locale" content="es_ES">
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Personajes de Sunaely Team · ocupados, buscados y reservados">
 <meta name="twitter:description" content="Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-25T20:40:40Z"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://sunaely-team-whatsapp.github.io/lista.html#page","url":"https://sunaely-team-whatsapp.github.io/lista.html","name":"Personajes de Sunaely Team · ocupados, buscados y reservados","description":"Lista de personajes de Sunaely Team: cuáles están ocupados, buscados o reservados en nuestro roleplay de Hoyoverse, y cómo unirte.","inLanguage":"es","isPartOf":{"@id":"https://sunaely-team-whatsapp.github.io/#website"},"publisher":{"@id":"https://sunaely-team-whatsapp.github.io/#org"},"dateModified":"2026-10-23T07:47:31+00:00"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://sunaely-team-whatsapp.github.io/"},{"@type":"ListItem","position":2,"name":"Personajes de Sunaely Team","item":"https://sunaely-team-whatsapp.github.io/lista.html"}]},{"@type":"WebSite","@id":"https://sunaely-team-whatsapp.github.io/#website","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"},{"@type":"Organization","@id":"https://sunaely-team-whatsapp.github.io/#org","name":"Sunaely Team","url":"https://sunaely-team-whatsapp.github.io/"}]}</script>
 <!-- seo:end -->
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap"></noscript>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js">
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js">
-<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="styles.css?v=8">
 <script src="personajes.js?v=1" defer></script>
 <style>
   select{width:100%;font-family:'Crimson Pro',serif;font-size:1rem;padding:8px 10px;border:1px solid var(--border);border-radius:3px;background:rgba(255,255,255,.6);color:var(--ink)}
@@ -104,7 +104,8 @@
   .tool-btn:hover{ border-color:var(--gold); background:rgba(255,190,60,.25); transform:translateY(-1px); }
   .tool-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
   .tool-msg{ font-style:italic; color:var(--ink-soft); font-size:.95rem; }
-  .juego-tab:has(.tab-logo){ padding:6px 16px; display:inline-flex; align-items:center; } .tab-logo{ height:28px; width:auto; display:block; }
+  .juego-tab:has(.tab-logo){ padding:5px 8px; display:inline-flex; align-items:center; } .tab-logo{ width:36px; height:36px; border-radius:50%; object-fit:cover; display:block; }
+  .lista-tools:not([hidden]){ margin-top:-24px; }
   .panel[hidden]{ display:none !important; }
   .view-toggles{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:0 0 18px; }
   .vt-label{ color:var(--ink-soft); font-style:italic; margin-right:2px; }
@@ -632,7 +633,7 @@
   [{ id: 'todo', tab: 'Todo' }, ...JUEGOS].forEach(j => {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'juego-tab'; b.dataset.j = j.id; b.title = j.tab; b.setAttribute('aria-label', j.tab);
-    const im = new Image(); im.className = 'tab-logo'; im.alt = j.tab; im.src = 'logos/' + j.id + '.png';
+    const im = new Image(); im.className = 'tab-logo'; im.alt = j.tab; im.src = 'logos/' + ({ todo: 'hvLogo', genshin: 'giLogo', hsr: 'hsrRailLogo', zzz: 'zzzLogo' })[j.id] + '.png';
     im.onerror = () => { im.remove(); b.textContent = j.tab; };   // sin logo subido: se queda el texto
     b.appendChild(im); b.setAttribute('role', 'tab');
     b.addEventListener('click', () => {

@@ -549,10 +549,19 @@
 @media (prefers-reduced-motion: reduce){ .sun-corner{ animation:none; } }
 
 /* ---- Botones con aspecto de botón (registros y otras páginas) ---- */
-.btn-sol{ display:inline-flex; align-items:center; gap:8px; padding:9px 18px; border:1px solid var(--gold); border-radius:999px; background:linear-gradient(180deg,#ffd75e,#ffb02e); color:#3a2307; font-family:inherit; font-size:.95rem; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(230,140,20,.28); transition:transform .15s, box-shadow .15s, background .15s; }
-.btn-sol:hover{ transform:translateY(-1px); box-shadow:0 4px 14px rgba(230,140,20,.4); }
+.btn-sol{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:9px 18px; border:1px solid rgba(217,120,11,.45); border-radius:999px; background:linear-gradient(180deg,#ffeeb8,#ffdc84); color:#5a3a08; font-family:inherit; font-size:.95rem; font-weight:600; cursor:pointer; box-shadow:0 1px 5px rgba(230,140,20,.2); transition:transform .15s, box-shadow .15s, background .15s; }
+.btn-sol:hover{ transform:translateY(-1px); background:linear-gradient(180deg,#fff3c9,#ffe496); box-shadow:0 4px 12px rgba(230,140,20,.28); }
 .btn-sol:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 .btn-sol[hidden]{ display:none; }
 .btn-sol.peligro{ background:var(--paper-alt); color:var(--danger); border-color:rgba(192,72,47,.55); box-shadow:none; }
 .btn-sol.peligro:hover{ background:rgba(192,72,47,.1); }
 .btn-sol svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.btn-sol.solo-icono{ padding:0; width:44px; height:44px; border-radius:12px; }
+.submit-btn{ background:linear-gradient(180deg,#ffeeb8,#ffdc84); color:#5a3a08; border:1px solid rgba(217,120,11,.45); border-radius:8px; box-shadow:0 1px 5px rgba(230,140,20,.2); transition:background .15s, box-shadow .15s; }
+.submit-btn:hover{ background:linear-gradient(180deg,#fff3c9,#ffe496); box-shadow:0 4px 12px rgba(230,140,20,.28); }
+/* Diálogo de confirmación de la web (sustituye al confirm() del navegador) */
+dialog.sun-dialog{ border:1px solid rgba(230,140,20,.45); border-radius:14px; padding:22px 24px; background:linear-gradient(180deg,#fffaf0,#ffefc4); color:var(--ink); box-shadow:0 20px 50px rgba(120,70,10,.35); width:min(420px,92vw); }
+dialog.sun-dialog::backdrop{ background:rgba(60,35,5,.45); }
+.sd-msg{ margin:0 0 18px; font-size:1.05rem; line-height:1.5; }
+.sd-actions{ display:flex; justify-content:flex-end; gap:10px; }
+.sd-cancel{ background:var(--paper-alt); color:var(--ink-soft); box-shadow:none; border-color:var(--border); }

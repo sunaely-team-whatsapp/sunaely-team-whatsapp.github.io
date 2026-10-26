@@ -9,8 +9,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="styles.css?v=8">
 
+<style>
+  .li-name{ white-space:nowrap; }
+  .warn-cantidad{ width:64px; text-align:center; }
+</style>
 </head>
 <body>
 <div class="sky-bg" aria-hidden="true"><div class="sun-corner"></div></div>
@@ -295,11 +299,6 @@
       d.textContent = 'Cumplen 19 en 30 días o menos: ' + pronto.map(quien).join(' · ');
       aviso.appendChild(d);
     }
-    if (falta){
-      const d = document.createElement('div');
-      d.textContent = `${falta} sin fecha de nacimiento (se rellena en Contactos).`;
-      aviso.appendChild(d);
-    }
     aviso.hidden = !aviso.childNodes.length;
 
     filtered.forEach(r => {
@@ -357,16 +356,19 @@
 
         const cantidadInput = document.createElement('input');
         cantidadInput.type = 'number';
-        cantidadInput.min = '1';
+        const maxWarn = Math.max(1, WARN_LIMIT - r.warnsTotal);   // mínimo 1, máximo lo que falta para el límite
+        cantidadInput.min = '1'; cantidadInput.max = String(maxWarn);
+        const ajustar = () => { cantidadInput.value = String(Math.min(maxWarn, Math.max(1, parseInt(cantidadInput.value, 10) || 1))); };
+        cantidadInput.addEventListener('change', ajustar); cantidadInput.addEventListener('blur', ajustar);
         cantidadInput.value = '1';
         cantidadInput.className = 'warn-cantidad';
 
         const applyBtn = document.createElement('button');
-        applyBtn.className = 'icon-btn';
-        applyBtn.textContent = 'Aplicar warn';
+        applyBtn.className = 'btn-sol';
+        applyBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5L2.8 19.5h18.4zM12 10v4.5M12 17.2v.1"/></svg><span>Aplicar warn</span>';
         applyBtn.addEventListener('click', async () => {
           const motivo = motivoInput.value.trim();
-          const cantidad = Math.max(1, parseInt(cantidadInput.value, 10) || 1);
+          const cantidad = Math.min(maxWarn, Math.max(1, parseInt(cantidadInput.value, 10) || 1));
           if (!motivo) { motivoInput.focus(); return; }
           applyBtn.disabled = true;
           try {
