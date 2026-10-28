@@ -565,3 +565,12 @@ dialog.sun-dialog::backdrop{ background:rgba(60,35,5,.45); }
 .sd-msg{ margin:0 0 18px; font-size:1.05rem; line-height:1.5; }
 .sd-actions{ display:flex; justify-content:flex-end; gap:10px; }
 .sd-cancel{ background:var(--paper-alt); color:var(--ink-soft); box-shadow:none; border-color:var(--border); }
+
+/* ---- Botones de diálogos y fichas (btn-primary / btn-ghost): aspecto de botón real ---- */
+.btn-primary, .btn-ghost{ display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 18px; border-radius:999px; font-family:inherit; font-size:.95rem; font-weight:600; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s, border-color .15s; }
+.btn-primary{ background:linear-gradient(180deg,#ffeeb8,#ffdc84); color:#5a3a08; border:1px solid rgba(217,120,11,.45); box-shadow:0 1px 5px rgba(230,140,20,.2); }
+.btn-primary:hover{ background:linear-gradient(180deg,#fff3c9,#ffe496); transform:translateY(-1px); box-shadow:0 4px 12px rgba(230,140,20,.28); }
+.btn-ghost{ background:var(--paper-alt); border:1px solid var(--border); color:var(--ink-soft); }
+.btn-ghost:hover{ border-color:var(--gold); color:var(--ink); background:rgba(255,190,60,.18); transform:translateY(-1px); }
+.btn-primary:focus-visible, .btn-ghost:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.btn-primary:disabled, .btn-ghost:disabled{ opacity:.55; cursor:default; transform:none; }
