@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backend — Sunaely Team</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap"></noscript>
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js">
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js">
+<link rel="stylesheet" href="styles.css?v=8">
+<script src="ui.js?v=1" defer></script>
+<style>
+  .bk-chips{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 6px; }
+  .bk-chip{ font-family:inherit; font-size:.98rem; padding:7px 14px; border:1px solid var(--border); border-radius:999px; background:var(--paper-alt); color:var(--ink-soft); cursor:pointer; transition:background .15s,border-color .15s; }
+  .bk-chip b{ color:var(--ink); margin-left:6px; }
+  .bk-chip:hover{ border-color:var(--gold); }
+  .bk-chip.on{ background:linear-gradient(180deg,#ffeeb8,#ffdc84); border-color:rgba(217,120,11,.55); color:#5a3a08; font-weight:600; }
+  .bk-bar{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:14px 0; }
+  .bk-bar input[type=search]{ flex:1 1 220px; }
+  .bk-row{ border:1px solid var(--border); border-radius:8px; background:rgba(255,255,255,.55); padding:10px 14px; margin-bottom:8px; }
+  .bk-row .bk-top{ display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; justify-content:space-between; }
+  .bk-id{ font-family:ui-monospace,Consolas,monospace; font-size:.9rem; color:var(--ink); word-break:break-all; }
+  .bk-prev{ margin:6px 0 0; font-family:ui-monospace,Consolas,monospace; font-size:.8rem; color:var(--ink-soft); word-break:break-word; max-height:3.6em; overflow:hidden; }
+  .bk-json{ width:100%; min-height:260px; margin-top:8px; font-family:ui-monospace,Consolas,monospace; font-size:.85rem; line-height:1.45; padding:10px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,.7); color:var(--ink); box-sizing:border-box; resize:vertical; }
+  .bk-err{ color:var(--danger,#c0482f); font-style:italic; margin:6px 0 0; }
+  .bk-note{ color:var(--ink-soft); font-size:.95rem; margin:0 0 10px; }
+  .bk-login{ display:grid; gap:12px; max-width:380px; }
+  .bk-login input{ width:100%; box-sizing:border-box; }
+  #app[hidden], #login[hidden]{ display:none; }
+</style>
+</head>
+<body>
+<div class="sky-bg" aria-hidden="true"><div class="sun-corner"></div></div>
+
+<div class="wrap">
+  <header class="top">
+    <div class="title-wrap">
+      <a class="back-link" href="index.html">← Volver al índice</a>
+      <h1>Backend</h1>
+      <p class="subtitle">Panel de datos del team. Solo con la sesión de admin.</p>
+    </div>
+    <div class="admin-actions"><button class="btn-ghost" id="outBtn" type="button" hidden>Cerrar sesión</button></div>
+  </header>
+
+  <section class="panel" id="login">
+    <h2>Iniciar sesión</h2>
+    <p class="bk-note">Entra con la cuenta de administrador.</p>
+    <div class="bk-login">
+      <input type="email" id="mail" placeholder="Correo" autocomplete="username">
+      <input type="password" id="pass" placeholder="Contraseña" autocomplete="current-password">
+      <button class="btn-primary" id="inBtn" type="button">Entrar</button>
+      <p class="bk-err" id="loginErr"></p>
+    </div>
+  </section>
+
+  <div id="app" hidden>
+    <section class="panel">
+      <h2>Colecciones</h2>
+      <p class="bk-note">Cada ficha es un documento de la base de datos. El número es cuántos hay.</p>
+      <div class="bk-chips" id="chips"></div>
+    </section>
+
+    <section class="panel">
+      <h2 id="colTitle">—</h2>
+      <div class="bk-bar">
+        <input type="search" id="q" placeholder="Filtrar por texto o ID…" autocomplete="off">
+        <button class="btn-primary" id="newBtn" type="button">Nuevo documento</button>
+        <button class="btn-ghost" id="dlColBtn" type="button">Descargar colección (JSON)</button>
+      </div>
+      <p class="bk-err" id="colErr"></p>
+      <div id="list"></div>
+      <p class="bk-note" id="more"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Copia de seguridad</h2>
+      <p class="bk-note">Descarga <b>todas</b> las colecciones en un solo archivo JSON. Las fechas de Firestore salen como <code>{"$ts": "fecha ISO"}</code>. Este es el archivo que sirve para migrar los datos a Supabase.</p>
+      <div class="bk-bar"><button class="btn-primary" id="dlAllBtn" type="button">Descargar todo (JSON)</button><span class="bk-note" id="dlMsg"></span></div>
+    </section>
+  </div>
+  <p class="bk-note" id="status" role="status"></p>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, setDoc, addDoc, deleteDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8kDJ_Yq3wBHAoxCJSsGn-GGh4g6r4mXk",
+    authDomain: "sunaely-teamm.firebaseapp.com",
+    projectId: "sunaely-teamm",
+    storageBucket: "sunaely-teamm.firebasestorage.app",
+    messagingSenderId: "487274825899",
+    appId: "1:487274825899:web:a12b4812a8c978d4410fee"
+  };
+  const app = initializeApp(firebaseConfig), db = getFirestore(app), auth = getAuth(app);
+  const $ = (id) => document.getElementById(id);
+  const COLS = ['ocupados', 'reservados', 'buscados', 'miembros', 'arbol', 'registros', 'ajustes', 'paginas'];
+  const MAX_FILAS = 200;
+  let cache = {}, errores = {}, current = 'ocupados', filtro = '';
+
+  // Timestamp de Firestore <-> JSON ({"$ts": "fecha ISO"})
+  const ser = (v) => v instanceof Timestamp ? { $ts: v.toDate().toISOString() }
+    : Array.isArray(v) ? v.map(ser)
+    : (v && typeof v === 'object') ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, ser(x)])) : v;
+  const des = (v) => (v && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 1 && '$ts' in v) ? Timestamp.fromDate(new Date(v.$ts))
+    : Array.isArray(v) ? v.map(des)
+    : (v && typeof v === 'object') ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, des(x)])) : v;
+
+  async function cargar(col){
+    try {
+      const snap = await getDocs(collection(db, col));
+      cache[col] = snap.docs.map(d => ({ id: d.id, data: ser(d.data()) })); delete errores[col];
+    } catch (e) { cache[col] = []; errores[col] = e.code || e.message; }
+  }
+  const cargarTodo = () => Promise.all(COLS.map(cargar));
+
+  function descargar(nombre, obj){
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' }));
+    a.download = nombre; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+  const fecha = () => new Date().toISOString().slice(0, 10);
+
+  function renderChips(){
+    $('chips').innerHTML = '';
+    COLS.forEach(c => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'bk-chip' + (c === current ? ' on' : '');
+      b.innerHTML = `${c}<b>${errores[c] ? '🔒' : (cache[c] || []).length}</b>`;
+      b.addEventListener('click', () => { current = c; filtro = ''; $('q').value = ''; renderAll(); });
+      $('chips').appendChild(b);
+    });
+  }
+
+  function editar(row, d, nuevo){
+    row.innerHTML = '';
+    const idIn = document.createElement('input'); idIn.type = 'text'; idIn.placeholder = 'ID del documento (vacío = automático)'; idIn.style.cssText = 'width:100%;box-sizing:border-box;margin-bottom:6px';
+    const ta = document.createElement('textarea'); ta.className = 'bk-json'; ta.spellcheck = false; ta.value = JSON.stringify(d.data, null, 2);
+    const err = document.createElement('p'); err.className = 'bk-err';
+    const acts = document.createElement('div'); acts.className = 'bk-bar';
+    const ok = document.createElement('button'); ok.type = 'button'; ok.className = 'btn-primary'; ok.textContent = 'Guardar';
+    const no = document.createElement('button'); no.type = 'button'; no.className = 'btn-ghost'; no.textContent = 'Cancelar';
+    no.addEventListener('click', renderList);
+    ok.addEventListener('click', async () => {
+      let obj; try { obj = des(JSON.parse(ta.value)); } catch (e) { err.textContent = 'El JSON no es válido: ' + e.message; return; }
+      if (!obj || typeof obj !== 'object' || Array.isArray(obj)) { err.textContent = 'Tiene que ser un objeto { … }.'; return; }
+      ok.disabled = true;
+      try {
+        if (nuevo && !idIn.value.trim()) await addDoc(collection(db, current), obj);
+        else await setDoc(doc(db, current, nuevo ? idIn.value.trim() : d.id), obj);
+        await cargar(current); renderAll();
+      } catch (e) { err.textContent = 'No se pudo guardar: ' + (e.code || e.message); ok.disabled = false; }
+    });
+    acts.append(ok, no);
+    const id = document.createElement('div'); id.className = 'bk-id'; id.textContent = nuevo ? 'Nuevo documento en ' + current : current + '/' + d.id;
+    row.append(id); if (nuevo) row.append(idIn); row.append(ta, err, acts);
+  }
+
+  function renderList(){
+    $('colTitle').textContent = current + ' · ' + (cache[current] || []).length + ' documentos';
+    $('colErr').textContent = errores[current] ? 'No se pudo leer esta colección: ' + errores[current] + (errores[current] === 'permission-denied' ? ' (¿es la cuenta de administrador?)' : '') : '';
+    const q = filtro.trim().toLowerCase();
+    const filas = (cache[current] || []).filter(d => !q || d.id.toLowerCase().includes(q) || JSON.stringify(d.data).toLowerCase().includes(q));
+    const box = $('list'); box.innerHTML = '';
+    filas.slice(0, MAX_FILAS).forEach(d => {
+      const row = document.createElement('div'); row.className = 'bk-row';
+      const top = document.createElement('div'); top.className = 'bk-top';
+      const id = document.createElement('span'); id.className = 'bk-id'; id.textContent = d.id;
+      const acts = document.createElement('span'); acts.className = 'li-actions';
+      const ed = document.createElement('button'); ed.type = 'button'; ed.className = 'icon-btn icon-btn-edit'; ed.textContent = 'Editar'; ed.addEventListener('click', () => editar(row, d, false));
+      const del = document.createElement('button'); del.type = 'button'; del.className = 'icon-btn'; del.textContent = 'Borrar';
+      del.addEventListener('click', async () => {
+        if (!(await sunConfirm(`¿Borrar el documento «${d.id}» de ${current}? No se puede deshacer.`, { ok: 'Borrar', peligro: true }))) return;
+        try { await deleteDoc(doc(db, current, d.id)); await cargar(current); renderAll(); } catch (e) { $('colErr').textContent = 'No se pudo borrar: ' + (e.code || e.message); }
+      });
+      acts.append(ed, del); top.append(id, acts);
+      const pv = document.createElement('p'); pv.className = 'bk-prev'; pv.textContent = JSON.stringify(d.data);
+      row.append(top, pv); box.appendChild(row);
+    });
+    $('more').textContent = filas.length > MAX_FILAS ? `Se muestran ${MAX_FILAS} de ${filas.length}. Usa el filtro para ver el resto.` : (!filas.length && !errores[current] ? 'No hay documentos.' : '');
+  }
+  function renderAll(){ renderChips(); renderList(); }
+
+  $('q').addEventListener('input', (e) => { filtro = e.target.value; renderList(); });
+  $('newBtn').addEventListener('click', () => { const row = document.createElement('div'); row.className = 'bk-row'; $('list').prepend(row); editar(row, { id: '', data: {} }, true); });
+  $('dlColBtn').addEventListener('click', () => descargar(`sunaely-${current}-${fecha()}.json`, { coleccion: current, documentos: cache[current].map(d => ({ _id: d.id, ...d.data })) }));
+  $('dlAllBtn').addEventListener('click', () => {
+    const colecciones = {}; COLS.forEach(c => { colecciones[c] = (cache[c] || []).map(d => ({ _id: d.id, ...d.data })); });
+    descargar(`sunaely-backup-${fecha()}.json`, { app: 'sunaely', proyecto: 'sunaely-teamm', exportadoEn: new Date().toISOString(), nota: 'Los Timestamp de Firestore van como {"$ts": "fecha ISO"}. Cada documento lleva su ID en _id.', colecciones });
+    const err = COLS.filter(c => errores[c]); $('dlMsg').textContent = err.length ? 'Ojo: no se pudieron leer: ' + err.join(', ') : 'Copia descargada.';
+  });
+  $('inBtn').addEventListener('click', async () => {
+    $('loginErr').textContent = '';
+    try { await signInWithEmailAndPassword(auth, $('mail').value.trim(), $('pass').value); }
+    catch (e) { $('loginErr').textContent = 'No se pudo iniciar sesión (' + (e.code || e.message) + ').'; }
+  });
+  $('pass').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('inBtn').click(); });
+  $('outBtn').addEventListener('click', () => signOut(auth));
+
+  onAuthStateChanged(auth, async (user) => {
+    $('login').hidden = !!user; $('app').hidden = !user; $('outBtn').hidden = !user;
+    if (!user) { cache = {}; return; }
+    $('status').textContent = 'Cargando datos…'; await cargarTodo(); $('status').textContent = ''; renderAll();
+  });
+</script>
+</body>
+</html>

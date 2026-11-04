@@ -3,7 +3,7 @@
   "alternate_names": ["Sunaely", "Sunaely Team Hoyoverse"],
   "lang": "es",
   "locale": "es_ES",
-  "theme_color": "#1d1030",
+  "theme_color": "#ffb52e",
   "image": { "file": "sol.jpg", "width": 500, "height": 500 },
   "schema_types": { "lista.html": "CollectionPage", "contactos.html": "ContactPage", "registros.html": "CollectionPage" },
   "names": { "index.html": "Inicio" }
