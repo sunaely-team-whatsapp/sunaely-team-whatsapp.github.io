@@ -25,3 +25,6 @@ window.sunConfirm = (msg, o = {}) => new Promise((res) => {
   };
   new MutationObserver(() => document.querySelectorAll('.tab-logo').forEach(ajustar)).observe(document.documentElement, { childList: true, subtree: true });
 })();
+
+/* Registros: «Importar» arriba y gráfico comparativo al final (módulo aparte, solo en registros.html). */
+if (document.getElementById('mesSel') || /registros\.html/.test(location.pathname)) import('./registros-grafico.js?v=1').catch(() => {});
